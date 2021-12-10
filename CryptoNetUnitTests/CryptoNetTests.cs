@@ -123,7 +123,7 @@ namespace CryptoNetUnitTests
             Delete_Test_Files();
         }
 
-        [Test, Order(7)]
+        [Test, Order(6)]
         public void Load_And_Import_PrivateKey_From_Source()
         {
             // arrange
@@ -139,7 +139,7 @@ namespace CryptoNetUnitTests
             CheckContent(ConfidentialDummyData, content);
         }
 
-        [Test, Order(8)]
+        [Test, Order(7)]
         public void Validate_PublicKey_Test()
         {
             // arrange
@@ -162,7 +162,7 @@ namespace CryptoNetUnitTests
             key.ShouldBe(KeyHelper.KeyType.PublicOnly);
         }
 
-        [Test, Order(9)]
+        [Test, Order(8)]
         public void Validate_Private_Key_Test()
         {
             // arrange
