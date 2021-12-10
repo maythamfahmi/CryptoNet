@@ -19,7 +19,7 @@ namespace CryptoNetUnitTests
         private readonly string _publicKeyFile = $"{BaseFolder}testkey.pub";
         private readonly string _privateKeyFile = $"{BaseFolder}testkey";
         private readonly string _privateKeySource = @$"{Root}\test.certificate";
-        private const string Key = "any-unique-secret-key";
+        private const string AsymmetricKey = "any-unique-secret-key";
 
         [OneTimeSetUp]
         public void GlobalSetup()
@@ -35,7 +35,7 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_Content_SelfAssignedKeys_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
 
             // act
@@ -49,7 +49,7 @@ namespace CryptoNetUnitTests
         public void Try_WithOut_PrivateKey_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
 
             try
             {
@@ -67,7 +67,7 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_File_SelfAssignedKeys_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
 
             // act
@@ -86,14 +86,14 @@ namespace CryptoNetUnitTests
         public void ExportPrivateKey_EncryptedAndSaveFile_And_ImportPrivateKey_LoadAndDecryptFile_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
             var privateKey = cryptoNet.ExportPrivateKey();
             cryptoNet.SaveKey(_privateKeyFile, privateKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
             cryptoNet.Save(_encryptedContentFile, encrypt);
 
             // act
-            CryptoNet cryptoNet1 = new CryptoNet(Key);
+            CryptoNet cryptoNet1 = new CryptoNet(AsymmetricKey);
             var privateKey1 = cryptoNet1.LoadKey(_privateKeyFile);
             cryptoNet1.ImportKey(privateKey1);
             var encrypt1 = cryptoNet1.Load(_encryptedContentFile);
@@ -110,7 +110,7 @@ namespace CryptoNetUnitTests
         public void Load_And_Import_PrivateKey_From_Source()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
 
             // act
             var privateKey = cryptoNet.LoadKey(_privateKeySource);
@@ -126,7 +126,7 @@ namespace CryptoNetUnitTests
         public void Validate_PublicKey_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
 
             // act
             var exportedKey = cryptoNet.ExportPublicKey();
@@ -146,7 +146,7 @@ namespace CryptoNetUnitTests
         public void Validate_Private_Key_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
+            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
 
             // act
             var exportedKey = cryptoNet.ExportPrivateKey();

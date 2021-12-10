@@ -10,11 +10,20 @@ namespace CryptoNetLib
     {
         private readonly RSACryptoServiceProvider _rsa;
 
-        public CryptoNet(string key)
+        public CryptoNet()
+        {
+            var parameters = new CspParameters();
+            _rsa = new RSACryptoServiceProvider(parameters)
+            {
+                PersistKeyInCsp = true
+            };
+        }
+
+        public CryptoNet(string asymmetricKey)
         {
             var parameters = new CspParameters
             {
-                KeyContainerName = key
+                KeyContainerName = asymmetricKey
             };
             _rsa = new RSACryptoServiceProvider(parameters)
             {
@@ -47,16 +56,19 @@ namespace CryptoNetLib
 
         public byte[] Encrypt(string content)
         {
-            if (_rsa == null)
-                return StringToBytes(KeyHelper.KeyType.NotSet.ToString());
-            return content == null ? StringToBytes("") : EncryptContent(content);
+            return EncryptContent(content);
         }
 
         public string Decrypt(byte[] bytes)
         {
-            if (_rsa == null)
-                return KeyHelper.KeyType.NotSet.ToString();
-            return bytes == null ? "" : DecryptContent(bytes);
+            try
+            {
+                return DecryptContent(bytes);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         public void Save(string filename, byte[] bytes)
