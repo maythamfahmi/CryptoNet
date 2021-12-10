@@ -4,8 +4,8 @@ namespace CryptoNetLib
 {
     public interface ICryptoNet
     {
-        KeyHelper.KeyType InitAsymmetricKeys();
-        KeyHelper.KeyType ImportKey(string key);
+        void ImportKey(string key);
+        KeyHelper.KeyType GetKeyType();
         string ExportPublicKey();
         string ExportPrivateKey();
         byte[] Encrypt(string content);

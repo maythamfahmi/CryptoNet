@@ -36,7 +36,6 @@ namespace CryptoNetUnitTests
         {
             // arrange
             CryptoNet cryptoNet = new CryptoNet(Key);
-            cryptoNet.InitAsymmetricKeys();
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
 
             // act
@@ -69,7 +68,6 @@ namespace CryptoNetUnitTests
         {
             // arrange
             CryptoNet cryptoNet = new CryptoNet(Key);
-            cryptoNet.InitAsymmetricKeys();
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
 
             // act
@@ -89,7 +87,6 @@ namespace CryptoNetUnitTests
         {
             // arrange
             CryptoNet cryptoNet = new CryptoNet(Key);
-            cryptoNet.InitAsymmetricKeys();
             var privateKey = cryptoNet.ExportPrivateKey();
             cryptoNet.SaveKey(_privateKeyFile, privateKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
@@ -130,7 +127,6 @@ namespace CryptoNetUnitTests
         {
             // arrange
             CryptoNet cryptoNet = new CryptoNet(Key);
-            cryptoNet.InitAsymmetricKeys();
 
             // act
             var exportedKey = cryptoNet.ExportPublicKey();
@@ -144,8 +140,6 @@ namespace CryptoNetUnitTests
             exportedKey.ShouldNotContain("<DQ>");
             exportedKey.ShouldNotContain("<InverseQ>");
             exportedKey.ShouldNotContain("<D>");
-            var key = cryptoNet.ImportKey(exportedKey);
-            key.ShouldBe(KeyHelper.KeyType.PublicOnly);
         }
 
         [Test, Order(7)]
@@ -153,7 +147,6 @@ namespace CryptoNetUnitTests
         {
             // arrange
             CryptoNet cryptoNet = new CryptoNet(Key);
-            cryptoNet.InitAsymmetricKeys();
 
             // act
             var exportedKey = cryptoNet.ExportPrivateKey();
@@ -167,7 +160,7 @@ namespace CryptoNetUnitTests
             exportedKey.ShouldContain("<DQ>");
             exportedKey.ShouldContain("<InverseQ>");
             exportedKey.ShouldContain("<D>");
-            var key = cryptoNet.ImportKey(exportedKey);
+            var key = cryptoNet.GetKeyType();
             key.ShouldBe(KeyHelper.KeyType.FullKeyPair);
         }
 

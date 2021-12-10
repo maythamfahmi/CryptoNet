@@ -8,34 +8,31 @@ namespace CryptoNetLib
 {
     public class CryptoNet : ICryptoNet
     {
-        private readonly CspParameters _parameters;
-        private RSACryptoServiceProvider _rsa;
-        private readonly string _key;
+        private readonly RSACryptoServiceProvider _rsa;
 
         public CryptoNet(string key)
         {
-            _key = key;
-            _parameters = new CspParameters
+            var parameters = new CspParameters
             {
-                KeyContainerName = _key
+                KeyContainerName = key
             };
-            _rsa = new RSACryptoServiceProvider(_parameters);
+            _rsa = new RSACryptoServiceProvider(parameters)
+            {
+                PersistKeyInCsp = true
+            };
         }
 
-        public KeyHelper.KeyType InitAsymmetricKeys()
-        {
-            _rsa.PersistKeyInCsp = true;
-            return _rsa.GetKeyType();
-        }
-
-        public KeyHelper.KeyType ImportKey(string key)
+        public void ImportKey(string key)
         {
             if (!string.IsNullOrWhiteSpace(key))
             {
                 _rsa.FromXmlString(key);
             }
+        }
 
-            return InitAsymmetricKeys();
+        public KeyHelper.KeyType GetKeyType()
+        {
+            return _rsa.GetKeyType();
         }
 
         public string ExportPublicKey()
