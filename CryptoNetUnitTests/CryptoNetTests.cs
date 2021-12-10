@@ -21,73 +21,135 @@ namespace CryptoNetUnitTests
         private readonly string _privateKey = @$"{Root}\test.certificate";
         private const string Key = "any-unique-secret-key";
 
-        private readonly CryptoNet _cryptoNet;
-
-        public CryptoNetTests()
-        {
-            _cryptoNet = new CryptoNet(Key);
-        }
-
         [OneTimeSetUp]
         public void GlobalSetup()
         {
-            //
         }
 
         [OneTimeTearDown]
         public void GlobalTeardown()
         {
-            Delete_Test_Files();
         }
 
         [Test, Order(1)]
-        public void Create_SelfAssignedKeys_Encrypt_Decrypt_Test()
+        public void Encrypt_Decrypt_Content_SelfAssignedKeys_Test()
         {
-            _cryptoNet.InitAsymmetricKeys();
-            var encrypt = _cryptoNet.Encrypt(JsonDummyData);
-            var decrypt = _cryptoNet.Decrypt(encrypt);
-            CheckContent(JsonDummyData, decrypt).ShouldBeTrue();
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+            cryptoNet.InitAsymmetricKeys();
+            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
+
+            // act
+            var decrypt = cryptoNet.Decrypt(encrypt);
+
+            // assert
+            CheckContent(ConfidentialDummyData, decrypt).ShouldBeTrue();
         }
 
         [Test, Order(2)]
-        public void Try_Decrypt_WithOut_SelfAssigned_PrivateKey_Test()
+        public void Encrypt_Decrypt_Content_WithOut_SelfAssignedKeys_Test()
         {
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
+
+            // act
+            var decrypt = cryptoNet.Decrypt(encrypt);
+
+            // assert
+            decrypt.ShouldBe(KeyHelper.KeyType.NotSet.ToString());
+        }
+
+        [Test, Order(3)]
+        public void Try_WithOut_PrivateKey_Test()
+        {
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+
             try
             {
-                var encrypt = _cryptoNet.Encrypt(JsonDummyData);
-                _cryptoNet.ImportKey("");
-                _cryptoNet.Decrypt(encrypt);
+                // act
+                cryptoNet.ImportKey("");
             }
             catch (Exception e)
             {
+                // assert
                 e.Message.ShouldStartWith("The provided XML could not be read.");
             }
         }
 
-        [Test, Order(3)]
-        public void Decrypt_Content_Using_SelfAssignedKeys_Test()
-        {
-            _cryptoNet.InitAsymmetricKeys();
-            var encrypt = _cryptoNet.Encrypt(JsonDummyData);
-            var decrypt = _cryptoNet.Decrypt(encrypt);
-            CheckContent(JsonDummyData, decrypt).ShouldBeTrue();
-        }
-
         [Test, Order(4)]
-        public void Export_And_Reimport_Key_As_File_Test()
+        public void Encrypt_Decrypt_File_SelfAssignedKeys_Test()
         {
-            _cryptoNet.InitAsymmetricKeys();
-            SaveKey();
-            var encryptFile = _cryptoNet.Load(_encryptFile);
-            var text = _cryptoNet.Decrypt(encryptFile);
-            CheckContent(JsonDummyData, text).ShouldBeTrue();
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+            cryptoNet.InitAsymmetricKeys();
+            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
+
+            // act
+            cryptoNet.Save(_encryptFile, encrypt);
+            var encryptFile = cryptoNet.Load(_encryptFile);
+            var content = cryptoNet.Decrypt(encryptFile);
+
+            // assert
+            CheckContent(ConfidentialDummyData, content).ShouldBeTrue();
+
+            // finalize
+            Delete_Test_Files();
         }
 
         [Test, Order(5)]
+        public void ExportPrivateKey_EncryptedAndSaveFile_And_ImportPrivateKey_LoadAndDecryptFile_Test()
+        {
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+            cryptoNet.InitAsymmetricKeys();
+            var privateKey = cryptoNet.ExportPrivateKey();
+            cryptoNet.SaveKey(_privateKeyFile, privateKey);
+            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
+            cryptoNet.Save(_encryptFile, encrypt);
+
+            // act
+            CryptoNet cryptoNet1 = new CryptoNet(Key);
+            var privateKey1 = cryptoNet1.LoadKey(_privateKeyFile);
+            cryptoNet1.ImportKey(privateKey1);
+            var encrypt1 = cryptoNet1.Load(_encryptFile);
+            var text = cryptoNet1.Decrypt(encrypt1);
+
+            // assert
+            CheckContent(ConfidentialDummyData, text);
+
+            // finalize
+            Delete_Test_Files();
+        }
+
+        [Test, Order(7)]
+        public void Load_And_Import_PrivateKey_From_Source()
+        {
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+
+            // act
+            var privateKey = cryptoNet.LoadKey(_privateKey);
+            cryptoNet.ImportKey(privateKey);
+            var encrypt = cryptoNet.Load(_encryptFile);
+            var content = cryptoNet.Decrypt(encrypt);
+
+            // assert
+            CheckContent(ConfidentialDummyData, content);
+        }
+
+        [Test, Order(8)]
         public void Validate_PublicKey_Test()
         {
-            _cryptoNet.InitAsymmetricKeys();
-            var exportedKey = _cryptoNet.ExportPublicKey();
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+            cryptoNet.InitAsymmetricKeys();
+
+            // act
+            var exportedKey = cryptoNet.ExportPublicKey();
+
+            // assert
             exportedKey.ShouldContain("RSAKeyValue");
             exportedKey.ShouldContain("Modulus");
             exportedKey.ShouldContain("Exponent");
@@ -96,15 +158,21 @@ namespace CryptoNetUnitTests
             exportedKey.ShouldNotContain("<DQ>");
             exportedKey.ShouldNotContain("<InverseQ>");
             exportedKey.ShouldNotContain("<D>");
-            var key = _cryptoNet.ImportKey(exportedKey);
+            var key = cryptoNet.ImportKey(exportedKey);
             key.ShouldBe(KeyHelper.KeyType.PublicOnly);
         }
 
-        [Test, Order(6)]
+        [Test, Order(9)]
         public void Validate_Private_Key_Test()
         {
-            _cryptoNet.InitAsymmetricKeys();
-            var exportedKey = _cryptoNet.ExportPrivateKey();
+            // arrange
+            CryptoNet cryptoNet = new CryptoNet(Key);
+            cryptoNet.InitAsymmetricKeys();
+
+            // act
+            var exportedKey = cryptoNet.ExportPrivateKey();
+
+            // assert
             exportedKey.ShouldContain("RSAKeyValue");
             exportedKey.ShouldContain("Modulus");
             exportedKey.ShouldContain("Exponent");
@@ -113,46 +181,12 @@ namespace CryptoNetUnitTests
             exportedKey.ShouldContain("<DQ>");
             exportedKey.ShouldContain("<InverseQ>");
             exportedKey.ShouldContain("<D>");
-            var key = _cryptoNet.ImportKey(exportedKey);
+            var key = cryptoNet.ImportKey(exportedKey);
             key.ShouldBe(KeyHelper.KeyType.FullKeyPair);
         }
 
-        [Test, Order(7)]
-        public void Load_And_Import_PublicKey_And_Encrypt_Content_Test()
-        {
-            _cryptoNet.InitAsymmetricKeys();
-            SaveAndExportPublicKey();
-            var publicKey = _cryptoNet.LoadKey(_publicKeyFile);
-            _cryptoNet.ImportKey(publicKey);
-            var encrypt = _cryptoNet.Encrypt(JsonDummyData);
-            _cryptoNet.Save(_encryptFile, encrypt);
-        }
 
-
-        [Test, Order(10)]
-        public void Load_And_Import_PrivateKey_And_Decrypt_Content_Test()
-        {
-            _cryptoNet.InitAsymmetricKeys();
-            SaveKey();
-            SaveAndExportPrivateKey();
-            var privateKey = _cryptoNet.LoadKey(_privateKeyFile);
-            _cryptoNet.ImportKey(privateKey);
-            var encrypt = _cryptoNet.Load(_encryptFile);
-            var text = _cryptoNet.Decrypt(encrypt);
-            CheckContent(JsonDummyData, text);
-        }
-
-        [Test, Order(11)]
-        public void Load_And_Import_PrivateKey_From_Source()
-        {
-            _cryptoNet.InitAsymmetricKeys();
-            SaveKey();
-            var privateKey = _cryptoNet.LoadKey(_privateKey);
-            _cryptoNet.ImportKey(privateKey);
-            var encrypt = _cryptoNet.Load(_encryptFile);
-            var text = _cryptoNet.Decrypt(encrypt);
-            CheckContent(JsonDummyData, text);
-        }
+        #region Private methods
 
         private void Delete_Test_Files()
         {
@@ -170,84 +204,7 @@ namespace CryptoNetUnitTests
             }
         }
 
-        private void SaveKey()
-        {
-            _cryptoNet.ExportPublicKey();
-            var encrypt = _cryptoNet.Encrypt(JsonDummyData);
-            _cryptoNet.Save(_encryptFile, encrypt);
-        }
-
-        private void SaveAndExportPrivateKey()
-        {
-            var privateKey = _cryptoNet.ExportPrivateKey();
-            _cryptoNet.SaveKey(_privateKeyFile, privateKey);
-        }
-
-        private void SaveAndExportPublicKey()
-        {
-            var publicKey = _cryptoNet.ExportPublicKey();
-            _cryptoNet.SaveKey(_publicKeyFile, publicKey);
-        }
-
-        private const string JsonDummyData = @"[
-                                          {
-                                            ""_id"": ""5bdc13aed21f6099814cb30a"",
-                                            ""index"": 0,
-                                            ""guid"": ""e7c4a8fd-1951-4fda-9081-1e73dc6553c2"",
-                                            ""isActive"": true,
-                                            ""balance"": ""$3,401.39"",
-                                            ""picture"": ""http://placehold.it/32x32"",
-                                            ""age"": 36,
-                                            ""eyeColor"": ""blue"",
-                                            ""name"": {
-                                              ""first"": ""Nichole"",
-                                              ""last"": ""Thornton""
-                                            },
-                                            ""company"": ""OPTYK"",
-                                            ""email"": ""nichole.thornton@optyk.us"",
-                                            ""phone"": ""+1 (853) 441-2456"",
-                                            ""address"": ""133 Willow Street, Garberville, Guam, 2323"",
-                                            ""about"": ""Non ullamco dolor do do qui ipsum veniam proident nostrud sit id ea. Veniam in cillum qui laborum. Irure nulla ad exercitation qui cillum. In aliqua officia id anim veniam est velit sint tempor laboris incididunt magna dolor. Quis consequat adipisicing laborum fugiat laboris veniam velit et. Irure id sit est minim dolor do anim sunt."",
-                                            ""registered"": ""Sunday, December 21, 2014 7:56 PM"",
-                                            ""latitude"": ""-86.760521"",
-                                            ""longitude"": ""146.6825"",
-                                            ""tags"": [
-                                              ""minim"",
-                                              ""dolor"",
-                                              ""voluptate"",
-                                              ""fugiat"",
-                                              ""commodo""
-                                            ],
-                                            ""range"": [
-                                              0,
-                                              1,
-                                              2,
-                                              3,
-                                              4,
-                                              5,
-                                              6,
-                                              7,
-                                              8,
-                                              9
-                                            ],
-                                            ""friends"": [
-                                              {
-                                                ""id"": 0,
-                                                ""name"": ""Pam Kelly""
-                                              },
-                                              {
-                                                ""id"": 1,
-                                                ""name"": ""Angelique Velez""
-                                              },
-                                              {
-                                                ""id"": 2,
-                                                ""name"": ""Bonita Bernard""
-                                              }
-                                            ],
-                                            ""greeting"": ""Hello, Nichole! You have 10 unread messages."",
-                                            ""favoriteFruit"": ""banana""
-                                          }
-                                        ]";
+        private const string ConfidentialDummyData = @"Some Secret Data";
 
         private static bool CheckContent(string originalContent, string decryptedContent)
         {
@@ -262,5 +219,9 @@ namespace CryptoNetUnitTests
                 return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             }
         }
+
+        #endregion
+
     }
+
 }
