@@ -15,10 +15,10 @@ namespace CryptoNetUnitTests
     {
         private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly string? Root = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName;
-        private readonly string _encryptFile = $"{BaseFolder}testfile.enc";
+        private readonly string _encryptedContentFile = $"{BaseFolder}testfile.enc";
         private readonly string _publicKeyFile = $"{BaseFolder}testkey.pub";
         private readonly string _privateKeyFile = $"{BaseFolder}testkey";
-        private readonly string _privateKey = @$"{Root}\test.certificate";
+        private readonly string _privateKeySource = @$"{Root}\test.certificate";
         private const string Key = "any-unique-secret-key";
 
         [OneTimeSetUp]
@@ -47,20 +47,6 @@ namespace CryptoNetUnitTests
         }
 
         [Test, Order(2)]
-        public void Encrypt_Decrypt_Content_WithOut_SelfAssignedKeys_Test()
-        {
-            // arrange
-            CryptoNet cryptoNet = new CryptoNet(Key);
-            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
-
-            // act
-            var decrypt = cryptoNet.Decrypt(encrypt);
-
-            // assert
-            decrypt.ShouldBe(KeyHelper.KeyType.NotSet.ToString());
-        }
-
-        [Test, Order(3)]
         public void Try_WithOut_PrivateKey_Test()
         {
             // arrange
@@ -78,7 +64,7 @@ namespace CryptoNetUnitTests
             }
         }
 
-        [Test, Order(4)]
+        [Test, Order(3)]
         public void Encrypt_Decrypt_File_SelfAssignedKeys_Test()
         {
             // arrange
@@ -87,8 +73,8 @@ namespace CryptoNetUnitTests
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
 
             // act
-            cryptoNet.Save(_encryptFile, encrypt);
-            var encryptFile = cryptoNet.Load(_encryptFile);
+            cryptoNet.Save(_encryptedContentFile, encrypt);
+            var encryptFile = cryptoNet.Load(_encryptedContentFile);
             var content = cryptoNet.Decrypt(encryptFile);
 
             // assert
@@ -98,7 +84,7 @@ namespace CryptoNetUnitTests
             Delete_Test_Files();
         }
 
-        [Test, Order(5)]
+        [Test, Order(4)]
         public void ExportPrivateKey_EncryptedAndSaveFile_And_ImportPrivateKey_LoadAndDecryptFile_Test()
         {
             // arrange
@@ -107,13 +93,13 @@ namespace CryptoNetUnitTests
             var privateKey = cryptoNet.ExportPrivateKey();
             cryptoNet.SaveKey(_privateKeyFile, privateKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
-            cryptoNet.Save(_encryptFile, encrypt);
+            cryptoNet.Save(_encryptedContentFile, encrypt);
 
             // act
             CryptoNet cryptoNet1 = new CryptoNet(Key);
             var privateKey1 = cryptoNet1.LoadKey(_privateKeyFile);
             cryptoNet1.ImportKey(privateKey1);
-            var encrypt1 = cryptoNet1.Load(_encryptFile);
+            var encrypt1 = cryptoNet1.Load(_encryptedContentFile);
             var text = cryptoNet1.Decrypt(encrypt1);
 
             // assert
@@ -123,23 +109,23 @@ namespace CryptoNetUnitTests
             Delete_Test_Files();
         }
 
-        [Test, Order(6)]
+        [Test, Order(5)]
         public void Load_And_Import_PrivateKey_From_Source()
         {
             // arrange
             CryptoNet cryptoNet = new CryptoNet(Key);
 
             // act
-            var privateKey = cryptoNet.LoadKey(_privateKey);
+            var privateKey = cryptoNet.LoadKey(_privateKeySource);
             cryptoNet.ImportKey(privateKey);
-            var encrypt = cryptoNet.Load(_encryptFile);
+            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
             var content = cryptoNet.Decrypt(encrypt);
 
             // assert
             CheckContent(ConfidentialDummyData, content);
         }
 
-        [Test, Order(7)]
+        [Test, Order(6)]
         public void Validate_PublicKey_Test()
         {
             // arrange
@@ -162,7 +148,7 @@ namespace CryptoNetUnitTests
             key.ShouldBe(KeyHelper.KeyType.PublicOnly);
         }
 
-        [Test, Order(8)]
+        [Test, Order(7)]
         public void Validate_Private_Key_Test()
         {
             // arrange
@@ -187,13 +173,12 @@ namespace CryptoNetUnitTests
 
 
         #region Private methods
-
         private void Delete_Test_Files()
         {
             try
             {
                 Thread.Sleep(500);
-                File.Delete(_encryptFile);
+                File.Delete(_encryptedContentFile);
                 File.Delete(_publicKeyFile);
                 File.Delete(_privateKeyFile);
             }
@@ -219,7 +204,6 @@ namespace CryptoNetUnitTests
                 return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             }
         }
-
         #endregion
 
     }

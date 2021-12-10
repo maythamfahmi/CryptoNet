@@ -15,23 +15,27 @@ namespace CryptoNetLib
         public CryptoNet(string key)
         {
             _key = key;
-            _parameters = new CspParameters();
+            _parameters = new CspParameters
+            {
+                KeyContainerName = _key
+            };
+            _rsa = new RSACryptoServiceProvider(_parameters);
         }
 
         public KeyHelper.KeyType InitAsymmetricKeys()
         {
-            _parameters.KeyContainerName = _key;
-            _rsa = new RSACryptoServiceProvider(_parameters) { PersistKeyInCsp = true };
+            _rsa.PersistKeyInCsp = true;
             return _rsa.GetKeyType();
         }
 
         public KeyHelper.KeyType ImportKey(string key)
         {
-            _parameters.KeyContainerName = _key;
-            _rsa = new RSACryptoServiceProvider(_parameters);
-            _rsa.FromXmlString(key);
-            _rsa.PersistKeyInCsp = true;
-            return _rsa.GetKeyType();
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                _rsa.FromXmlString(key);
+            }
+
+            return InitAsymmetricKeys();
         }
 
         public string ExportPublicKey()
