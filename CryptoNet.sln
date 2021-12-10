@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNetLib", "CryptoNetLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNetUnitTests", "CryptoNetUnitTests\CryptoNetUnitTests.csproj", "{C824A7F2-9A20-45EA-820B-F809E8067CA2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificate", "Certificate", "{BD3A9D34-CDA6-4478-8FC3-97E099B6F3BB}"
+	ProjectSection(SolutionItems) = preProject
+		test.certificate = test.certificate
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
