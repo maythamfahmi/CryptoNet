@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using CryptoNetLib.helpers;
+using static CryptoNetLib.helpers.KeyHelper;
 
 namespace CryptoNetLib
 {
@@ -38,7 +39,7 @@ namespace CryptoNetLib
             }
         }
 
-        public KeyHelper.KeyType GetKeyType()
+        public KeyType GetKeyType()
         {
             return _rsa.GetKeyType();
         }
@@ -69,25 +70,8 @@ namespace CryptoNetLib
                 return e.Message;
             }
         }
-
-        public void Save(string filename, byte[] bytes)
-        {
-            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
-            {
-                fs.Write(bytes, 0, bytes.Length);
-            }
-        }
-
-        public void SaveKey(string filename, string content)
-        {
-            var bytes = CryptoNetUtils.StringToBytes(content);
-            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
-            {
-                fs.Write(bytes, 0, bytes.Length);
-            }
-        }
-
-        private byte[] EncryptContent(string text)
+        
+        private byte[] EncryptContent(string content)
         {
             byte[] bytes;
 
@@ -118,7 +102,7 @@ namespace CryptoNetLib
                     var blockSizeBytes = rjndl.BlockSize / 8;
                     var data = new byte[blockSizeBytes];
 
-                    using (var msIn = new MemoryStream(CryptoNetUtils.StringToBytes(text)))
+                    using (var msIn = new MemoryStream(CryptoNetUtils.StringToBytes(content)))
                     {
                         int count;
                         do
@@ -210,8 +194,6 @@ namespace CryptoNetLib
 
             return text;
         }
-
-
 
     }
 
