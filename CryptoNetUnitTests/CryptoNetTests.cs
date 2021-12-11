@@ -15,51 +15,60 @@ namespace CryptoNetUnitTests
     {
         private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly string? Root = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName;
-        private readonly string _encryptedContentFile = $"{BaseFolder}testfile.enc";
-        private readonly string _publicKeyFile = $"{BaseFolder}testkey.pub";
-        private readonly string _privateKeyFile = $"{BaseFolder}testkey";
-        private readonly string _privateKeySource = @$"{Root}\test.certificate";
-        private const string AsymmetricKey = "any-unique-secret-key";
-
-        [OneTimeSetUp]
-        public void GlobalSetup()
-        {
-        }
-
-        [OneTimeTearDown]
-        public void GlobalTeardown()
-        {
-        }
+        private readonly string _encryptedContentFile = Path.Combine(BaseFolder, "encrypted.txt");
+        private readonly string _publicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
+        private readonly string _privateKeyFile = Path.Combine(BaseFolder, "privateKey");
+        private readonly string _rsaCertificate = Path.Combine(Root ?? string.Empty, "test.certificate");
 
         [Test, Order(1)]
-        public void Encrypt_Decrypt_Content_SelfAssignedKeys_Test()
+        public void Encrypt_Decrypt_Content_With_Same_SelfAssignedKeys_Test()
         {
+            const string asymmetricKey = "any-secret-key-that-should-be-the-same-for-encrypting-and-decrypting";
+
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
-            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
+            CryptoNet encryptClient = new CryptoNet(asymmetricKey, false);
+            var encrypt = encryptClient.Encrypt(ConfidentialDummyData);
 
             // act
-            var decrypt = cryptoNet.Decrypt(encrypt);
+            CryptoNet decryptClient = new CryptoNet(asymmetricKey, false);
+            var decrypt = decryptClient.Decrypt(encrypt);
 
             // assert
             CheckContent(ConfidentialDummyData, decrypt).ShouldBeTrue();
         }
 
         [Test, Order(2)]
-        public void Try_WithOut_PrivateKey_Test()
+        public void Encrypt_Decrypt_Content_With_Wrong_SelfAssignedKeys_Test()
         {
-            // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            const string asymmetricKey = "any-secret-key-that-should-be-the-same-for-encrypting-and-decrypting";
+            const string asymmetricWrongKey = "wrong-secret-key";
 
+            // arrange
+            CryptoNet encryptClient = new CryptoNet(asymmetricKey);
+            var encrypt = encryptClient.Encrypt(ConfidentialDummyData);
+            
+            // act
+            CryptoNet decryptClient = new CryptoNet(asymmetricWrongKey);
+            var decrypt = decryptClient.Decrypt(encrypt);
+
+            // assert
+            CheckContent(ConfidentialDummyData, decrypt).ShouldBeFalse();
+            decrypt.ShouldBe("The parameter is incorrect.");
+        }
+
+        [Test, Order(3)]
+        public void Try_With_Missing_Key_Test()
+        {
             try
             {
-                // act
-                cryptoNet.ImportKey("");
+                // arrange and act
+                CryptoNet cryptoNet = new CryptoNet();
+
             }
             catch (Exception e)
             {
                 // assert
-                e.Message.ShouldStartWith("The provided XML could not be read.");
+                e.Message.ShouldStartWith("Missing Asymmetric Key Or RsaCertificate");
             }
         }
 
@@ -67,12 +76,12 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_File_SelfAssignedKeys_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            CryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
 
             // act
             cryptoNet.Save(_encryptedContentFile, encrypt);
-            var encryptFile = cryptoNet.Load(_encryptedContentFile);
+            var encryptFile = CryptoNetUtils.Load(_encryptedContentFile);
             var content = cryptoNet.Decrypt(encryptFile);
 
             // assert
@@ -85,36 +94,34 @@ namespace CryptoNetUnitTests
         [Test, Order(4)]
         public void ExportPrivateKey_EncryptedAndSaveFile_And_ImportPrivateKey_LoadAndDecryptFile_Test()
         {
-            // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
-            var privateKey = cryptoNet.ExportPrivateKey();
-            cryptoNet.SaveKey(_privateKeyFile, privateKey);
-            var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
-            cryptoNet.Save(_encryptedContentFile, encrypt);
+            //// arrange
+            //CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            //var privateKey = cryptoNet.ExportPrivateKey();
+            //cryptoNet.SaveKey(_privateKeyFile, privateKey);
+            //var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
+            //cryptoNet.Save(_encryptedContentFile, encrypt);
 
-            // act
-            CryptoNet cryptoNet1 = new CryptoNet(AsymmetricKey);
-            var privateKey1 = cryptoNet1.LoadKey(_privateKeyFile);
-            cryptoNet1.ImportKey(privateKey1);
-            var encrypt1 = cryptoNet1.Load(_encryptedContentFile);
-            var text = cryptoNet1.Decrypt(encrypt1);
+            //// act
+            //CryptoNet cryptoNet1 = new CryptoNet(AsymmetricKey);
+            //var privateKey1 = cryptoNet1.LoadKey(_privateKeyFile);
+            //cryptoNet1.ImportKey(privateKey1);
+            //var encrypt1 = cryptoNet1.Load(_encryptedContentFile);
+            //var text = cryptoNet1.Decrypt(encrypt1);
 
-            // assert
-            CheckContent(ConfidentialDummyData, text);
+            //// assert
+            //CheckContent(ConfidentialDummyData, text);
 
-            // finalize
-            Delete_Test_Files();
+            //// finalize
+            //Delete_Test_Files();
         }
 
         [Test, Order(5)]
-        public void Load_And_Import_PrivateKey_From_Source()
+        public void Use_RsaCertificate_To_Encrypt_And_Decrypt()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            CryptoNet cryptoNet = new CryptoNet(CryptoNetUtils.LoadKey(_rsaCertificate), true);
 
             // act
-            var privateKey = cryptoNet.LoadKey(_privateKeySource);
-            cryptoNet.ImportKey(privateKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
             var content = cryptoNet.Decrypt(encrypt);
 
@@ -126,7 +133,7 @@ namespace CryptoNetUnitTests
         public void Validate_PublicKey_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            CryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
 
             // act
             var exportedKey = cryptoNet.ExportPublicKey();
@@ -146,7 +153,7 @@ namespace CryptoNetUnitTests
         public void Validate_Private_Key_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            CryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
 
             // act
             var exportedKey = cryptoNet.ExportPrivateKey();

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using CryptoNetLib.helpers;
 
 namespace CryptoNetLib
@@ -10,32 +9,32 @@ namespace CryptoNetLib
     {
         private readonly RSACryptoServiceProvider _rsa;
 
-        public CryptoNet()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="asymmetricKeyOrRsaCertificate"></param>
+        /// <param name="certificate"></param>
+        public CryptoNet(string? asymmetricKeyOrRsaCertificate = null, bool certificate = false)
         {
+
+            if (string.IsNullOrWhiteSpace(asymmetricKeyOrRsaCertificate))
+            {
+                throw new Exception("Missing Asymmetric Key Or RsaCertificate");
+            }
+
             var parameters = new CspParameters();
+            if (!certificate)
+            {
+                parameters.KeyContainerName = asymmetricKeyOrRsaCertificate;
+            }
+
             _rsa = new RSACryptoServiceProvider(parameters)
             {
                 PersistKeyInCsp = true
             };
-        }
-
-        public CryptoNet(string asymmetricKey)
-        {
-            var parameters = new CspParameters
+            if (certificate)
             {
-                KeyContainerName = asymmetricKey
-            };
-            _rsa = new RSACryptoServiceProvider(parameters)
-            {
-                PersistKeyInCsp = true
-            };
-        }
-
-        public void ImportKey(string key)
-        {
-            if (!string.IsNullOrWhiteSpace(key))
-            {
-                _rsa.FromXmlString(key);
+                _rsa.FromXmlString(asymmetricKeyOrRsaCertificate);
             }
         }
 
@@ -81,21 +80,11 @@ namespace CryptoNetLib
 
         public void SaveKey(string filename, string content)
         {
-            var bytes = StringToBytes(content);
+            var bytes = CryptoNetUtils.StringToBytes(content);
             using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
                 fs.Write(bytes, 0, bytes.Length);
             }
-        }
-
-        public byte[] Load(string filename)
-        {
-            return File.ReadAllBytes(filename);
-        }
-
-        public string LoadKey(string filename)
-        {
-            return BytesToString(File.ReadAllBytes(filename));
         }
 
         private byte[] EncryptContent(string text)
@@ -129,7 +118,7 @@ namespace CryptoNetLib
                     var blockSizeBytes = rjndl.BlockSize / 8;
                     var data = new byte[blockSizeBytes];
 
-                    using (var msIn = new MemoryStream(StringToBytes(text)))
+                    using (var msIn = new MemoryStream(CryptoNetUtils.StringToBytes(text)))
                     {
                         int count;
                         do
@@ -211,7 +200,7 @@ namespace CryptoNetLib
                         outStreamDecrypted.Close();
                     }
 
-                    text = BytesToString(outMs.ToArray());
+                    text = CryptoNetUtils.BytesToString(outMs.ToArray());
 
                     outMs.Close();
                 }
@@ -222,15 +211,7 @@ namespace CryptoNetLib
             return text;
         }
 
-        private static string BytesToString(byte[] bytes)
-        {
-            return Encoding.ASCII.GetString(bytes);
-        }
 
-        private static byte[] StringToBytes(string text)
-        {
-            return Encoding.ASCII.GetBytes(text);
-        }
 
     }
 
