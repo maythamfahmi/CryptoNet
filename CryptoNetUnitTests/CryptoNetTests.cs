@@ -19,7 +19,7 @@ namespace CryptoNetUnitTests
 
         private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly string? Root = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName;
-        private readonly string _rsaCertificate = Path.Combine(Root ?? string.Empty, "test.certificate");
+        private readonly string _rsaKeyPair = Path.Combine(Root ?? string.Empty, "test.certificate");
 
         internal static string EncryptedContentFile = Path.Combine(BaseFolder, "encrypted.txt");
         internal static string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
@@ -30,11 +30,11 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_Content_With_Same_SelfAssignedKeys_Test()
         {
             // arrange
-            CryptoNet encryptClient = new CryptoNet(AsymmetricKey, false);
+            ICryptoNet encryptClient = new CryptoNet(AsymmetricKey, false);
             var encrypt = encryptClient.Encrypt(ConfidentialDummyData);
 
             // act
-            CryptoNet decryptClient = new CryptoNet(AsymmetricKey, false);
+            ICryptoNet decryptClient = new CryptoNet(AsymmetricKey, false);
             var decrypt = decryptClient.Decrypt(encrypt);
 
             // assert
@@ -45,12 +45,12 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_Content_With_Wrong_SelfAssignedKeys_Test()
         {
             // arrange
-            CryptoNet encryptClient = new CryptoNet(AsymmetricKey);
+            ICryptoNet encryptClient = new CryptoNet(AsymmetricKey);
             var encrypt = encryptClient.Encrypt(ConfidentialDummyData);
 
             // act
             const string asymmetricWrongKey = "wrong-secret-key";
-            CryptoNet decryptClient = new CryptoNet(asymmetricWrongKey);
+            ICryptoNet decryptClient = new CryptoNet(asymmetricWrongKey);
             var decrypt = decryptClient.Decrypt(encrypt);
 
             // assert
@@ -64,7 +64,7 @@ namespace CryptoNetUnitTests
             try
             {
                 // arrange and act
-                CryptoNet cryptoNet = new CryptoNet();
+                ICryptoNet cryptoNet = new CryptoNet();
 
             }
             catch (Exception e)
@@ -78,12 +78,12 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_FromFile_With_Same_SelfAssignedKeys_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            ICryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
             CryptoNetUtils.SaveKey(EncryptedContentFile, encrypt);
 
             // act
-            var encryptFile = CryptoNetUtils.LoadFile(EncryptedContentFile);
+            var encryptFile = CryptoNetUtils.LoadFileToBytes(EncryptedContentFile);
             var content = cryptoNet.Decrypt(encryptFile);
 
             // assert
@@ -97,7 +97,7 @@ namespace CryptoNetUnitTests
         public void Encrypt_Decrypt_FromFile_With_RsaCertificate_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(CryptoNetUtils.LoadCertificate(_rsaCertificate), true);
+            ICryptoNet cryptoNet = new CryptoNet(CryptoNetUtils.LoadFileToString(_rsaKeyPair), true);
 
             // act
             var encrypt = cryptoNet.Encrypt(ConfidentialDummyData);
@@ -111,19 +111,19 @@ namespace CryptoNetUnitTests
         public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_SelfGenerated_RsaCertificate_Test()
         {
             // arrange
-            var certificate = CryptoNetUtils.LoadCertificate(_rsaCertificate);
+            var certificate = CryptoNetUtils.LoadFileToString(_rsaKeyPair);
             // Export public key
-            CryptoNet cryptoNet = new CryptoNet(certificate, true);
+            ICryptoNet cryptoNet = new CryptoNet(certificate, true);
             var publicKey = cryptoNet.ExportPublicKey();
             CryptoNetUtils.SaveKey(PublicKeyFile, publicKey);
 
             // Import public key and encrypt
-            var importPublicKey = CryptoNetUtils.LoadCertificate(PublicKeyFile);
-            CryptoNet cryptoNetEncryptWithPublicKey = new CryptoNet(importPublicKey, true);
+            var importPublicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
+            ICryptoNet cryptoNetEncryptWithPublicKey = new CryptoNet(importPublicKey, true);
             var encryptWithPublicKey = cryptoNetEncryptWithPublicKey.Encrypt(ConfidentialDummyData);
 
             // act
-            CryptoNet cryptoNetDecryptWithPublicKey = new CryptoNet(certificate, true);
+            ICryptoNet cryptoNetDecryptWithPublicKey = new CryptoNet(certificate, true);
             var decryptWithPrivateKey = cryptoNetDecryptWithPublicKey.Decrypt(encryptWithPublicKey);
 
             // assert
@@ -137,7 +137,7 @@ namespace CryptoNetUnitTests
         public void Validate_PublicKey_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
+            ICryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
 
             // act
             var exportedKey = cryptoNet.ExportPublicKey();
@@ -157,7 +157,7 @@ namespace CryptoNetUnitTests
         public void Validate_Private_Key_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
+            ICryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
 
             // act
             var exportedKey = cryptoNet.ExportPrivateKey();
@@ -179,17 +179,17 @@ namespace CryptoNetUnitTests
         public void SelfGenerated_RsaCertificate_Test()
         {
             // arrange
-            CryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            ICryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
 
             // act
             CryptoNetUtils.SaveKey(PrivateKeyFile, cryptoNet.ExportPrivateKey());
             CryptoNetUtils.SaveKey(PublicKeyFile, cryptoNet.ExportPublicKey());
 
             // assert
-            var certificate = CryptoNetUtils.LoadCertificate(PrivateKeyFile);
+            var certificate = CryptoNetUtils.LoadFileToString(PrivateKeyFile);
             new CryptoNet(certificate, true).GetKeyType().ShouldBe(KeyType.FullKeyPair);
 
-            var publicKey = CryptoNetUtils.LoadCertificate(PublicKeyFile);
+            var publicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
             new CryptoNet(publicKey, true).GetKeyType().ShouldBe(KeyType.PublicOnly);
         }
 

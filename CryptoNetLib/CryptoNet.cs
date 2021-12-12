@@ -70,7 +70,7 @@ namespace CryptoNetLib
                 return e.Message;
             }
         }
-        
+
         private byte[] EncryptContent(string content)
         {
             byte[] bytes;

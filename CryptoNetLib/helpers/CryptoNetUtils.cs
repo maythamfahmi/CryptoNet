@@ -5,14 +5,14 @@ namespace CryptoNetLib.helpers
 {
     public static class CryptoNetUtils
     {
-        public static byte[] LoadFile(string filename)
+        public static byte[] LoadFileToBytes(string filename)
         {
             return File.ReadAllBytes(filename);
         }
 
-        public static string LoadCertificate(string filename)
+        public static string LoadFileToString(string filename)
         {
-            return BytesToString(File.ReadAllBytes(filename));
+            return BytesToString(LoadFileToBytes(filename));
         }
 
         public static string BytesToString(byte[] bytes)
@@ -20,22 +20,20 @@ namespace CryptoNetLib.helpers
             return Encoding.ASCII.GetString(bytes);
         }
 
-        public static byte[] StringToBytes(string text)
+        public static byte[] StringToBytes(string content)
         {
-            return Encoding.ASCII.GetBytes(text);
+            return Encoding.ASCII.GetBytes(content);
         }
 
         public static void SaveKey(string filename, byte[] bytes)
         {
-            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
-            {
-                fs.Write(bytes, 0, bytes.Length);
-            }
+            using var fs = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            fs.Write(bytes, 0, bytes.Length);
         }
 
         public static void SaveKey(string filename, string content)
         {
-            var bytes = CryptoNetUtils.StringToBytes(content);
+            var bytes = StringToBytes(content);
             SaveKey(filename, bytes);
         }
     }
