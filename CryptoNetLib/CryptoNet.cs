@@ -1,36 +1,46 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using CryptoNetLib.helpers;
+using static CryptoNetLib.helpers.KeyHelper;
 
 namespace CryptoNetLib
 {
     public class CryptoNet : ICryptoNet
     {
-        private readonly CspParameters _parameters;
-        private RSACryptoServiceProvider _rsa;
-        private readonly string _key;
+        private readonly RSACryptoServiceProvider _rsa;
 
-        public CryptoNet(string key)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="asymmetricKeyOrRsaCertificate"></param>
+        /// <param name="certificate"></param>
+        public CryptoNet(string? asymmetricKeyOrRsaCertificate = null, bool certificate = false)
         {
-            _key = key;
-            _parameters = new CspParameters();
+
+            if (string.IsNullOrWhiteSpace(asymmetricKeyOrRsaCertificate))
+            {
+                throw new Exception("Missing Asymmetric Key Or RsaCertificate");
+            }
+
+            var parameters = new CspParameters();
+            if (!certificate)
+            {
+                parameters.KeyContainerName = asymmetricKeyOrRsaCertificate;
+            }
+
+            _rsa = new RSACryptoServiceProvider(parameters)
+            {
+                PersistKeyInCsp = true
+            };
+            if (certificate)
+            {
+                _rsa.FromXmlString(asymmetricKeyOrRsaCertificate);
+            }
         }
 
-        public KeyHelper.KeyType InitAsymmetricKeys()
+        public KeyType GetKeyType()
         {
-            _parameters.KeyContainerName = _key;
-            _rsa = new RSACryptoServiceProvider(_parameters) { PersistKeyInCsp = true };
-            return _rsa.GetKeyType();
-        }
-
-        public KeyHelper.KeyType ImportKey(string key)
-        {
-            _parameters.KeyContainerName = _key;
-            _rsa = new RSACryptoServiceProvider(_parameters);
-            _rsa.FromXmlString(key);
-            _rsa.PersistKeyInCsp = true;
             return _rsa.GetKeyType();
         }
 
@@ -46,46 +56,22 @@ namespace CryptoNetLib
 
         public byte[] Encrypt(string content)
         {
-            if (_rsa == null)
-                return StringToBytes(KeyHelper.KeyType.NotSet.ToString());
-            return content == null ? StringToBytes("") : EncryptContent(content);
+            return EncryptContent(content);
         }
 
         public string Decrypt(byte[] bytes)
         {
-            if (_rsa == null)
-                return KeyHelper.KeyType.NotSet.ToString();
-            return bytes == null ? "" : DecryptContent(bytes);
-        }
-
-        public void Save(string filename, byte[] bytes)
-        {
-            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
+            try
             {
-                fs.Write(bytes, 0, bytes.Length);
+                return DecryptContent(bytes);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
             }
         }
 
-        public void SaveKey(string filename, string content)
-        {
-            var bytes = StringToBytes(content);
-            using (var fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
-            {
-                fs.Write(bytes, 0, bytes.Length);
-            }
-        }
-
-        public byte[] Load(string filename)
-        {
-            return File.ReadAllBytes(filename);
-        }
-
-        public string LoadKey(string filename)
-        {
-            return BytesToString(File.ReadAllBytes(filename));
-        }
-
-        private byte[] EncryptContent(string text)
+        private byte[] EncryptContent(string content)
         {
             byte[] bytes;
 
@@ -116,7 +102,7 @@ namespace CryptoNetLib
                     var blockSizeBytes = rjndl.BlockSize / 8;
                     var data = new byte[blockSizeBytes];
 
-                    using (var msIn = new MemoryStream(StringToBytes(text)))
+                    using (var msIn = new MemoryStream(CryptoNetUtils.StringToBytes(content)))
                     {
                         int count;
                         do
@@ -198,7 +184,7 @@ namespace CryptoNetLib
                         outStreamDecrypted.Close();
                     }
 
-                    text = BytesToString(outMs.ToArray());
+                    text = CryptoNetUtils.BytesToString(outMs.ToArray());
 
                     outMs.Close();
                 }
@@ -207,16 +193,6 @@ namespace CryptoNetLib
             }
 
             return text;
-        }
-
-        private static string BytesToString(byte[] bytes)
-        {
-            return Encoding.ASCII.GetString(bytes);
-        }
-
-        private static byte[] StringToBytes(string text)
-        {
-            return Encoding.ASCII.GetBytes(text);
         }
 
     }
