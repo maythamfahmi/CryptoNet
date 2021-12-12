@@ -10,11 +10,14 @@ namespace CryptoNetLib.helpers
             [Description("Key does not exist.")]
             NotSet,
 
+            [Description("Asymmetric key is set.")]
+            AsymmetricKey,
+
             [Description("Public key is set.")]
-            PublicOnly,
+            PublicKey,
 
             [Description("Both public and private are set.")]
-            FullKeyPair
+            PrivateKey
         }
 
         public static string GetDescription(this KeyType value)
@@ -26,7 +29,7 @@ namespace CryptoNetLib.helpers
 
         public static KeyType GetKeyType(this RSACryptoServiceProvider rsa)
         {
-            return rsa.PublicOnly ? KeyType.PublicOnly : KeyType.FullKeyPair;
+            return rsa.PublicOnly ? KeyType.PublicKey : KeyType.PrivateKey;
         }
     }
 }

@@ -172,7 +172,7 @@ namespace CryptoNetUnitTests
             exportedKey.ShouldContain("<InverseQ>");
             exportedKey.ShouldContain("<D>");
             var key = cryptoNet.GetKeyType();
-            key.ShouldBe(KeyType.FullKeyPair);
+            key.ShouldBe(KeyType.PrivateKey);
         }
 
         [Test, Order(9)]
@@ -187,10 +187,10 @@ namespace CryptoNetUnitTests
 
             // assert
             var certificate = CryptoNetUtils.LoadFileToString(PrivateKeyFile);
-            new CryptoNet(certificate, true).GetKeyType().ShouldBe(KeyType.FullKeyPair);
+            new CryptoNet(certificate, true).GetKeyType().ShouldBe(KeyType.PrivateKey);
 
             var publicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
-            new CryptoNet(publicKey, true).GetKeyType().ShouldBe(KeyType.PublicOnly);
+            new CryptoNet(publicKey, true).GetKeyType().ShouldBe(KeyType.PublicKey);
         }
 
 
