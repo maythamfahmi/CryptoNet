@@ -31,4 +31,4 @@ jobs:
         #echo ${{env.GITHUB_RUN_ID}}
         #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
     - name: Print versin
-      run: echo "${{ env.BUILD_NUMBER }}"
+      run: echo "${{ env.GITHUB_RUN_NUMBER }}"
