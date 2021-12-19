@@ -1,9 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	<Nullable>enable</Nullable>
-	<LangVersion>8.0</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>8.0</LangVersion>
+		<Product>CryptoNet</Product>
+		<Title>CryptoNet</Title>
+		<RootNamespace>CryptoNetLib</RootNamespace>
+		<AssemblyName>CryptoNetLib</AssemblyName>
+		<Version>0.0.0</Version>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>CryptoNet</PackageId>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
+	</PropertyGroup>
+
+	<Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
+		<PropertyGroup>
+			<PackageDescription>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../RELEASE-NOTES"))</PackageDescription>
+		</PropertyGroup>
+	</Target>
 
 </Project>
