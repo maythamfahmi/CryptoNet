@@ -27,5 +27,6 @@ jobs:
     #  run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: |
-        echo ${{env.GITHUB_RUN_ID}}
+        env
+        #echo ${{env.GITHUB_RUN_ID}}
         #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
