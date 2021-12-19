@@ -1,20 +1,20 @@
-name: 2-cd-publish
+#name: 2-cd-publish
 
-on:
-  workflow_run:
-    workflows: ["1-ci-build"]
-    types:
-      - completed
+#on:
+#  workflow_run:
+#    workflows: ["1-ci-build"]
+#    types:
+#      - completed
 
-jobs:
+#jobs:
 
-  pack-and-publish:
-    runs-on: ubuntu-latest
+#  pack-and-publish:
+#    runs-on: ubuntu-latest
 
-    steps:
-    - name: Pack
-      run: |
-        env
-        #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
-    - name: Print versin
-      run: echo ""
+#    steps:
+#    - name: Pack
+#      run: |
+#        env
+#        #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
+#    - name: Print versin
+#      run: echo ""
