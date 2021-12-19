@@ -1,10 +1,6 @@
 name: 2-cd-publish
 
 on:
-  #push:
-  #  branches: [ main, feature/cicd ]
-  #pull_request:
-  #  branches: [ main ]
   workflow_run:
     workflows: ["1-ci-build"]
     types:
