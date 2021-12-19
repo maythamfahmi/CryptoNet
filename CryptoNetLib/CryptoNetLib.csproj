@@ -15,6 +15,8 @@
 		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -28,5 +30,10 @@
 			<Description>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../RELEASE-NOTES"))</Description>
 		</PropertyGroup>
 	</Target>
+
+	<ItemGroup>
+		<None Include="LICENSE" Pack="true" PackagePath="\"/>
+		<None Include="docs\readme.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>  
 
 </Project>
