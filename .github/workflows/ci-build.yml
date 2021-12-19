@@ -37,4 +37,4 @@ jobs:
         env
         #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
     - name: Print versin
-      run: echo ""
+      run: echo " "
