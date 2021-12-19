@@ -8,8 +8,10 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
+    
+    env:
+      VERSION: ${env:GITHUB_RUN_ID}
     
     steps:
     - uses: actions/checkout@v2
@@ -28,7 +30,8 @@ jobs:
     - name: Pack
       run: |
         env
-        #echo ${{env.GITHUB_RUN_ID}}
+        echo ${{ env:VERSION }}
+        echo ${{ env.VERSION }}
         #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
     - name: Print versin
       run: |
