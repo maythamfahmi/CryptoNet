@@ -9,6 +9,9 @@
 		<RootNamespace>CryptoNetLib</RootNamespace>
 		<AssemblyName>CryptoNetLib</AssemblyName>
 		<Version>0.0.0</Version>
+		<Authors>Maytham Fahmi</Authors>
+		<Company>NextBix</Company>
+		<PackageDescription>Content encryption and decryption package</PackageDescription>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 
