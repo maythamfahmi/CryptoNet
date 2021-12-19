@@ -16,7 +16,6 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -32,7 +31,6 @@
 	</Target>
 
 	<ItemGroup>
-		<None Include="LICENSE" Pack="true" PackagePath="\"/>
 		<None Include="README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>  
 
