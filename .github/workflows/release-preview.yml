@@ -9,6 +9,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
     - name: Set VERSION variable from tag
       run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
     - name: Pack
