@@ -1,0 +1,24 @@
+name: CD-publish
+
+on:
+  push:
+    branches: [ main, feature/cicd ]
+  pull_request:
+    branches: [ main ]
+  workflow_run:
+    workflows: ["CI-build"]
+    types:
+      - completed
+
+jobs:
+  pack-and-publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Pack
+      run: |
+        env
+        #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
+    - name: Print versin
+      run: echo ""
