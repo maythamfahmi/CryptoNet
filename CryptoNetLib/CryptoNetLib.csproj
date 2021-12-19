@@ -14,6 +14,7 @@
 		<PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
 		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
