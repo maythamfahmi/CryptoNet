@@ -1,4 +1,4 @@
-name: 2-CD-publish
+name: 2-cd-publish
 
 on:
   push:
@@ -6,13 +6,13 @@ on:
   pull_request:
     branches: [ main ]
   workflow_run:
-    workflows: ["1-CI-build"]
+    workflows: ["1-ci-build"]
     types:
       - completed
 
 jobs:
-  pack-and-publish:
 
+  pack-and-publish:
     runs-on: ubuntu-latest
 
     steps:

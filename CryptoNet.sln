@@ -16,7 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rsa", "Rsa", "{BD3A9D34-CDA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipelines", "Pipelines", "{0632D18D-1916-4AB3-9459-46A65AA72837}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\workflows\1-ci-build.yml = .github\workflows\1-ci-build.yml
+		.github\workflows\2-cd-publish.yml = .github\workflows\2-cd-publish.yml
 	EndProjectSection
 EndProject
 Global
