@@ -1,4 +1,4 @@
-name: .NET
+name: CI-build
 
 on:
   push:
@@ -26,14 +26,3 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         run: dotnet test --no-build --verbosity normal
-    
-  pack-and-publish:
-    runs-on: ubuntu-latest
-   
-    steps:
-    - name: Pack
-      run: |
-        env
-        #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
-    - name: Print versin
-      run: echo ""
