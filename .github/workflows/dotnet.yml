@@ -10,7 +10,7 @@ jobs:
   build:
 
     runs-on: windows-latest
-
+    
     steps:
     - uses: actions/checkout@v2
     - name: Setup NuGet
@@ -32,5 +32,6 @@ jobs:
         #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
     - name: Print versin
       run: |
+        echo "${env:GITHUB_RUN_ID}"
         echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
         echo "Version="${VERSION}
