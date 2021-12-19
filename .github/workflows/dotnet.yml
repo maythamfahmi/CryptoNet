@@ -7,34 +7,33 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+
+  build-and-test:
     runs-on: windows-latest
-    
-    env:
-      VERSION: ${env:GITHUB_RUN_ID}
-    
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
-    #- name: Setup .NET
-    #  uses: actions/setup-dotnet@v1
-    #  with:
-    #    dotnet-version: 6.0.x
-    #- name: Restore dependencies
-    #  run: dotnet restore
-    #- name: Build
-    #  run: dotnet build --no-restore
-    #- name: Test
-    #  run: dotnet test --no-build --verbosity normal
+      - name: Print
+        run: | 
+          echo "${env:GITHUB_RUN_ID}"
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+    
+  pack-and-publish:
+    runs-on: ubuntu-latest
+   
+    steps:
     - name: Pack
       run: |
         env
-        #echo ${{ env:VERSION }}
-        echo ${{ env.VERSION }}
         #dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID CryptoNetLib/CryptoNetLib.csproj
     - name: Print versin
-      run: |
-        echo "${env:GITHUB_RUN_ID}"
-        echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
-        echo "Version="${VERSION}
+      run: echo ""
