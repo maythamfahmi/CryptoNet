@@ -11,16 +11,8 @@
 		<Version>0.0.0</Version>
 		<Authors>Maytham Fahmi</Authors>
 		<Company>NextBix</Company>
-		<PackageDescription>Content encryption and decryption package</PackageDescription>
-		<PackageTags>Microsoft Azure Storage Blobs;Microsoft;Azure;Blobs;Blob;Storage;StorageScalable</PackageTags>
-		<Description>
-			This client library enables working with the Microsoft Azure Storage Blob service for storing binary and text data.
-			For this release see notes - https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/storage/Azure.Storage.Blobs/README.md and https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/storage/Azure.Storage.Blobs/CHANGELOG.md
-			in addition to the breaking changes https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/storage/Azure.Storage.Blobs/BreakingChanges.txt
-			Microsoft Azure Storage quickstarts and tutorials - https://docs.microsoft.com/en-us/azure/storage/
-			Microsoft Azure Storage REST API Reference - https://docs.microsoft.com/en-us/rest/api/storageservices/
-			REST API Reference for Blob Service - https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api
-		</Description>
+		<PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
+		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 
