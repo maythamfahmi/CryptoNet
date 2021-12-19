@@ -20,4 +20,4 @@ jobs:
     - name: Push
       run: dotnet nuget push NuGet.Workflow.${VERSION}.nupkg --source https://nuget.pkg.github.com/acraven/index.json --api-key ${NUGET_TOKEN}
       env:
-        GITHUB_TOKEN: ${{ secrets.NUGET_TOKEN }}
+        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
