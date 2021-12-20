@@ -1,6 +1,6 @@
-![Cryptonet](https://itbackyard.com/wp-content/uploads/2021/12/CryptoNetLogo.png)
+![Cryptonet](https://github.com/maythamfahmi/CryptoNet/blob/main/img/CryptoNetLogo.png)
 
-[![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet)](https://www.nuget.org/packages/CryptoNet/)
+[![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
 [![CryptoNet NuGet pre-release version](https://img.shields.io/nuget/vpre/CryptoNet)](https://www.nuget.org/packages/CryptoNet/)
 
 <b>CryptoNet</b> is simple and lightweight symmetric and asymmetric encryption library. 
