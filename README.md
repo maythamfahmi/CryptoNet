@@ -1,4 +1,4 @@
-<img src="https://itbackyard.com/wp-content/uploads/2021/12/CryptoNetLogo.png" width="350" />
+![Cryptonet](https://itbackyard.com/wp-content/uploads/2021/12/CryptoNetLogo.png)
 
 [![NetMQ NuGet version](https://img.shields.io/nuget/v/cryptonet)](https://www.nuget.org/packages/CrytopNet/)
 
@@ -78,4 +78,4 @@ Console.WriteLine(decryptWithPrivateKey);
 We need help, so if you have good knowledge of C# and Cryptography just grab one of the issues and add a pull request.
 The same is valid, if you have idea for improvement or adding new feature.
 
-Regarding coding standards, we are using C# coding styles, to be a little more specific: we are using `camelCase` for variables and fields (with `m_` prefix for instance members and `s_` for static fields) and `PascalCase` for methods, classes and constants. Make sure you are using 'Insert Spaces' and 4 for tab and indent size.
+<!--Regarding coding standards, we are using C# coding styles, to be a little more specific: we are using `camelCase` for variables and fields (with `m_` prefix for instance members and `s_` for static fields) and `PascalCase` for methods, classes and constants. Make sure you are using 'Insert Spaces' and 4 for tab and indent size.-->
