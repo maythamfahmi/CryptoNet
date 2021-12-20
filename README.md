@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg?token=ACGU4ZJ4PUYECEGTGLNAYYTBYAV74" width="350" />
+<img src="https://github.com/maythamfahmi/CryptoNet/blob/master/img/CryptoNetLogo.png?raw=true" width="350" />
 
 [![NetMQ NuGet version](https://img.shields.io/nuget/v/cryptonet)](https://www.nuget.org/packages/CrytopNet/)
 
