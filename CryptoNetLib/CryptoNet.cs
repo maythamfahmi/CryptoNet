@@ -54,24 +54,17 @@ namespace CryptoNetLib
             return _rsa.ToXmlString(true);
         }
 
-        public byte[] Encrypt(string content)
+        public byte[] EncryptString(string content)
         {
-            return EncryptContent(content);
+            return EncryptContent(CryptoNetUtils.StringToBytes(content));
         }
 
-        public string Decrypt(byte[] bytes)
+        public byte[] EncryptBytes(byte[] bytes)
         {
-            try
-            {
-                return DecryptContent(bytes);
-            }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
+            return EncryptContent(bytes);
         }
 
-        private byte[] EncryptContent(string content)
+        private byte[] EncryptContent(byte[] content)
         {
             byte[] bytes;
 
@@ -102,7 +95,7 @@ namespace CryptoNetLib
                     var blockSizeBytes = rjndl.BlockSize / 8;
                     var data = new byte[blockSizeBytes];
 
-                    using (var msIn = new MemoryStream(CryptoNetUtils.StringToBytes(content)))
+                    using (var msIn = new MemoryStream(content))
                     {
                         int count;
                         do
@@ -126,9 +119,27 @@ namespace CryptoNetLib
             return bytes;
         }
 
-        private string DecryptContent(byte[] bytes)
+
+        public string DecryptString(byte[] bytes)
         {
-            string text;
+            try
+            {
+                return CryptoNetUtils.BytesToString(DecryptContent(bytes));
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
+        public byte[] DecryptBytes(byte[] bytes)
+        {
+            return DecryptContent(bytes);
+        }
+
+        private byte[] DecryptContent(byte[] bytes)
+        {
+            byte[] content;
 
             var rjndl = new RijndaelManaged
             {
@@ -184,7 +195,7 @@ namespace CryptoNetLib
                         outStreamDecrypted.Close();
                     }
 
-                    text = CryptoNetUtils.BytesToString(outMs.ToArray());
+                    content = outMs.ToArray();
 
                     outMs.Close();
                 }
@@ -192,7 +203,7 @@ namespace CryptoNetLib
                 inMs.Close();
             }
 
-            return text;
+            return content;
         }
 
     }
