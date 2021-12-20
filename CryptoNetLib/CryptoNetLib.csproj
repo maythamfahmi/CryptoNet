@@ -4,24 +4,26 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
-		<Product>CryptoNet</Product>
-		<Title>CryptoNet</Title>
-		<RootNamespace>CryptoNetLib</RootNamespace>
-		<AssemblyName>CryptoNetLib</AssemblyName>
-		<Version>0.0.0</Version>
-		<Authors>Maytham Fahmi</Authors>
-		<Company>NextBix</Company>
-		<PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
-		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageId>CryptoNet</PackageId>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
+		<ApplicationIcon>cryptonetlogo.ico</ApplicationIcon>
+		<PackageIcon>CryptoNetLogo.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Company>NextBix</Company>
+		<Authors>Maytham Fahmi</Authors>
+		<Version>0.0.0</Version>
+		<Title>CryptoNet</Title>
+		<Product>CryptoNet</Product>
+		<RootNamespace>CryptoNetLib</RootNamespace>
+		<AssemblyName>CryptoNetLib</AssemblyName>
+		<PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
+		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
@@ -31,7 +33,18 @@
 	</Target>
 
 	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\" />
+	  <Content Include="cryptonetlogo.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\img\CryptoNetLogo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
