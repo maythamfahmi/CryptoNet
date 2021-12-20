@@ -1,6 +1,6 @@
 # CryptoNet
 
-<img src="https://cdn.rawgit.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg" width="350" />
+<img src="https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg?token=ACGU4ZI7XZCDYSGGZHEF36LBYAVKQ" width="350" />
 
 [![NetMQ NuGet version](https://img.shields.io/nuget/v/cryptonet)](https://www.nuget.org/packages/CrytopNet/)
 
