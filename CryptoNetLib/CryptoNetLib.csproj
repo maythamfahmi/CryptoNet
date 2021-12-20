@@ -10,8 +10,8 @@
 		<PackageId>CryptoNet</PackageId>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
-		<ApplicationIcon>cryptonetlogo.ico</ApplicationIcon>
-		<PackageIcon>CryptoNetLogo.png</PackageIcon>
+		<ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
+		<PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Company>NextBix</Company>
 		<Authors>Maytham Fahmi</Authors>
@@ -24,6 +24,7 @@
 		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright © 2020</Copyright>
 	</PropertyGroup>
 
 	<Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
@@ -33,11 +34,11 @@
 	</Target>
 
 	<ItemGroup>
-	  <Content Include="cryptonetlogo.ico" />
+	  <Content Include="CryptoNetLogo-icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="..\img\CryptoNetLogo.png">
+	  <None Include="..\img\CryptoNetLogo-icon.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
