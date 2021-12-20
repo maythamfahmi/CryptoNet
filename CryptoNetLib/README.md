@@ -1,11 +1,8 @@
-# CryptoNet
-
 <img src="https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg?token=ACGU4ZJ4PUYECEGTGLNAYYTBYAV74" width="350" />
 
 [![NetMQ NuGet version](https://img.shields.io/nuget/v/cryptonet)](https://www.nuget.org/packages/CrytopNet/)
 
-
-CryptoNet is simple and lightweight symmetric and asymmetric encryption library. 
+<b>CryptoNet</b> is simple and lightweight symmetric and asymmetric encryption library. 
 It is a 100% native C# implementation based on RSACryptoServiceProvider.
 
 ## Installation
