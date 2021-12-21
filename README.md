@@ -22,7 +22,7 @@ Here is some of the examples:
 
 ### Example: Encrypt and Decrypt with Asymmetric Key
 ```csharp
-ICryptoNet encryptClient = new CryptoNet(AsymmetricKey);
+ICryptoNet encryptClient = new CryptoNet(SymmetricKey);
 Console.WriteLine("1- We will encrypt following:");
 Console.WriteLine(ConfidentialDummyData);
 
@@ -30,7 +30,7 @@ var encrypted = encryptClient.EncryptFromString(ConfidentialDummyData);
 Console.WriteLine("2- To:");
 Console.WriteLine(CryptoNetUtils.BytesToString(encrypted));
 
-ICryptoNet decryptClient = new CryptoNet(AsymmetricKey);
+ICryptoNet decryptClient = new CryptoNet(SymmetricKey);
 var decrypted = decryptClient.DecryptToString(encrypted);
 Console.WriteLine("3- And we will decrypt it back with correct key:");
 Console.WriteLine(decrypted);
@@ -78,5 +78,3 @@ Console.WriteLine(decryptWithPrivateKey);
 
 I need your help, so if you have good knowledge of C# and Cryptography just grab one of the issues and add a pull request.
 The same is valid, if you have idea for improvement or adding new feature.
-
-<!--Regarding coding standards, we are using C# coding styles, to be a little more specific: we are using `camelCase` for variables and fields (with `m_` prefix for instance members and `s_` for static fields) and `PascalCase` for methods, classes and constants. Make sure you are using 'Insert Spaces' and 4 for tab and indent size.-->

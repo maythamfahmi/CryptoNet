@@ -21,7 +21,7 @@ namespace CryptoNetUnitTests
     [TestFixture]
     public class CryptoNetTests
     {
-        private const string AsymmetricKey = "any-secret-key-that-should-be-the-same-for-encrypting-and-decrypting";
+        private const string SymmetricKey = "any-secret-key-that-should-be-the-same-for-encrypting-and-decrypting";
         private const string ConfidentialDummyData = @"Some Secret Data";
 
         private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -34,14 +34,14 @@ namespace CryptoNetUnitTests
 
 
         [Test, Order(1)]
-        public void Encrypt_Decrypt_Content_With_Same_SelfAssignedKeys_Test()
+        public void Encrypt_Decrypt_Content_With_SymmetricKey_Test()
         {
             // arrange
-            ICryptoNet encryptClient = new CryptoNet(AsymmetricKey, false);
+            ICryptoNet encryptClient = new CryptoNet(SymmetricKey, false);
             var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
 
             // act
-            ICryptoNet decryptClient = new CryptoNet(AsymmetricKey, false);
+            ICryptoNet decryptClient = new CryptoNet(SymmetricKey, false);
             var decrypt = decryptClient.DecryptToString(encrypt);
 
             // assert
@@ -49,15 +49,15 @@ namespace CryptoNetUnitTests
         }
 
         [Test, Order(2)]
-        public void Encrypt_Decrypt_Content_With_Wrong_SelfAssignedKeys_Test()
+        public void Encrypt_Decrypt_Content_With_Wrong_SymmetricKey_Test()
         {
             // arrange
-            ICryptoNet encryptClient = new CryptoNet(AsymmetricKey);
+            ICryptoNet encryptClient = new CryptoNet(SymmetricKey);
             var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
 
             // act
-            const string asymmetricWrongKey = "wrong-secret-key";
-            ICryptoNet decryptClient = new CryptoNet(asymmetricWrongKey);
+            const string SymmetricWrongKey = "wrong-secret-key";
+            ICryptoNet decryptClient = new CryptoNet(SymmetricWrongKey);
             var decrypt = decryptClient.DecryptToString(encrypt);
 
             // assert
@@ -65,13 +65,14 @@ namespace CryptoNetUnitTests
             decrypt.ShouldBe("The parameter is incorrect.");
         }
 
-        [Test, Order(3)]
-        public void Try_With_Missing_Key_Test()
+        [TestCase(""), Order(3)]
+        [TestCase(null)]
+        public void Try_With_Missing_Key_Test(string key)
         {
             try
             {
                 // arrange and act
-                ICryptoNet cryptoNet = new CryptoNet();
+                ICryptoNet cryptoNet = new CryptoNet(key);
 
             }
             catch (Exception e)
@@ -82,10 +83,10 @@ namespace CryptoNetUnitTests
         }
 
         [Test, Order(4)]
-        public void Encrypt_Decrypt_FromFile_With_Same_SelfAssignedKeys_Test()
+        public void Encrypt_Decrypt_FromFile_With_Same_SymmetricKey_Test()
         {
             // arrange
-            ICryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            ICryptoNet cryptoNet = new CryptoNet(SymmetricKey);
             var encrypt = cryptoNet.EncryptFromString(ConfidentialDummyData);
             CryptoNetUtils.SaveKey(EncryptedContentFile, encrypt);
 
@@ -101,7 +102,7 @@ namespace CryptoNetUnitTests
         }
 
         [Test, Order(5)]
-        public void Encrypt_Decrypt_FromFile_With_RsaCertificate_Test()
+        public void Encrypt_Decrypt_LoadKeysFromFile_With_RsaKeyPair_AsymmetricKey_Test()
         {
             // arrange
             ICryptoNet cryptoNet = new CryptoNet(CryptoNetUtils.LoadFileToString(_rsaKeyPair), true);
@@ -115,7 +116,7 @@ namespace CryptoNetUnitTests
         }
 
         [Test, Order(6)]
-        public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_SelfGenerated_RsaCertificate_Test()
+        public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_RsaKeyPair_AsymmetricKey_Test()
         {
             // arrange
             var certificate = CryptoNetUtils.LoadFileToString(_rsaKeyPair);
@@ -144,7 +145,7 @@ namespace CryptoNetUnitTests
         public void Validate_PublicKey_Test()
         {
             // arrange
-            ICryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
+            ICryptoNet cryptoNet = new CryptoNet("AsymmetricCreationKeySecret");
 
             // act
             var exportedKey = cryptoNet.ExportPublicKey();
@@ -164,7 +165,7 @@ namespace CryptoNetUnitTests
         public void Validate_Private_Key_Test()
         {
             // arrange
-            ICryptoNet cryptoNet = new CryptoNet("AsymmetricKey");
+            ICryptoNet cryptoNet = new CryptoNet("AsymmetricCreationKeySecret");
 
             // act
             var exportedKey = cryptoNet.ExportPrivateKey();
@@ -183,10 +184,10 @@ namespace CryptoNetUnitTests
         }
 
         [Test, Order(9)]
-        public void SelfGenerated_RsaCertificate_Test()
+        public void SelfGenerated_RsaKeyPair_AsymmetricKey_Test()
         {
             // arrange
-            ICryptoNet cryptoNet = new CryptoNet(AsymmetricKey);
+            ICryptoNet cryptoNet = new CryptoNet(SymmetricKey);
 
             // act
             CryptoNetUtils.SaveKey(PrivateKeyFile, cryptoNet.ExportPrivateKey());
@@ -203,16 +204,16 @@ namespace CryptoNetUnitTests
         [TestCase("WordDocument.docx"), Order(10)]
         [TestCase("ExcelDocument.xlsx")]
         [TestCase("Image.png")]
-        public void Encrypt_Decrypt_Document_With_Same_SelfAssignedKeys_Test(string filename)
+        public void Encrypt_Decrypt_Document_With_Same_RsaKeyPair_AsymmetricKey_Test(string filename)
         {
             var testDocument = File.ReadAllBytes(@$"{Root}\Resources\TestFiles\{filename}");
 
             // arrange
-            ICryptoNet encryptClient = new CryptoNet(AsymmetricKey, false);
+            ICryptoNet encryptClient = new CryptoNet(SymmetricKey, false);
             var encrypt = encryptClient.EncryptFromBytes(testDocument);
 
             // act
-            CryptoNet decryptClient = new CryptoNet(AsymmetricKey, false);
+            CryptoNet decryptClient = new CryptoNet(SymmetricKey, false);
             var decrypt = decryptClient.DecryptToBytes(encrypt);
 
             // assert

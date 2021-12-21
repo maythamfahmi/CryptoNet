@@ -29,7 +29,7 @@ namespace CryptoNetLib
         /// </summary>
         /// <param name="symmetricKeyOrAsymmetricKey"></param>
         /// <param name="rsaKey"></param>
-        public CryptoNet(string? symmetricKeyOrAsymmetricKey = null, bool rsaKey = false)
+        public CryptoNet(string symmetricKeyOrAsymmetricKey, bool rsaKey = false)
         {
 
             if (string.IsNullOrWhiteSpace(symmetricKeyOrAsymmetricKey))
