@@ -1,4 +1,11 @@
-﻿using CryptoNetLib;
+// <copyright file="Example.cs" company="NextBix" year="2021">
+// Copyright (c) 2021 All Rights Reserved
+// </copyright>
+// <author>Maytham Fahmi</author>
+// <date>17-12-2021 12:18:44</date>
+// <summary>part of CryptoNetCmd project</summary>
+
+using CryptoNetLib;
 using CryptoNetLib.helpers;
 
 namespace CryptoNetCmd;

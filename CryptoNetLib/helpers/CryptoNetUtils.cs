@@ -1,4 +1,11 @@
-﻿using System.IO;
+// <copyright file="CryptoNetUtils.cs" company="NextBix" year="2021">
+// Copyright (c) 2021 All Rights Reserved
+// </copyright>
+// <author>Maytham Fahmi</author>
+// <date>17-12-2021 12:18:44</date>
+// <summary>part of helpers project</summary>
+
+using System.IO;
 using System.Text;
 
 namespace CryptoNetLib.helpers

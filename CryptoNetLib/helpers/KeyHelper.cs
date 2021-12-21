@@ -1,3 +1,10 @@
+// <copyright file="KeyHelper.cs" company="NextBix" year="2021">
+// Copyright (c) 2021 All Rights Reserved
+// </copyright>
+// <author>Maytham Fahmi</author>
+// <date>17-12-2021 12:18:44</date>
+// <summary>part of helpers project</summary>
+
 using System.ComponentModel;
 using System.Security.Cryptography;
 

@@ -1,3 +1,10 @@
+// <copyright file="CryptoNetTests.cs" company="NextBix" year="2021">
+// Copyright (c) 2021 All Rights Reserved
+// </copyright>
+// <author>Maytham Fahmi</author>
+// <date>17-12-2021 12:18:44</date>
+// <summary>part of CryptoNetUnitTests project</summary>
+
 using System;
 using System.IO;
 using System.Security.Cryptography;
