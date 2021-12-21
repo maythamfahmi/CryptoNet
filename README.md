@@ -14,6 +14,10 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 Currently version are maintained. 
 
+## Issues
+
+Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
+
 ## Using / Documentation
 
 ### Short intro
