@@ -15,7 +15,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Company>NextBix</Company>
 		<Authors>Maytham Fahmi</Authors>
-		<Version>0.0.0</Version>
+		<Version>0.0.5</Version>
 		<Title>CryptoNet</Title>
 		<Product>CryptoNet</Product>
 		<RootNamespace>CryptoNetLib</RootNamespace>

@@ -77,7 +77,7 @@ namespace CryptoNetUnitTests
             catch (Exception e)
             {
                 // assert
-                e.Message.ShouldStartWith("Missing Asymmetric Key Or RsaCertificate");
+                e.Message.ShouldStartWith("Missing symmetric key Or asymmetric key");
             }
         }
 

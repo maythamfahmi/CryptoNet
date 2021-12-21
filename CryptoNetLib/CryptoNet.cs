@@ -18,24 +18,29 @@ namespace CryptoNetLib
         private readonly RSACryptoServiceProvider _rsa;
 
         /// <summary>
-        /// By default you can give asymmetric key in constructor.
-        /// You also use RSA Private or Public key, if that the case
-        /// make rsaKey to true.
+        /// There are 2 way to encrypt and decrypt
+        /// 1. Symmetric way (By default)
+        /// Same key is used ot encrypt and decrypt with.
+        /// 2. Asymmetric way
+        /// You have 2 keys, Private and Public key.
+        /// Use Public key to encrypt with and rasKey should set to true
+        /// Use Private key to decrypt with and rasKey should set to true
+        /// You need to generate RSA key pair first (Private/Public key).
         /// </summary>
-        /// <param name="asymmetricKeyOrRsaCertificate"></param>
+        /// <param name="symmetricKeyOrAsymmetricKey"></param>
         /// <param name="rsaKey"></param>
-        public CryptoNet(string? asymmetricKeyOrRsaCertificate = null, bool rsaKey = false)
+        public CryptoNet(string? symmetricKeyOrAsymmetricKey = null, bool rsaKey = false)
         {
 
-            if (string.IsNullOrWhiteSpace(asymmetricKeyOrRsaCertificate))
+            if (string.IsNullOrWhiteSpace(symmetricKeyOrAsymmetricKey))
             {
-                throw new Exception("Missing Asymmetric Key Or RsaCertificate");
+                throw new Exception("Missing symmetric key Or asymmetric key");
             }
 
             var parameters = new CspParameters();
             if (!rsaKey)
             {
-                parameters.KeyContainerName = asymmetricKeyOrRsaCertificate;
+                parameters.KeyContainerName = symmetricKeyOrAsymmetricKey;
             }
 
             _rsa = new RSACryptoServiceProvider(parameters)
@@ -44,7 +49,7 @@ namespace CryptoNetLib
             };
             if (rsaKey)
             {
-                _rsa.FromXmlString(asymmetricKeyOrRsaCertificate);
+                _rsa.FromXmlString(symmetricKeyOrAsymmetricKey);
             }
         }
 
