@@ -93,3 +93,7 @@ Console.WriteLine(decryptWithPrivateKey);
 
 I need your help, so if you have good knowledge of C# and Cryptography just grab one of the issues and add a pull request.
 The same is valid, if you have idea for improvement or adding new feature.
+
+### How to contribute:
+
+[Here](https://www.dataschool.io/how-to-contribute-on-github/) is a link to learn how to contribute if you are not a ware of how to do it.
