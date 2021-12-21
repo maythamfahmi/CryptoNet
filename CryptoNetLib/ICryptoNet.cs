@@ -7,9 +7,9 @@ namespace CryptoNetLib
         KeyHelper.KeyType GetKeyType();
         string ExportPublicKey();
         string ExportPrivateKey();
-        byte[] EncryptString(string content);
-        string DecryptString(byte[] bytes);
-        byte[] EncryptBytes(byte[] bytes);
-        byte[] DecryptBytes(byte[] bytes);
+        byte[] EncryptFromString(string content);
+        string DecryptToString(byte[] bytes);
+        byte[] EncryptFromBytes(byte[] bytes);
+        byte[] DecryptToBytes(byte[] bytes);
     }
 }

@@ -11,11 +11,13 @@ namespace CryptoNetLib
         private readonly RSACryptoServiceProvider _rsa;
 
         /// <summary>
-        /// 
+        /// By default you can give asymmetric key in constructor.
+        /// You also use RSA Private or Public key, if that the case
+        /// make rsaKey to true.
         /// </summary>
         /// <param name="asymmetricKeyOrRsaCertificate"></param>
-        /// <param name="certificate"></param>
-        public CryptoNet(string? asymmetricKeyOrRsaCertificate = null, bool certificate = false)
+        /// <param name="rsaKey"></param>
+        public CryptoNet(string? asymmetricKeyOrRsaCertificate = null, bool rsaKey = false)
         {
 
             if (string.IsNullOrWhiteSpace(asymmetricKeyOrRsaCertificate))
@@ -24,7 +26,7 @@ namespace CryptoNetLib
             }
 
             var parameters = new CspParameters();
-            if (!certificate)
+            if (!rsaKey)
             {
                 parameters.KeyContainerName = asymmetricKeyOrRsaCertificate;
             }
@@ -33,33 +35,56 @@ namespace CryptoNetLib
             {
                 PersistKeyInCsp = true
             };
-            if (certificate)
+            if (rsaKey)
             {
                 _rsa.FromXmlString(asymmetricKeyOrRsaCertificate);
             }
         }
 
+        /// <summary>
+        /// Get Key Type that is  initialization in the constructor
+        /// </summary>
+        /// <returns></returns>
         public KeyType GetKeyType()
         {
             return _rsa.GetKeyType();
         }
 
+        /// <summary>
+        /// Export Public Key
+        /// </summary>
+        /// <returns></returns>
         public string ExportPublicKey()
         {
             return _rsa.ToXmlString(false);
         }
 
+        /// <summary>
+        /// Export Private Key (RSA Pair key)
+        /// </summary>
+        /// <returns></returns>
         public string ExportPrivateKey()
         {
             return _rsa.ToXmlString(true);
         }
 
-        public byte[] EncryptString(string content)
+        /// <summary>
+        /// This method is ideal to encrypt string or json payload
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public byte[] EncryptFromString(string content)
         {
             return EncryptContent(CryptoNetUtils.StringToBytes(content));
         }
 
-        public byte[] EncryptBytes(byte[] bytes)
+        /// <summary>
+        /// This method is ideal to encrypt documents and files like
+        /// word, excel, image etc.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public byte[] EncryptFromBytes(byte[] bytes)
         {
             return EncryptContent(bytes);
         }
@@ -119,8 +144,12 @@ namespace CryptoNetLib
             return bytes;
         }
 
-
-        public string DecryptString(byte[] bytes)
+        /// <summary>
+        /// This method is ideal to decrypt string or json payload
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public string DecryptToString(byte[] bytes)
         {
             try
             {
@@ -132,7 +161,13 @@ namespace CryptoNetLib
             }
         }
 
-        public byte[] DecryptBytes(byte[] bytes)
+        /// <summary>
+        /// This method is ideal to decrypt documents and files like
+        /// word, excel, image etc.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public byte[] DecryptToBytes(byte[] bytes)
         {
             return DecryptContent(bytes);
         }
