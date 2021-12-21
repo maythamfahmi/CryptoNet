@@ -16,6 +16,17 @@ Currently version are maintained.
 
 ## Using / Documentation
 
+### Short intro
+
+There are 2 way to encrypt and decrypt
+ 1. Symmetric way (By default): 
+    - Same key is used to encrypt and decrypt with.
+ 3. Asymmetric way
+    - You have 2 keys, Private and Public key.
+    - Use Public key to encrypt with.
+    - Use Private key to decrypt with.
+    - You need to generate RSA key pair first (Private/Public key).
+
 You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
 
 Here is some of the examples:

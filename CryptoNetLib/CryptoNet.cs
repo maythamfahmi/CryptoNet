@@ -20,7 +20,7 @@ namespace CryptoNetLib
         /// <summary>
         /// There are 2 way to encrypt and decrypt
         /// 1. Symmetric way (By default)
-        /// Same key is used ot encrypt and decrypt with.
+        /// Same key is used to encrypt and decrypt with.
         /// 2. Asymmetric way
         /// You have 2 keys, Private and Public key.
         /// Use Public key to encrypt with and rasKey should set to true
