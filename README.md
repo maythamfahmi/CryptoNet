@@ -31,7 +31,7 @@ You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNe
 
 Here is some of the examples:
 
-### Example: Encrypt and Decrypt with Asymmetric Key
+### Example: Encrypt and Decrypt with Symmetric Key
 ```csharp
 ICryptoNet encryptClient = new CryptoNet(SymmetricKey);
 Console.WriteLine("1- We will encrypt following:");
@@ -52,7 +52,7 @@ Console.WriteLine("4- And we will not be able decrypt it back with wrong key:");
 Console.WriteLine(decryptWithWrongKey);
 ```
 
-### Example: SelfGenerated Private Key (RasKeyPair)
+### Example: Generate and Export Asymmetric Key (Private/Public) Key (RasKeyPair)
 ```csharp
 ICryptoNet cryptoNet = new CryptoNet("My-Secret-Key");
 
