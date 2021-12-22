@@ -3,8 +3,8 @@
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
 [![CryptoNet NuGet pre-release version](https://img.shields.io/nuget/vpre/CryptoNet)](https://www.nuget.org/packages/CryptoNet/)
 
-CryptoNet is simple and lightweight symmetric and asymmetric encryption library. 
-It is a 100% native C# implementation based on RSACryptoServiceProvider.
+CryptoNet is a simple and a lightweight symmetric and asymmetric RSA encryption NuGet library. 
+It is a 100% native C# implementation based on RSACryptoServiceProvider class.
 
 ## Installation
 
@@ -12,7 +12,7 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 ## Versions
 
-Currently version are maintained. 
+![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social) is latest version and are maintained. 
 
 ## Issues
 
@@ -22,13 +22,13 @@ Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
 
 ### Short intro
 
-There are 2 way to encrypt and decrypt
+There are 2 ways to encrypt and decrypt content:
  1. Symmetric way (By default): 
-    - Same key is used to encrypt and decrypt with.
+    - Use same key to encrypt and decrypt.
  3. Asymmetric way
     - You have 2 keys, Private and Public key.
-    - Use Public key to encrypt with.
-    - Use Private key to decrypt with.
+    - Use Public key to encrypt.
+    - Use Private key to decrypt.
     - You need to generate RSA key pair first (Private/Public key).
 
 You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
