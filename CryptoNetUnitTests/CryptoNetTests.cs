@@ -56,13 +56,19 @@ namespace CryptoNetUnitTests
             var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
 
             // act
-            const string SymmetricWrongKey = "wrong-secret-key";
-            ICryptoNet decryptClient = new CryptoNet(SymmetricWrongKey);
-            var decrypt = decryptClient.DecryptToString(encrypt);
-
-            // assert
-            CheckContent(ConfidentialDummyData, decrypt).ShouldBeFalse();
-            decrypt.ShouldBe("The parameter is incorrect.");
+            const string symmetricWrongKey = "wrong-secret-key";
+            string decrypt = string.Empty;
+            try
+            {
+                ICryptoNet decryptClient = new CryptoNet(symmetricWrongKey);
+                decrypt = decryptClient.DecryptToString(encrypt);
+            }
+            catch (Exception e)
+            {
+                // assert
+                CheckContent(ConfidentialDummyData, decrypt).ShouldBeFalse();
+                e.Message.ShouldContain("The parameter is incorrect.");
+            }
         }
 
         [TestCase(""), Order(3)]
