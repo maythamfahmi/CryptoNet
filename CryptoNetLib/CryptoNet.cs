@@ -31,7 +31,6 @@ namespace CryptoNetLib
         /// <param name="rsaKey"></param>
         public CryptoNet(string symmetricKeyOrAsymmetricKey, bool rsaKey = false)
         {
-
             if (string.IsNullOrWhiteSpace(symmetricKeyOrAsymmetricKey))
             {
                 throw new Exception("Missing symmetric key Or asymmetric key");
@@ -47,6 +46,7 @@ namespace CryptoNetLib
             {
                 PersistKeyInCsp = true
             };
+
             if (rsaKey)
             {
                 _rsa.FromXmlString(symmetricKeyOrAsymmetricKey);
