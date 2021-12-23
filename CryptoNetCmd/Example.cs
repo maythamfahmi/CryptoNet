@@ -33,22 +33,18 @@ public class Example
     public static void Example_1_With_SymmetricKey()
     {
         ICryptoNet encryptClient = new CryptoNet(SymmetricKey);
-        Console.WriteLine("1- We will encrypt following:");
-        Console.WriteLine(ConfidentialDummyData);
+        Console.WriteLine($"1- We will encrypt following: \n {ConfidentialDummyData} \n");
 
         var encrypted = encryptClient.EncryptFromString(ConfidentialDummyData);
-        Console.WriteLine("2- To:");
-        Console.WriteLine(CryptoNetUtils.BytesToString(encrypted));
+        Console.WriteLine($"2- To: \n {CryptoNetUtils.BytesToString(encrypted)} \n");
 
         ICryptoNet decryptClient = new CryptoNet(SymmetricKey);
         var decrypted = decryptClient.DecryptToString(encrypted);
-        Console.WriteLine("3- And we will decrypt it back with correct key:");
-        Console.WriteLine(decrypted);
+        Console.WriteLine($"3- And we will decrypt it back with correct key: \n {decrypted} \n");
 
         ICryptoNet decryptClientWithWrongKey = new CryptoNet("wrong key");
         var decryptWithWrongKey = decryptClientWithWrongKey.DecryptToString(encrypted);
-        Console.WriteLine("4- And we will not be able decrypt it back with wrong key:");
-        Console.WriteLine(decryptWithWrongKey);
+        Console.WriteLine($"4- And we will not be able decrypt it back with wrong key: \n {decryptWithWrongKey} \n");
     }
 
     public static void Example_2_With_SelfGenerated_RsaKeyPair_AsymmetricKey()

@@ -163,14 +163,7 @@ namespace CryptoNetLib
         /// <returns></returns>
         public string DecryptToString(byte[] bytes)
         {
-            try
-            {
-                return CryptoNetUtils.BytesToString(DecryptContent(bytes));
-            }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
+            return CryptoNetUtils.BytesToString(DecryptContent(bytes));
         }
 
         /// <summary>
