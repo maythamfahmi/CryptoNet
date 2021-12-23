@@ -32,25 +32,17 @@ namespace CryptoNetLib
         public CryptoNet(string symmetricKeyOrAsymmetricKey, bool rsaKey = false)
         {
             if (string.IsNullOrWhiteSpace(symmetricKeyOrAsymmetricKey))
-            {
                 throw new Exception("Missing symmetric key Or asymmetric key");
-            }
 
             var parameters = new CspParameters();
             if (!rsaKey)
-            {
                 parameters.KeyContainerName = symmetricKeyOrAsymmetricKey;
-            }
 
-            _rsa = new RSACryptoServiceProvider(parameters)
-            {
-                PersistKeyInCsp = true
-            };
+            _rsa = new RSACryptoServiceProvider(parameters);
+            _rsa.PersistKeyInCsp = true;
 
             if (rsaKey)
-            {
                 _rsa.FromXmlString(symmetricKeyOrAsymmetricKey);
-            }
         }
 
         /// <summary>
