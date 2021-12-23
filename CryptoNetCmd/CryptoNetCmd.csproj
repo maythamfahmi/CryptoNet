@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CryptoNet" Version="0.0.7" />
+    <ProjectReference Include="..\CryptoNetLib\CryptoNetLib.csproj" />
   </ItemGroup>
 
 </Project>
