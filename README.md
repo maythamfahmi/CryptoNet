@@ -1,7 +1,7 @@
 ![Cryptonet](https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg)
 
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
-[![CryptoNet NuGet pre-release version](https://img.shields.io/nuget/vpre/CryptoNet)](https://www.nuget.org/packages/CryptoNet/)
+[![CryptoNet NuGet pre-release version](https://img.shields.io/nuget/vpre/CryptoNet?color=yellow)](https://www.nuget.org/packages/CryptoNet/)
 [![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml)
 [![The Standard - COMPLIANT](https://img.shields.io/badge/The_Standard-COMPLIANT-2ea44f)](https://github.com/hassanhabib/The-Standard)
 [![BCH compliance](https://bettercodehub.com/edge/badge/maythamfahmi/CryptoNet?branch=main)](https://bettercodehub.com/)
@@ -18,6 +18,10 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 ## Versions
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
+
+v1.0.0:
+- Ability to encrypt and decrypt files like, images, word, excel etc.
+- Improvement documentation
 
 ## Issues
 
