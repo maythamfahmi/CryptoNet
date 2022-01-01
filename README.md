@@ -105,14 +105,13 @@ Console.WriteLine(decryptWithPrivateKey);
 ```
 
 ## Build and Testing
-Build and run unit test from 
- 1. Visual Studio
- 2. dotnet commands
- 3. Powershell, run build.ps1
- 4. Docker, you can also run dockerized build and test.
- From solution folder run:
+Build and run unit test from:
+ 1. Visual Studio 2019/2022.
+ 2. dotnet command line.
+ 3. Powershell, run build.ps1 from solution folder.
+ 4. Docker, run following command from solution folder:
 
-```dockerfile
+```
 docker build . --file .\Dockerfile --tag cryptonet-service:latest
 ```
 
