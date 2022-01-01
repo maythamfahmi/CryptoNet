@@ -105,7 +105,7 @@ Console.WriteLine(decryptWithPrivateKey);
 ```
 
 ## Build and Testing
-Build and run unit test from:
+You have different options to build and run unit test from:
  1. Visual Studio 2019/2022.
  2. dotnet command line.
  3. Powershell, run build.ps1 from solution folder.
