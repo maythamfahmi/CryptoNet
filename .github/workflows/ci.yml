@@ -4,12 +4,14 @@ on:
   push:
     branches:
     - main
+    - "feature/*"
   pull_request:
     branches:
     - main
+
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
     - name: Checkout

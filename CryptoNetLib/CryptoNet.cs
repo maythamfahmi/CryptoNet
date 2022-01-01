@@ -8,6 +8,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using CryptoNetLib.helpers;
 using static CryptoNetLib.helpers.KeyHelper;
 
@@ -15,34 +16,39 @@ namespace CryptoNetLib
 {
     public class CryptoNet : ICryptoNet
     {
-        private readonly RSACryptoServiceProvider _rsa;
+        private readonly RSA _rsa;
 
         /// <summary>
-        /// There are 2 way to encrypt and decrypt
-        /// 1. Symmetric way (By default)
-        /// Same key is used to encrypt and decrypt with.
-        /// 2. Asymmetric way
-        /// You have 2 keys, Private and Public key.
-        /// Use Public key to encrypt with and rasKey should set to true
-        /// Use Private key to decrypt with and rasKey should set to true
-        /// You need to generate RSA key pair first (Private/Public key).
+        /// You can pass 2 type of keys, Private and Public key.
+        /// Use Public key to encrypt with.
+        /// Use Private key to decrypt with.
+        /// You need to generate RSA key pair first
+        /// use ExportPrivateKey method for generating Private key.
+        /// use ExportPublicKey method for generating Public key.
         /// </summary>
-        /// <param name="symmetricKeyOrAsymmetricKey"></param>
-        /// <param name="rsaKey"></param>
-        public CryptoNet(string symmetricKeyOrAsymmetricKey, bool rsaKey = false)
+        /// <param name="asymmetricKey"></param>
+        public CryptoNet(string? asymmetricKey = null)
         {
-            if (string.IsNullOrWhiteSpace(symmetricKeyOrAsymmetricKey))
-                throw new Exception("Missing symmetric key Or asymmetric key");
+            _rsa = RSA.Create();
+            _rsa.KeySize = 2048;
+            if (!string.IsNullOrEmpty(asymmetricKey))
+            {
+                _rsa.FromXmlString(asymmetricKey);
+            }
+        }
 
-            var parameters = new CspParameters();
-            if (!rsaKey)
-                parameters.KeyContainerName = symmetricKeyOrAsymmetricKey;
-
-            _rsa = new RSACryptoServiceProvider(parameters);
-            _rsa.PersistKeyInCsp = true;
-
-            if (rsaKey)
-                _rsa.FromXmlString(symmetricKeyOrAsymmetricKey);
+        /// <summary>
+        /// Import certificate from your computer
+        /// You can use helper method like:
+        /// X509Certificate2 certificate = CryptoNetUtils.GetCertificateFromStore("CN=CERTIFICATE_NAME");
+        /// </summary>
+        /// <param name="certificate"></param>
+        public CryptoNet(X509Certificate2? certificate, KeyHelper.KeyType keyType)
+        {
+            RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
+            _rsa = RSA.Create();
+            _rsa.KeySize = 2048;
+            _rsa.ImportParameters(@params);
         }
 
         /// <summary>
@@ -51,25 +57,77 @@ namespace CryptoNetLib
         /// <returns></returns>
         public KeyType GetKeyType()
         {
-            return _rsa.GetKeyType();
+            var privateKey = this.ExportPrivateKey();
+            if (
+                privateKey.Contains("RSAKeyValue") &&
+                privateKey.Contains("Modulus") &&
+                privateKey.Contains("Exponent") &&
+                privateKey.Contains("<P>") &&
+                privateKey.Contains("<DP>") &&
+                privateKey.Contains("<DQ>") &&
+                privateKey.Contains("<InverseQ>") &&
+                privateKey.Contains("<D>")
+            )
+            {
+                return KeyType.PrivateKey;
+            }
+
+            var publicKey = this.ExportPublicKey();
+            if (
+                publicKey.Contains("RSAKeyValue") &&
+                publicKey.Contains("Modulus") &&
+                publicKey.Contains("Exponent") &&
+                !publicKey.Contains("<P>") &&
+                !publicKey.Contains("<DP>") &&
+                !publicKey.Contains("<DQ>") &&
+                !publicKey.Contains("<InverseQ>") &&
+                !publicKey.Contains("<D>")
+            )
+            {
+                return KeyType.PublicKey;
+            }
+
+            return KeyType.NotSet;
         }
 
         /// <summary>
-        /// Export Public Key
+        /// Generate and Export Public Key
         /// </summary>
         /// <returns></returns>
         public string ExportPublicKey()
         {
-            return _rsa.ToXmlString(false);
+            try
+            {
+                return _rsa.ToXmlString(false);
+            }
+            catch (CryptographicException e)
+            {
+                return e.Message;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         /// <summary>
-        /// Export Private Key (RSA Pair key)
+        /// Generate and Export Private Key (RSA Pairs both Private and Public key)
         /// </summary>
         /// <returns></returns>
         public string ExportPrivateKey()
         {
-            return _rsa.ToXmlString(true);
+            try
+            {
+                return _rsa.ToXmlString(true);
+            }
+            catch (CryptographicException e)
+            {
+                return e.Message;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         /// <summary>
@@ -105,7 +163,7 @@ namespace CryptoNetLib
             };
             var transform = rjndl.CreateEncryptor();
 
-            var keyEncrypted = _rsa.Encrypt(rjndl.Key, false);
+            var keyEncrypted = _rsa.Encrypt(rjndl.Key, RSAEncryptionPadding.OaepSHA1);
 
             var lKey = keyEncrypted.Length;
             var lenK = BitConverter.GetBytes(lKey);
@@ -204,7 +262,7 @@ namespace CryptoNetLib
                 inMs.Seek(8 + lenK, SeekOrigin.Begin);
                 inMs.Read(iv, 0, lenIv);
 
-                var keyDecrypted = _rsa.Decrypt(keyEncrypted, false);
+                var keyDecrypted = _rsa.Decrypt(keyEncrypted, RSAEncryptionPadding.OaepSHA1);
 
                 var transform = rjndl.CreateDecryptor(keyDecrypted, iv);
 

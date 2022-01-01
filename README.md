@@ -1,15 +1,14 @@
 ![Cryptonet](https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg)
 
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
-[![CryptoNet NuGet pre-release version](https://img.shields.io/nuget/vpre/CryptoNet?color=yellow)](https://www.nuget.org/packages/CryptoNet/)
 [![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml)
 [![The Standard - COMPLIANT](https://img.shields.io/badge/The_Standard-COMPLIANT-2ea44f)](https://github.com/hassanhabib/The-Standard)
 [![BCH compliance](https://bettercodehub.com/edge/badge/maythamfahmi/CryptoNet?branch=main)](https://bettercodehub.com/)
 [![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/maythamfahmi/CryptoNet/blob/main/LICENSE)
 
 # Introdution
-CryptoNet is a simple and a lightweight symmetric and asymmetric RSA encryption NuGet library. 
-It is a 100% native C# implementation based on RSACryptoServiceProvider class.
+CryptoNet is a simple and a lightweight asymmetric encryption NuGet library. 
+It is a 100% native C# implementation based on RSA factory class.
 
 ## Installation
 
@@ -19,7 +18,13 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
-v1.0.0:
+#### v1.2.0 (Breaking changes)
+- Change from RSACryptoServiceProvider to RSA factory.
+- No longer support for symmertic encryption.
+- Console examples and Unit testing refactored.
+- Support for X509Certificate2.
+
+#### v1.0.0:
 - Ability to encrypt and decrypt files like, images, word, excel etc.
 - Improvement documentation
 
@@ -31,49 +36,51 @@ Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
 
 ### Short intro
 
-There are 2 ways to encrypt and decrypt content:
- 1. Symmetric way (By default): 
-    - Use same key to encrypt and decrypt.
- 3. Asymmetric way
-    - You have 2 keys, Private and Public key.
-    - Use Public key to encrypt.
-    - Use Private key to decrypt.
-    - You need to generate RSA key pair first (Private/Public key).
+The are 2 ways to encrypt and decrypt content:
+ 1. Asymmetric RSA key pair (self generated keys).
+ 2. Asymmetric X509 Certificate (use own certificate).
+
+Both ways:
+ - Have a Private and Public key.
+ - Use Public key to encrypt.
+ - Use Private key to decrypt.
+ - For RSA way, you need to generate RSA key pair first (Private/Public key).
 
 You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
 
 Here is some of the examples:
 
-### Example: Encrypt and Decrypt with Symmetric Key
+### Example: Encrypt and Decrypt Content With SelfGenerated AsymmetricKey
 ```csharp
-ICryptoNet encryptClient = new CryptoNet(SymmetricKey);
-Console.WriteLine("1- We will encrypt following:");
-Console.WriteLine(ConfidentialDummyData);
+ICryptoNet cryptoNet = new CryptoNet();
 
-var encrypted = encryptClient.EncryptFromString(ConfidentialDummyData);
-Console.WriteLine("2- To:");
-Console.WriteLine(CryptoNetUtils.BytesToString(encrypted));
+var privateKey = cryptoNet.ExportPrivateKey();
+var publicKey = cryptoNet.ExportPublicKey();
 
-ICryptoNet decryptClient = new CryptoNet(SymmetricKey);
-var decrypted = decryptClient.DecryptToString(encrypted);
-Console.WriteLine("3- And we will decrypt it back with correct key:");
-Console.WriteLine(decrypted);
+ICryptoNet encryptClient = new CryptoNet(publicKey);
+var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
+Console.WriteLine($"1- We will encrypt following text:\n{ConfidentialDummyData}\n");
+Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encrypt)}\n");
 
-ICryptoNet decryptClientWithWrongKey = new CryptoNet("wrong key");
-var decryptWithWrongKey = decryptClientWithWrongKey.DecryptToString(encrypted);
-Console.WriteLine("4- And we will not be able decrypt it back with wrong key:");
-Console.WriteLine(decryptWithWrongKey);
+ICryptoNet decryptClient = new CryptoNet(privateKey);
+var decrypt = decryptClient.DecryptToString(encrypt);
+Console.WriteLine($"3- And we will decrypt it back to:\n{decrypt}\n");
 ```
 
 ### Example: Generate and Export Asymmetric Key (Private/Public) Key (RasKeyPair)
 ```csharp
-ICryptoNet cryptoNet = new CryptoNet("My-Secret-Key");
+ICryptoNet cryptoNet = new CryptoNet();
 
 CryptoNetUtils.SaveKey(PrivateKeyFile, cryptoNet.ExportPrivateKey());
 CryptoNetUtils.SaveKey(PublicKeyFile, cryptoNet.ExportPublicKey());
 
-var certificate = CryptoNetUtils.LoadFileToString(PrivateKeyFile);
+var privateKey = CryptoNetUtils.LoadFileToString(PrivateKeyFile);
+Console.WriteLine($"The private key generated and saved to file {PrivateKeyFile}");
+Console.WriteLine(privateKey);
+
 var publicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
+Console.WriteLine($"\nThe public key generated and saved to file {PublicKeyFile}");
+Console.WriteLine(publicKey);
 ```
 
 ### Example: Encrypt with Public Key and later Decrypt with Private Key
@@ -97,6 +104,17 @@ Console.WriteLine("6- And use the same certificate to decrypt");
 Console.WriteLine(decryptWithPrivateKey);
 ```
 
+## Build and Testing
+Build and run unit test from 
+ 1. Visual Studio
+ 2. dotnet commands
+ 3. Powershell, run build.ps1
+ 4. Docker, you can also run dockerized build and test.
+ From solution folder run:
+
+```dockerfile
+docker build . --file .\Dockerfile --tag cryptonet-service:latest
+```
 
 ## Contributing
 

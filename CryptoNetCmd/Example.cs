@@ -5,6 +5,7 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNetCmd project</summary>
 
+using System.Security.Cryptography.X509Certificates;
 using CryptoNetLib;
 using CryptoNetLib.helpers;
 
@@ -12,88 +13,90 @@ namespace CryptoNetCmd;
 
 public class Example
 {
-    private const string SymmetricKey = "any-secret-key-that-should-be-the-same-for-encrypting-and-decrypting";
     private const string ConfidentialDummyData = @"Some Secret Data";
 
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
-    private static readonly string? Root = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName;
-    private static readonly string RsaKeyPair = Path.Combine(Root ?? string.Empty, "test.certificate");
 
     internal static string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
     internal static string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
 
-    public static void Main(string[] args)
+    public static void Main()
     {
-        Example_1_With_SymmetricKey();
-        Example_2_With_SelfGenerated_RsaKeyPair_AsymmetricKey();
-        Example_3_SelfGenerated_RsaKeyPair_AsymmetricKey();
-        Example_4_With_Encrypt_With_Public_Key_Decrypt_With_SelfGenerated_RsaKeyPair_AsymmetricKey();
+        Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey();
+        Example_2_SelfGenerated_And_Save_AsymmetricKey();
+        Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content();
+        //Example_4_Using_X509_Certificate();
     }
 
-    public static void Example_1_With_SymmetricKey()
+    public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey()
     {
-        ICryptoNet encryptClient = new CryptoNet(SymmetricKey);
-        Console.WriteLine($"1- We will encrypt following: \n {ConfidentialDummyData} \n");
+        Console.WriteLine("Example 1");
 
-        var encrypted = encryptClient.EncryptFromString(ConfidentialDummyData);
-        Console.WriteLine($"2- To: \n {CryptoNetUtils.BytesToString(encrypted)} \n");
+        ICryptoNet cryptoNet = new CryptoNet();
 
-        ICryptoNet decryptClient = new CryptoNet(SymmetricKey);
-        var decrypted = decryptClient.DecryptToString(encrypted);
-        Console.WriteLine($"3- And we will decrypt it back with correct key: \n {decrypted} \n");
+        var privateKey = cryptoNet.ExportPrivateKey();
+        var publicKey = cryptoNet.ExportPublicKey();
 
-        ICryptoNet decryptClientWithWrongKey = new CryptoNet("wrong key");
-        var decryptWithWrongKey = decryptClientWithWrongKey.DecryptToString(encrypted);
-        Console.WriteLine($"4- And we will not be able decrypt it back with wrong key: \n {decryptWithWrongKey} \n");
+        ICryptoNet encryptClient = new CryptoNet(publicKey);
+        var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
+        Console.WriteLine($"1- We will encrypt following text:\n{ConfidentialDummyData}\n");
+        Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encrypt)}\n");
+
+        ICryptoNet decryptClient = new CryptoNet(privateKey);
+        var decrypt = decryptClient.DecryptToString(encrypt);
+        Console.WriteLine($"3- And we will decrypt it back to:\n{decrypt}\n");
+        Console.WriteLine();
     }
 
-    public static void Example_2_With_SelfGenerated_RsaKeyPair_AsymmetricKey()
+    public static void Example_2_SelfGenerated_And_Save_AsymmetricKey()
     {
-        ICryptoNet cryptoNet = new CryptoNet(CryptoNetUtils.LoadFileToString(RsaKeyPair), true);
-        var encryptClient = cryptoNet.EncryptFromString(ConfidentialDummyData);
-        Console.WriteLine("1- This time we use a certificate to encrypt");
-        Console.WriteLine(CryptoNetUtils.BytesToString(encryptClient));
+        Console.WriteLine("Example 2");
 
-        ICryptoNet decryptClient = new CryptoNet(CryptoNetUtils.LoadFileToString(RsaKeyPair), true);
-        var encrypted4 = decryptClient.DecryptToString(encryptClient);
-        Console.WriteLine("6- And use the same certificate to decrypt");
-        Console.WriteLine(encrypted4);
-    }
-
-    public static void Example_3_SelfGenerated_RsaKeyPair_AsymmetricKey()
-    {
-        ICryptoNet cryptoNet = new CryptoNet("My-Secret-Key");
+        ICryptoNet cryptoNet = new CryptoNet();
 
         CryptoNetUtils.SaveKey(PrivateKeyFile, cryptoNet.ExportPrivateKey());
         CryptoNetUtils.SaveKey(PublicKeyFile, cryptoNet.ExportPublicKey());
 
-        var certificate = CryptoNetUtils.LoadFileToString(PrivateKeyFile);
-        var publicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
+        var privateKey = CryptoNetUtils.LoadFileToString(PrivateKeyFile);
+        Console.WriteLine($"The private key generated and saved to file {PrivateKeyFile}");
+        Console.WriteLine(privateKey);
 
-        Console.WriteLine(certificate);
-        Console.WriteLine();
+        var publicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
+        Console.WriteLine($"\nThe public key generated and saved to file {PublicKeyFile}");
         Console.WriteLine(publicKey);
+        Console.WriteLine();
     }
 
-    public static void Example_4_With_Encrypt_With_Public_Key_Decrypt_With_SelfGenerated_RsaKeyPair_AsymmetricKey()
+    // This example depending on example 2
+    public static void Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content()
     {
-        var certificate = CryptoNetUtils.LoadFileToString(RsaKeyPair);
-        // Export public key
-        ICryptoNet cryptoNet = new CryptoNet(certificate, true);
-        var publicKey = cryptoNet.ExportPublicKey();
-        CryptoNetUtils.SaveKey(PublicKeyFile, publicKey);
+        Console.WriteLine("Example 3");
 
-        // Import public key and encrypt
-        var importPublicKey = CryptoNetUtils.LoadFileToString(PublicKeyFile);
-        ICryptoNet cryptoNetEncryptWithPublicKey = new CryptoNet(importPublicKey, true);
-        var encryptWithPublicKey = cryptoNetEncryptWithPublicKey.EncryptFromString(ConfidentialDummyData);
-        Console.WriteLine("1- This time we use a certificate public key to encrypt");
-        Console.WriteLine(CryptoNetUtils.BytesToString(encryptWithPublicKey));
+        ICryptoNet cryptoNetWithPublicKey = new CryptoNet(CryptoNetUtils.LoadFileToString(PublicKeyFile));
+        var encryptWithPublicKey = cryptoNetWithPublicKey.EncryptFromString(ConfidentialDummyData);
+        Console.WriteLine($"1- We load public key to encrypt following text:\n{ConfidentialDummyData}\n");
+        Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encryptWithPublicKey)}\n");
 
-        ICryptoNet cryptoNetDecryptWithPublicKey = new CryptoNet(certificate, true);
-        var decryptWithPrivateKey = cryptoNetDecryptWithPublicKey.DecryptToString(encryptWithPublicKey);
-        Console.WriteLine("6- And use the same certificate to decrypt");
-        Console.WriteLine(decryptWithPrivateKey);
+        ICryptoNet cryptoNetWithPrivateKey = new CryptoNet(CryptoNetUtils.LoadFileToString(PrivateKeyFile));
+        var decryptWithPrivateKey = cryptoNetWithPrivateKey.DecryptToString(encryptWithPublicKey);
+        Console.WriteLine($"3- And we load private key to decrypt it back to:\n{decryptWithPrivateKey}");
+    }
+
+    public static void Example_4_Using_X509_Certificate()
+    {
+        Console.WriteLine("Example 4");
+
+        // Find and replace CN=Maytham with your own certificate
+        X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+
+        ICryptoNet cryptoNetWithPublicKey = new CryptoNet(certificate, KeyHelper.KeyType.PublicKey);
+        var encryptWithPublicKey = cryptoNetWithPublicKey.EncryptFromString(ConfidentialDummyData);
+        Console.WriteLine($"1- We get public key from Certificate to encrypt following text:\n{ConfidentialDummyData}\n");
+        Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encryptWithPublicKey)}\n");
+
+        ICryptoNet cryptoNetWithPrivateKey = new CryptoNet(certificate, KeyHelper.KeyType.PrivateKey);
+        var decryptWithPrivateKey = cryptoNetWithPrivateKey.DecryptToString(encryptWithPublicKey);
+        Console.WriteLine($"3- And we get private key from Certificate to decrypt it back to:\n{decryptWithPrivateKey}");
     }
 
 }

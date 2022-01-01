@@ -5,7 +5,10 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of helpers project</summary>
 
+using System;
 using System.IO;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace CryptoNetLib.helpers
@@ -43,5 +46,30 @@ namespace CryptoNetLib.helpers
             var bytes = StringToBytes(content);
             SaveKey(filename, bytes);
         }
+
+        public static RSAParameters GetParameters(X509Certificate2? certificate, KeyHelper.KeyType keyType)
+        {
+            return certificate.GetRSAPrivateKey().ExportParameters(keyType == KeyHelper.KeyType.PrivateKey);
+        }
+
+        public static X509Certificate2? GetCertificateFromStore(string certName)
+        {
+            X509Store store = new X509Store(StoreLocation.CurrentUser);
+
+            try
+            {
+                store.Open(OpenFlags.ReadOnly);
+
+                X509Certificate2Collection certCollection = store.Certificates;
+                X509Certificate2Collection currentCerts = certCollection.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
+                X509Certificate2Collection signingCert = currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, false);
+                return signingCert.Count == 0 ? null : signingCert[0];
+            }
+            finally
+            {
+                store.Close();
+            }
+        }
+
     }
 }
