@@ -26,6 +26,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7FEF6D01-1
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test Files", "Test Files", "{177399D9-2212-4AFD-9BD6-8050A79C76D1}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\TestFiles\ExcelDocument.xlsx = Resources\TestFiles\ExcelDocument.xlsx
+		Resources\TestFiles\Image.png = Resources\TestFiles\Image.png
+		Resources\TestFiles\WordDocument.docx = Resources\TestFiles\WordDocument.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
