@@ -18,13 +18,13 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
-v1.2.0
+#### v1.2.0 (Breaking changes)
 - Change from RSACryptoServiceProvider to RSA factory.
 - No longer support for symmertic encryption.
 - Console examples and Unit testing refactored.
 - Support for X509Certificate2.
 
-v1.0.0:
+#### v1.0.0:
 - Ability to encrypt and decrypt files like, images, word, excel etc.
 - Improvement documentation
 
