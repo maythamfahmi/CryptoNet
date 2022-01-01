@@ -104,6 +104,14 @@ Console.WriteLine("6- And use the same certificate to decrypt");
 Console.WriteLine(decryptWithPrivateKey);
 ```
 
+## Testing
+Run unit test from Visual Studio, you can also run dockerized build and test.
+
+From solution folder run:
+
+```dockerfile
+docker build . --file .\Dockerfile --tag cryptonet-service:latest
+```
 
 ## Contributing
 

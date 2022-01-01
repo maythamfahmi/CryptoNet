@@ -4,4 +4,3 @@ COPY . .
 
 RUN dotnet restore
 RUN dotnet test
-#RUN dotnet publish -c Release -o out
