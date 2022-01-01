@@ -24,8 +24,8 @@ namespace CryptoNetUnitTests
         private const string ConfidentialDummyData = @"Some Secret Data";
 
         private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
-        private readonly string _rsaStoredKeyPair = Path.Combine(BaseFolder, @"Resources\RsaKeys\RsaKeys");
-        private readonly string _testFilesFolder = Path.Combine(BaseFolder, @"Resources\TestFiles\");
+        private readonly string _rsaStoredKeyPair = Path.Combine(BaseFolder, @"Resources/RsaKeys/RsaKeys");
+        private readonly string _testFilesFolder = Path.Combine(BaseFolder, @"Resources/TestFiles/");
 
         internal static string EncryptedContentFile = Path.Combine(BaseFolder, "encrypted.txt");
         internal static string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");

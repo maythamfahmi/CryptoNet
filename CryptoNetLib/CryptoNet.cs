@@ -29,16 +29,9 @@ namespace CryptoNetLib
         /// <param name="asymmetricKey"></param>
         public CryptoNet(string? asymmetricKey = null)
         {
-            var rsa = new RSACryptoServiceProvider();
-            RSAParameters @params = rsa.ExportParameters(true);
-
             _rsa = RSA.Create();
             _rsa.KeySize = 2048;
-            if (string.IsNullOrEmpty(asymmetricKey))
-            {
-                _rsa.ImportParameters(@params);
-            }
-            else
+            if (!string.IsNullOrEmpty(asymmetricKey))
             {
                 _rsa.FromXmlString(asymmetricKey);
             }
@@ -50,9 +43,9 @@ namespace CryptoNetLib
         /// X509Certificate2 certificate = CryptoNetUtils.GetCertificateFromStore("CN=CERTIFICATE_NAME");
         /// </summary>
         /// <param name="certificate"></param>
-        public CryptoNet(X509Certificate2 certificate)
+        public CryptoNet(X509Certificate2? certificate, KeyHelper.KeyType keyType)
         {
-            RSAParameters @params = certificate.GetRSAPrivateKey().ExportParameters(true);
+            RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
             _rsa = RSA.Create();
             _rsa.KeySize = 2048;
             _rsa.ImportParameters(@params);

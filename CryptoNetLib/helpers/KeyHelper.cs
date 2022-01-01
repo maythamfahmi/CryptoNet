@@ -17,9 +17,6 @@ namespace CryptoNetLib.helpers
             [Description("Key does not exist.")]
             NotSet,
 
-            [Description("Asymmetric key is set.")]
-            AsymmetricKey,
-
             [Description("Public key is set.")]
             PublicKey,
 
