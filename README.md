@@ -7,7 +7,7 @@
 [![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/maythamfahmi/CryptoNet/blob/main/LICENSE)
 
 # Introdution
-CryptoNet is a simple and a lightweight symmetric and asymmetric RSA encryption NuGet library. 
+CryptoNet is a simple and a lightweight asymmetric encryption NuGet library. 
 It is a 100% native C# implementation based on RSA factory class.
 
 ## Installation
@@ -21,8 +21,8 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 v1.2.0
 - Change from RSACryptoServiceProvider to RSA factory.
 - No longer support for symmertic encryption.
-- Support for X509Certificate2.
 - Console examples and Unit testing refactored.
+- Support for X509Certificate2.
 
 v1.0.0:
 - Ability to encrypt and decrypt files like, images, word, excel etc.
