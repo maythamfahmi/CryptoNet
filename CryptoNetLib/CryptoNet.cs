@@ -34,6 +34,7 @@ namespace CryptoNetLib
             if (!string.IsNullOrEmpty(asymmetricKey))
             {
                 _rsa.FromXmlString(asymmetricKey);
+                var x = _rsa.KeyExchangeAlgorithm;
             }
         }
 
@@ -57,37 +58,19 @@ namespace CryptoNetLib
         /// <returns></returns>
         public KeyType GetKeyType()
         {
-            var privateKey = this.ExportPrivateKey();
-            if (
-                privateKey.Contains("RSAKeyValue") &&
-                privateKey.Contains("Modulus") &&
-                privateKey.Contains("Exponent") &&
-                privateKey.Contains("<P>") &&
-                privateKey.Contains("<DP>") &&
-                privateKey.Contains("<DQ>") &&
-                privateKey.Contains("<InverseQ>") &&
-                privateKey.Contains("<D>")
-            )
+            try
             {
+                _rsa.ExportParameters(true);
                 return KeyType.PrivateKey;
             }
-
-            var publicKey = this.ExportPublicKey();
-            if (
-                publicKey.Contains("RSAKeyValue") &&
-                publicKey.Contains("Modulus") &&
-                publicKey.Contains("Exponent") &&
-                !publicKey.Contains("<P>") &&
-                !publicKey.Contains("<DP>") &&
-                !publicKey.Contains("<DQ>") &&
-                !publicKey.Contains("<InverseQ>") &&
-                !publicKey.Contains("<D>")
-            )
+            catch (CryptographicException)
             {
                 return KeyType.PublicKey;
             }
-
-            return KeyType.NotSet;
+            catch(Exception)
+            {
+                return KeyType.NotSet;
+            }
         }
 
         /// <summary>
