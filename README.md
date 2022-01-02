@@ -50,7 +50,7 @@ You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNe
 
 Here is some of the examples:
 
-### Example: Encrypt and Decrypt Content With SelfGenerated AsymmetricKey
+### Example: Encrypt and Decrypt Content With Self-Generated Asymmetric Key
 ```csharp
 ICryptoNet cryptoNet = new CryptoNet();
 
