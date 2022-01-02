@@ -34,7 +34,6 @@ namespace CryptoNetLib
             if (!string.IsNullOrEmpty(asymmetricKey))
             {
                 _rsa.FromXmlString(asymmetricKey);
-                var x = _rsa.KeyExchangeAlgorithm;
             }
         }
 
