@@ -40,7 +40,7 @@ The library can use its own self-generated RSA key pairs (Private/Public key) to
 
 You can store the private key on one or more machines. The public key can easily distribute to all clients.
 
-> Note: Please be aware of not to distribute private key publicly and keep it in a safe place. If private key mistakenly gets exposed, you need to re-issue new keys. The content > that is already encrypted with private key, can not be decrypted back with the new generated private key. So before updating private key or deleting the old key ensure all your content are decrypted, other wise you lose the content.
+> Note: Please be aware of not to distribute private key publicly and keep it in a safe place. If private key mistakenly gets exposed, you need to re-issue new keys. The content that is already encrypted with private key, can not be decrypted back with the new generated private key. So before updating private key or deleting the old key ensure all your content are decrypted, other wise you lose the content.
 
 It is also possible to use asymmetric keys of X509 Certificate instead of generating your own keys.
 
