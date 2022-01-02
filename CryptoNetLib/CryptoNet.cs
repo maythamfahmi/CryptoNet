@@ -43,7 +43,8 @@ namespace CryptoNetLib
         /// X509Certificate2 certificate = CryptoNetUtils.GetCertificateFromStore("CN=CERTIFICATE_NAME");
         /// </summary>
         /// <param name="certificate"></param>
-        public CryptoNet(X509Certificate2? certificate, KeyHelper.KeyType keyType)
+        /// <param name="keyType"></param>
+        public CryptoNet(X509Certificate2? certificate, KeyType keyType)
         {
             RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
             _rsa = RSA.Create();
