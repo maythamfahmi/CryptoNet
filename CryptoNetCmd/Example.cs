@@ -26,6 +26,7 @@ public class Example
         Example_2_SelfGenerated_And_Save_AsymmetricKey();
         Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content();
         //Example_4_Using_X509_Certificate();
+        //Example_5_Export_Public_Key_For_X509_Certificate();
     }
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey()
@@ -97,6 +98,18 @@ public class Example
         ICryptoNet cryptoNetWithPrivateKey = new CryptoNet(certificate, KeyHelper.KeyType.PrivateKey);
         var decryptWithPrivateKey = cryptoNetWithPrivateKey.DecryptToString(encryptWithPublicKey);
         Console.WriteLine($"3- And we get private key from Certificate to decrypt it back to:\n{decryptWithPrivateKey}");
+    }
+
+    public static void Example_5_Export_Public_Key_For_X509_Certificate()
+    {
+        Console.WriteLine("Example 4");
+
+        // Find and replace CN=Maytham with your own certificate
+        X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+
+        ICryptoNet cryptoNetWithPublicKey = new CryptoNet(certificate, KeyHelper.KeyType.PublicKey);
+        var publicKey = cryptoNetWithPublicKey.ExportPublicKey();
+        Console.WriteLine($"We export public key from Certificate so we can use it on other clients to encrypt content:\n{publicKey}\n");
     }
 
 }
