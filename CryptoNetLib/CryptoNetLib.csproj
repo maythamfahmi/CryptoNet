@@ -1,51 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<LangVersion>8.0</LangVersion>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
 
-	<PropertyGroup>
-		<PackageId>CryptoNet</PackageId>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
-		<ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
-		<PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Company>NextBix</Company>
-		<Authors>Maytham Fahmi</Authors>
-		<Version>0.0.5</Version>
-		<Title>CryptoNet</Title>
-		<Product>CryptoNet</Product>
-		<RootNamespace>CryptoNetLib</RootNamespace>
-		<AssemblyName>CryptoNetLib</AssemblyName>
-		<PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
-		<PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; Symmetric; RSA</PackageTags>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Copyright>Copyright © 2020</Copyright>
-	</PropertyGroup>
+  <PropertyGroup>
+    <PackageId>CryptoNet</PackageId>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
+    <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
+    <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Company>NextBix</Company>
+    <Authors>Maytham Fahmi</Authors>
+    <Version>1.0.0</Version>
+    <Title>CryptoNet</Title>
+    <Product>CryptoNet</Product>
+    <RootNamespace>CryptoNetLib</RootNamespace>
+    <AssemblyName>CryptoNetLib</AssemblyName>
+    <PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
+    <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA</PackageTags>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright © 2020</Copyright>
+  </PropertyGroup>
 
-	<Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
-		<PropertyGroup>
-			<Description>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../RELEASE-NOTES"))</Description>
-		</PropertyGroup>
-	</Target>
+  <Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <Description>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../RELEASE-NOTES"))</Description>
+    </PropertyGroup>
+  </Target>
 
-	<ItemGroup>
-	  <Content Include="CryptoNetLogo-icon.ico" />
-	</ItemGroup>
+  <ItemGroup>
+    <Content Include="CryptoNetLogo-icon.ico" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <None Include="..\img\CryptoNetLogo-icon.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\img\CryptoNetLogo-icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
