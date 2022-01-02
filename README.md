@@ -8,7 +8,7 @@
 
 # Introdution
 CryptoNet is a simple and a lightweight asymmetric encryption NuGet library. 
-It is a 100% native C# implementation based on RSA factory class.
+It is a 100% native C# implementation based on [RSA](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa?view=net-6.0) factory class.
 
 ## Installation
 
@@ -20,7 +20,7 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 #### v1.2.0 (Breaking changes)
 - Change from RSACryptoServiceProvider to RSA factory.
-- No longer support for symmertic encryption.
+- No longer support for symmertic encryption from version 1.0.0.
 - Console examples and Unit testing refactored.
 - Support for X509Certificate2.
 
@@ -36,15 +36,15 @@ Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
 
 ### Short intro
 
-The are 2 ways to encrypt and decrypt content:
- 1. Asymmetric RSA key pair (self generated keys).
- 2. Asymmetric X509 Certificate (use own certificate).
+The library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
 
-Both ways:
- - Have a Private and Public key.
- - Use Public key to encrypt.
- - Use Private key to decrypt.
- - For RSA way, you need to generate RSA key pair first (Private/Public key).
+You can store the private key on one or more machines. The public key can easily distribute to all clients.
+
+> Note: Please be aware of not to distribute private key publicly and keep it in a safe place. If private key mistakenly gets exposed, you need to re-issue new keys. The content > that is already encrypted with private key, can not be decrypted back with the new generated private key. So before updating private key or deleting the old key ensure all your content are decrypted, other wise you lose the content.
+
+It is also possible to use asymmetric keys of X509 Certificate instead of generating your own keys.
+
+The main concept with asymmertice encryption, is that you have a Private and Public key. You use Public key to encrypt the content with and use Private key to decrypt the content back again.
 
 You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
 
@@ -100,8 +100,23 @@ Console.WriteLine(CryptoNetUtils.BytesToString(encryptWithPublicKey));
 
 ICryptoNet cryptoNetDecryptWithPublicKey = new CryptoNet(certificate, true);
 var decryptWithPrivateKey = cryptoNetDecryptWithPublicKey.DecryptToString(encryptWithPublicKey);
-Console.WriteLine("6- And use the same certificate to decrypt");
+Console.WriteLine("2- And use the same certificate to decrypt");
 Console.WriteLine(decryptWithPrivateKey);
+```
+
+### Example: Use X509 certificate to Encrypt with Public Key and later Decrypt with Private Key
+```csharp
+// Find and replace CN=Maytham with your own certificate
+X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+
+ICryptoNet cryptoNetWithPublicKey = new CryptoNet(certificate, KeyHelper.KeyType.PublicKey);
+var encryptWithPublicKey = cryptoNetWithPublicKey.EncryptFromString(ConfidentialDummyData);
+Console.WriteLine($"1- We get public key from Certificate to encrypt following text:\n{ConfidentialDummyData}\n");
+Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encryptWithPublicKey)}\n");
+
+ICryptoNet cryptoNetWithPrivateKey = new CryptoNet(certificate, KeyHelper.KeyType.PrivateKey);
+var decryptWithPrivateKey = cryptoNetWithPrivateKey.DecryptToString(encryptWithPublicKey);
+Console.WriteLine($"3- And we get private key from Certificate to decrypt it back to:\n{decryptWithPrivateKey}");
 ```
 
 ## Build and Testing
