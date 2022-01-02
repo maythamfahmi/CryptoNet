@@ -44,7 +44,7 @@ You can store the private key on one or more machines. The public key can easily
 
 It is also possible to use asymmetric keys of X509 Certificate instead of generating your own keys.
 
-The main concept with asymmertice encryption, is that you have a Private and Public key. You use Public key to encrypt the content with and use Private key to decrypt the content back again.
+The main concept with asymmetric encryption, is that you have a Private and Public key. You use Public key to encrypt the content with and use Private key to decrypt the content back again.
 
 You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
 
