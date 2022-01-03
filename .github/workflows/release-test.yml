@@ -23,7 +23,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Set VERSION variable from tag
-      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      run: echo "VERSION=1.2.0"
+      #run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
     - name: Build
       run: dotnet build --configuration Release /p:Version=${VERSION}
     - name: Test
