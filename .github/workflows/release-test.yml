@@ -13,8 +13,8 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Verify commit exists in origin/main
-      run: git branch --remote --contains | grep origin/main
+    #- name: Verify commit exists in origin/main
+    #  run: git branch --remote --contains | grep origin/main
     - name: Extract release notes
       run: |
         git log --pretty=format:'%d %s' ${GITHUB_REF} | perl -pe 's| \(.*tag: v(\d+.\d+.\d+(-preview\d{3})?)(, .*?)*\)|\n## \1\n|g' > RELEASE-NOTES
