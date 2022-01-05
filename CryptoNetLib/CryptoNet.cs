@@ -16,6 +16,15 @@ namespace CryptoNetLib
 {
     //todo: add constructor to take symmetric key only for windows
     //check this: https://stackoverflow.com/questions/30153797/c-sharp-preprocessor-differentiate-between-operating-systems
+    //todo: re-intro
+    //var parameters = new CspParameters();
+    //if (!rsaKey)
+    //    parameters.KeyContainerName = symmetricKeyOrAsymmetricKey;
+
+    //_rsa = new RSACryptoServiceProvider(parameters);
+    //_rsa.PersistKeyInCsp = true;
+
+    //todo: adding test
 
     public class CryptoNet : ICryptoNet
     {
