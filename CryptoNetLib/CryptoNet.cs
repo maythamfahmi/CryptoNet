@@ -14,6 +14,9 @@ using static CryptoNetLib.helpers.KeyHelper;
 
 namespace CryptoNetLib
 {
+    //todo: add constructor to take symmetric key only for windows
+    //check this: https://stackoverflow.com/questions/30153797/c-sharp-preprocessor-differentiate-between-operating-systems
+
     public class CryptoNet : ICryptoNet
     {
         private readonly RSA _rsa;
