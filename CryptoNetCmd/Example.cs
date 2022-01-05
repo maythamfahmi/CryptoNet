@@ -6,6 +6,10 @@
 // <summary>part of CryptoNetCmd project</summary>
 
 using System.Security.Cryptography.X509Certificates;
+using ADotNet.Clients;
+using ADotNet.Models.Pipelines.GithubPipelines.DotNets;
+using ADotNet.Models.Pipelines.GithubPipelines.DotNets.Tasks;
+using ADotNet.Models.Pipelines.GithubPipelines.DotNets.Tasks.SetupDotNetTaskV1s;
 using CryptoNetLib;
 using CryptoNetLib.helpers;
 
@@ -22,12 +26,81 @@ public class Example
 
     public static void Main()
     {
-        Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey();
-        Example_2_SelfGenerated_And_Save_AsymmetricKey();
-        Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content();
+        //Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey();
+        //Example_2_SelfGenerated_And_Save_AsymmetricKey();
+        //Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content();
         //Example_4_Using_X509_Certificate();
         //Example_5_Export_Public_Key_For_X509_Certificate();
+        YamlGenerator();
     }
+
+    public static void YamlGenerator()
+    {
+        var adoClient = new ADotNetClient();
+
+        var aspNetPipeline = new GithubPipeline()
+        {
+            Name = ".NET",
+
+            OnEvents = new Events()
+            {
+                Push = new PushEvent()
+                {
+                    Branches = new []
+                    {
+                        "main",
+                        "feature/*",
+                        "!feature/ci*"
+                    }
+                },
+                PullRequest = new PullRequestEvent()
+                {
+                    Branches = new []
+                    {
+                        "main"
+                    }
+                }
+            },
+
+            Jobs = new Jobs()
+            {
+                Build = new BuildJob()
+                {
+                    RunsOn = "ubuntu-latest",
+                    Steps = new List<GithubTask>()
+                    {
+                        new CheckoutTaskV2()
+                        {
+                            Name = "Checkout",
+                            Uses = "actions/checkout@v2"
+                        },
+                        new SetupDotNetTaskV1()
+                        {
+                            Name = "Setup .NET",
+                            Uses = "actions/setup-dotnet@v1",
+                            TargetDotNetVersion = new TargetDotNetVersion()
+                            {
+                                DotNetVersion = "6.0.x"
+                            }
+                        },
+                        new DotNetBuildTask()
+                        {
+                            Name = "Build",
+                            Run = "dotnet build --configuration Release"
+                        },
+                        new TestTask()
+                        {
+                            Name = "Test",
+                            Run = "dotnet test --configuration Release --no-build"
+                        }
+                    }
+                }
+            }
+        };
+
+        //adoClient.SerializeAndWriteToFile(aspNetPipeline, "../../ci.yaml");
+    }
+
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey()
     {
