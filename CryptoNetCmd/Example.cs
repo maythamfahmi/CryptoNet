@@ -31,76 +31,9 @@ public class Example
         //Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content();
         //Example_4_Using_X509_Certificate();
         //Example_5_Export_Public_Key_For_X509_Certificate();
-        YamlGenerator();
+        //Example_6_Encrypt_Decrypt_Content_With_SymmetricKey();
+        //YamlGenerator();
     }
-
-    public static void YamlGenerator()
-    {
-        var adoClient = new ADotNetClient();
-
-        var aspNetPipeline = new GithubPipeline()
-        {
-            Name = ".NET",
-
-            OnEvents = new Events()
-            {
-                Push = new PushEvent()
-                {
-                    Branches = new []
-                    {
-                        "main",
-                        "feature/*",
-                        "!feature/ci*"
-                    }
-                },
-                PullRequest = new PullRequestEvent()
-                {
-                    Branches = new []
-                    {
-                        "main"
-                    }
-                }
-            },
-
-            Jobs = new Jobs()
-            {
-                Build = new BuildJob()
-                {
-                    RunsOn = "ubuntu-latest",
-                    Steps = new List<GithubTask>()
-                    {
-                        new CheckoutTaskV2()
-                        {
-                            Name = "Checkout",
-                            Uses = "actions/checkout@v2"
-                        },
-                        new SetupDotNetTaskV1()
-                        {
-                            Name = "Setup .NET",
-                            Uses = "actions/setup-dotnet@v1",
-                            TargetDotNetVersion = new TargetDotNetVersion()
-                            {
-                                DotNetVersion = "6.0.x"
-                            }
-                        },
-                        new DotNetBuildTask()
-                        {
-                            Name = "Build",
-                            Run = "dotnet build --configuration Release"
-                        },
-                        new TestTask()
-                        {
-                            Name = "Test",
-                            Run = "dotnet test --configuration Release --no-build"
-                        }
-                    }
-                }
-            }
-        };
-
-        //adoClient.SerializeAndWriteToFile(aspNetPipeline, "../../ci.yaml");
-    }
-
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey()
     {
@@ -184,5 +117,89 @@ public class Example
         var publicKey = cryptoNetWithPublicKey.ExportPublicKey();
         Console.WriteLine($"We export public key from Certificate so we can use it on other clients to encrypt content:\n{publicKey}\n");
     }
+
+    public static void Example_6_Encrypt_Decrypt_Content_With_SymmetricKey()
+    {
+        var symmetricKey = "AnySecretKey";
+
+        ICryptoNet encryptClient = new CryptoNet(symmetricKey, true);
+        var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
+        Console.WriteLine($"1- We will encrypt following text:\n{ConfidentialDummyData}\n");
+        Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encrypt)}\n");
+
+        ICryptoNet decryptClient = new CryptoNet(symmetricKey, true);
+        var decrypt = decryptClient.DecryptToString(encrypt);
+        Console.WriteLine($"3- And we will decrypt it back to:\n{decrypt}\n");
+        Console.WriteLine();
+    }
+
+    //todo work in progress
+    public static void YamlGenerator()
+    {
+        var adoClient = new ADotNetClient();
+
+        var aspNetPipeline = new GithubPipeline()
+        {
+            Name = ".NET",
+
+            OnEvents = new Events()
+            {
+                Push = new PushEvent()
+                {
+                    Branches = new[]
+                    {
+                        "main",
+                        "feature/*",
+                        "!feature/ci*"
+                    }
+                },
+                PullRequest = new PullRequestEvent()
+                {
+                    Branches = new[]
+                    {
+                        "main"
+                    }
+                }
+            },
+
+            Jobs = new Jobs()
+            {
+                Build = new BuildJob()
+                {
+                    RunsOn = "ubuntu-latest",
+                    Steps = new List<GithubTask>()
+                    {
+                        new CheckoutTaskV2()
+                        {
+                            Name = "Checkout",
+                            Uses = "actions/checkout@v2"
+                        },
+                        new SetupDotNetTaskV1()
+                        {
+                            Name = "Setup .NET",
+                            Uses = "actions/setup-dotnet@v1",
+                            TargetDotNetVersion = new TargetDotNetVersion()
+                            {
+                                DotNetVersion = "6.0.x"
+                            }
+                        },
+                        new DotNetBuildTask()
+                        {
+                            Name = "Build",
+                            Run = "dotnet build --configuration Release"
+                        },
+                        new TestTask()
+                        {
+                            Name = "Test",
+                            Run = "dotnet test --configuration Release --no-build"
+                        }
+                    }
+                }
+            }
+        };
+
+        //adoClient.SerializeAndWriteToFile(aspNetPipeline, "../../ci.yaml");
+    }
+
 
 }
