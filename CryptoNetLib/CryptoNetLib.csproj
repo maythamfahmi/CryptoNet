@@ -4,18 +4,18 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <PackageId>CryptoNet</PackageId>
     <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/maythamfahmi/CryptoNet</PackageProjectUrl>
     <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
     <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
     <Company>NextBix</Company>
     <Authors>Maytham Fahmi</Authors>
-    <Version>1.0.0</Version>
+    <MinClientVersion>1.0.0</MinClientVersion>
+    <Version>1.2.0</Version>
     <Title>CryptoNet</Title>
     <Product>CryptoNet</Product>
     <RootNamespace>CryptoNetLib</RootNamespace>
@@ -25,6 +25,11 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright © 2020</Copyright>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
@@ -35,17 +40,14 @@
 
   <ItemGroup>
     <Content Include="CryptoNetLogo-icon.ico" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\img\CryptoNetLogo-icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\img\CryptoNetLogo-icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

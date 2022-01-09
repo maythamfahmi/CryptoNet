@@ -1,14 +1,17 @@
 ![Cryptonet](https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg)
 
+[![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/maythamfahmi/CryptoNet/blob/main/LICENSE)
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
 [![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml)
+[![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/bezzad/Downloader)
 [![The Standard - COMPLIANT](https://img.shields.io/badge/The_Standard-COMPLIANT-2ea44f)](https://github.com/hassanhabib/The-Standard)
 [![BCH compliance](https://bettercodehub.com/edge/badge/maythamfahmi/CryptoNet?branch=main)](https://bettercodehub.com/)
-[![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/maythamfahmi/CryptoNet/blob/main/LICENSE)
+
 
 # Introdution
-CryptoNet is a simple and a lightweight asymmetric encryption NuGet library. 
+:rocket: CryptoNet is simple, fast and a lightweight asymmetric encryption NuGet library supporting .NET Standard 2.0.
 It is a 100% native C# implementation based on [RSA](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa?view=net-6.0) factory class.
+It does not depending on other library.
 
 ## Installation
 
@@ -18,13 +21,13 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
-#### v1.2.0 (Breaking changes)
+#### [![Nuget](https://img.shields.io/badge/nuget-v1.2.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.2.0) - [Release code 1.2.0](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.2.0)
 - Change from RSACryptoServiceProvider to RSA factory that support cross platforms (Windows, Linux, iOS).
 - No longer support for symmertic encryption from version 1.0.0.
 - Console examples and Unit testing refactored.
 - Support for X509Certificate2.
 
-#### v1.0.0:
+#### [![Nuget](https://img.shields.io/badge/nuget-v1.0.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.0.0) - [Release code 1.0.0](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.0.0)
 - Ability to encrypt and decrypt files like, images, word, excel etc.
 - Improvement documentation
 
@@ -32,7 +35,7 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
 
-## Using / Documentation
+## How to use
 
 ### Short intro
 
@@ -49,6 +52,8 @@ The main concept with asymmetric encryption, is that you have a Private and Publ
 You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
 
 Here is some of the examples:
+
+### Examples
 
 ### Example: Encrypt and Decrypt Content With Self-Generated Asymmetric Key
 ```csharp
