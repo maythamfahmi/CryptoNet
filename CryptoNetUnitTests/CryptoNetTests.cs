@@ -34,39 +34,45 @@ namespace CryptoNetUnitTests
         [Test]
         public void Encrypt_And_Decrypt_With_SymmetricKey_Test()
         {
-            // arrange
-            var symmetricKey = "AnySecretKey";
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                // arrange
+                var symmetricKey = "AnySecretKey";
 
-            ICryptoNet encryptClient = new CryptoNet(symmetricKey, true);
-            ICryptoNet decryptClient = new CryptoNet(symmetricKey, true);
+                ICryptoNet encryptClient = new CryptoNet(symmetricKey, true);
+                ICryptoNet decryptClient = new CryptoNet(symmetricKey, true);
 
-            // act
-            var encryptData = encryptClient.EncryptFromString(ConfidentialDummyData);
-            var decryptData = decryptClient.DecryptToString(encryptData);
+                // act
+                var encryptData = encryptClient.EncryptFromString(ConfidentialDummyData);
+                var decryptData = decryptClient.DecryptToString(encryptData);
 
-            // assert
-            ConfidentialDummyData.ShouldBe(decryptData);
-            encryptClient.GetKeyType().ShouldBe(KeyType.SymmetricKey);
-            decryptClient.GetKeyType().ShouldBe(KeyType.SymmetricKey);
+                // assert
+                ConfidentialDummyData.ShouldBe(decryptData);
+                encryptClient.GetKeyType().ShouldBe(KeyType.SymmetricKey);
+                decryptClient.GetKeyType().ShouldBe(KeyType.SymmetricKey);
+            }
         }
 
         [Test]
         public void Encrypt_And_Decrypt_With_Wrong_SymmetricKey_Test()
         {
-            // arrange
-            ICryptoNet encryptClient = new CryptoNet("AnySecretKey", true);
-            ICryptoNet decryptClient = new CryptoNet("WrongSecretKey", true);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                // arrange
+                ICryptoNet encryptClient = new CryptoNet("AnySecretKey", true);
+                ICryptoNet decryptClient = new CryptoNet("WrongSecretKey", true);
 
-            // act
-            var encryptData = encryptClient.EncryptFromString(ConfidentialDummyData);
-            try
-            {
-                var decryptData = decryptClient.DecryptToString(encryptData);
-            }
-            catch (Exception e)
-            {
-                // assert
-                e.Message.ShouldBe("Cryptography_OAEPDecoding");
+                // act
+                var encryptData = encryptClient.EncryptFromString(ConfidentialDummyData);
+                try
+                {
+                    var decryptData = decryptClient.DecryptToString(encryptData);
+                }
+                catch (Exception e)
+                {
+                    // assert
+                    e.Message.ShouldBe("Cryptography_OAEPDecoding");
+                }
             }
         }
 
