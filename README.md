@@ -9,11 +9,11 @@
 
 
 # Introdution
-:rocket: CryptoNet is simple, fast and a lightweight asymmetric and symmetric (*) encryption NuGet library supporting .NET Standard 2.0 for cross platforms Windows, Linux, iOS.
+:rocket: CryptoNet is simple, fast and a lightweight asymmetric and symmetric (note 1) encryption NuGet library supporting .NET Standard 2.0 for cross platforms Windows, Linux, iOS.
 It is a 100% native C# implementation based on [RSA](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa?view=net-6.0) factory class.
 It does not depending on other library.
 
-> * symmetric encryption is only supported in Windows OS.
+> note 1: symmetric encryption is only supported in Windows OS.
 
 ## Installation
 
