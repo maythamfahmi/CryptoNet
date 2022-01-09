@@ -21,7 +21,10 @@ namespace CryptoNetLib.helpers
             PublicKey,
 
             [Description("Both public and private are set.")]
-            PrivateKey
+            PrivateKey,
+
+            [Description("SymmetricKey key is set.")]
+            SymmetricKey
         }
 
         public static string GetDescription(this KeyType value)

@@ -30,8 +30,47 @@ namespace CryptoNetUnitTests
         internal static string EncryptedContentFile = Path.Combine(BaseFolder, "encrypted.txt");
         internal static string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
         internal static string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
-        
-        [Test, Order(1)]
+
+        [Test]
+        public void Encrypt_And_Decrypt_With_SymmetricKey_Test()
+        {
+            // arrange
+            var symmetricKey = "AnySecretKey";
+
+            ICryptoNet encryptClient = new CryptoNet(symmetricKey, true);
+            ICryptoNet decryptClient = new CryptoNet(symmetricKey, true);
+
+            // act
+            var encryptData = encryptClient.EncryptFromString(ConfidentialDummyData);
+            var decryptData = decryptClient.DecryptToString(encryptData);
+
+            // assert
+            ConfidentialDummyData.ShouldBe(decryptData);
+            encryptClient.GetKeyType().ShouldBe(KeyType.SymmetricKey);
+            decryptClient.GetKeyType().ShouldBe(KeyType.SymmetricKey);
+        }
+
+        [Test]
+        public void Encrypt_And_Decrypt_With_Wrong_SymmetricKey_Test()
+        {
+            // arrange
+            ICryptoNet encryptClient = new CryptoNet("AnySecretKey", true);
+            ICryptoNet decryptClient = new CryptoNet("WrongSecretKey", true);
+
+            // act
+            var encryptData = encryptClient.EncryptFromString(ConfidentialDummyData);
+            try
+            {
+                var decryptData = decryptClient.DecryptToString(encryptData);
+            }
+            catch (Exception e)
+            {
+                // assert
+                e.Message.ShouldBe("Cryptography_OAEPDecoding");
+            }
+        }
+
+        [Test]
         public void SelfGenerated_AsymmetricKey_And_TypeValidation_Test()
         {
             // arrange
@@ -49,7 +88,7 @@ namespace CryptoNetUnitTests
             new CryptoNet(publicKey).GetKeyType().ShouldBe(KeyType.PublicKey);
         }
 
-        [Test, Order(2)]
+        [Test]
         public void Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey_Test()
         {
             ICryptoNet cryptoNet = new CryptoNet();
@@ -68,7 +107,7 @@ namespace CryptoNetUnitTests
             CheckContent(ConfidentialDummyData, decrypt).ShouldBeTrue();
         }
 
-        [Test, Order(3)]
+        [Test]
         public void Encrypt_Decrypt_Content_With_Invalid_AsymmetricKey_Test()
         {
             // arrange
@@ -91,7 +130,7 @@ namespace CryptoNetUnitTests
             }
         }
 
-        [Test, Order(4)]
+        [Test]
         public void Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test()
         {
             // arrange
@@ -135,7 +174,7 @@ namespace CryptoNetUnitTests
             Assert.AreEqual(testDocument, decrypt);
         }
 
-        [Test, Order(5)]
+        [Test]
         public void Encrypt_Decrypt_Content_With_PreStored_SelfGenerated_AsymmetricKey_Test()
         {
             // arrange
@@ -149,7 +188,7 @@ namespace CryptoNetUnitTests
             CheckContent(ConfidentialDummyData, content);
         }
 
-        [Test, Order(6)]
+        [Test]
         public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test()
         {
             // arrange

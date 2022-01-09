@@ -21,6 +21,11 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
+#### [![Nuget](https://img.shields.io/badge/nuget-v1.3.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.2.0) - [Release code 1.3.0](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.3.0)
+- Reintroducing symmertic encryption only for Windows OS/systems.
+- Adding Source Link, Deterministic and Compiler Flags to NuGet package.
+- Readme enhancement.
+
 #### [![Nuget](https://img.shields.io/badge/nuget-v1.2.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.2.0) - [Release code 1.2.0](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.2.0)
 - Change from RSACryptoServiceProvider to RSA factory that support cross platforms (Windows, Linux, iOS).
 - No longer support for symmertic encryption from version 1.0.0.

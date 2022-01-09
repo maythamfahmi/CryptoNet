@@ -14,21 +14,10 @@ using static CryptoNetLib.helpers.KeyHelper;
 
 namespace CryptoNetLib
 {
-    //todo: add constructor to take symmetric key only for windows
-    //check this: https://stackoverflow.com/questions/30153797/c-sharp-preprocessor-differentiate-between-operating-systems
-    //todo: re-intro
-    //var parameters = new CspParameters();
-    //if (!rsaKey)
-    //    parameters.KeyContainerName = symmetricKeyOrAsymmetricKey;
-
-    //_rsa = new RSACryptoServiceProvider(parameters);
-    //_rsa.PersistKeyInCsp = true;
-
-    //todo: adding test
-
     public class CryptoNet : ICryptoNet
     {
-        private readonly RSA _rsa;
+        private RSA _rsa;
+        private KeyType _keyType = KeyType.NotSet;
 
         /// <summary>
         /// You can pass 2 type of keys, Private and Public key.
@@ -37,15 +26,53 @@ namespace CryptoNetLib
         /// You need to generate RSA key pair first
         /// use ExportPrivateKey method for generating Private key.
         /// use ExportPublicKey method for generating Public key.
+        /// You can pass symmetric key to
+        /// encrypt and decrypt with.
+        /// only in Windows OS/supported systems
         /// </summary>
-        /// <param name="asymmetricKey"></param>
-        public CryptoNet(string? asymmetricKey = null)
+        /// <param name="asymmetricKeyOrSymmetricKey"></param>
+        /// <param name="symmetricKey"></param>
+        public CryptoNet(string? asymmetricKeyOrSymmetricKey = null, bool symmetricKey = false)
         {
             _rsa = RSA.Create();
             _rsa.KeySize = 2048;
+
+            switch (string.IsNullOrEmpty(asymmetricKeyOrSymmetricKey))
+            {
+                case false when !symmetricKey:
+                    CreateAsymmetricKey(asymmetricKeyOrSymmetricKey);
+                    break;
+                case false when symmetricKey:
+                    CreateSymmetricKey(asymmetricKeyOrSymmetricKey);
+                    break;
+            }
+        }
+
+        private void CreateAsymmetricKey(string? asymmetricKey = null)
+        {
             if (!string.IsNullOrEmpty(asymmetricKey))
             {
                 _rsa.FromXmlString(asymmetricKey);
+            }
+        }
+
+        private void CreateSymmetricKey(string? symmetricKey)
+        {
+            if (string.IsNullOrWhiteSpace(symmetricKey))
+                throw new Exception("Missing symmetric key");
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                var parameters = new CspParameters();
+                parameters.KeyContainerName = symmetricKey;
+                var rsaCryptoServiceProvider = new RSACryptoServiceProvider(parameters);
+                rsaCryptoServiceProvider.PersistKeyInCsp = true;
+                _rsa = rsaCryptoServiceProvider;
+                _keyType = KeyType.SymmetricKey;
+            }
+            else
+            {
+                throw new Exception("Unsupported OS");
             }
         }
 
@@ -70,6 +97,9 @@ namespace CryptoNetLib
         /// <returns></returns>
         public KeyType GetKeyType()
         {
+            if (_keyType == KeyType.SymmetricKey)
+                return _keyType;
+
             try
             {
                 _rsa.ExportParameters(true);
@@ -79,7 +109,7 @@ namespace CryptoNetLib
             {
                 return KeyType.PublicKey;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return KeyType.NotSet;
             }
