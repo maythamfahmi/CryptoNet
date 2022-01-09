@@ -9,9 +9,11 @@
 
 
 # Introdution
-:rocket: CryptoNet is simple, fast and a lightweight asymmetric encryption NuGet library supporting .NET Standard 2.0.
+:rocket: CryptoNet is simple, fast and a lightweight asymmetric and symmetric (*) encryption NuGet library supporting .NET Standard 2.0 for cross platforms Windows, Linux, iOS.
 It is a 100% native C# implementation based on [RSA](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa?view=net-6.0) factory class.
 It does not depending on other library.
+
+> * symmetric encryption is only supported in Windows OS.
 
 ## Installation
 
@@ -20,6 +22,11 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 ## Versions
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
+
+#### [![Nuget](https://img.shields.io/badge/nuget-v1.3.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.2.0) - [Release code 1.3.0](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.3.0)
+- Reintroducing symmertic encryption only for Windows OS.
+- Adding Source Link, Deterministic and Compiler Flags to NuGet package.
+- Readme enhancement.
 
 #### [![Nuget](https://img.shields.io/badge/nuget-v1.2.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.2.0) - [Release code 1.2.0](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.2.0)
 - Change from RSACryptoServiceProvider to RSA factory that support cross platforms (Windows, Linux, iOS).
@@ -39,7 +46,16 @@ Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
 
 ### Short intro
 
-The library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
+The library can be used in 2 ways:
+
+* Symmetric way (Only supported in Windows)
+* Asymmetric way
+
+#### Symmetric way
+You use the same key (any secret key) for encryption and decryption.
+
+#### Asymmetric way
+With asymmetric way, the library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
 
 You can store the private key on one or more machines. The public key can easily distribute to all clients.
 
@@ -49,11 +65,25 @@ It is also possible to use asymmetric keys of X509 Certificate instead of genera
 
 The main concept with asymmetric encryption, is that you have a Private and Public key. You use Public key to encrypt the content with and use Private key to decrypt the content back again.
 
-You find the comlete and all [examples](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs) here.
+You find the comlete and all examples of both ways [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNetCmd/Example.cs).
 
 Here is some of the examples:
 
 ### Examples
+
+### Example: Encrypt and Decrypt Content With Symmetric Key (Only windows)
+```csharp
+var symmetricKey = "AnySecretKey";
+
+ICryptoNet encryptClient = new CryptoNet(symmetricKey, true);
+var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
+Console.WriteLine($"1- We will encrypt following text:\n{ConfidentialDummyData}\n");
+Console.WriteLine($"2- To:\n{CryptoNetUtils.BytesToString(encrypt)}\n");
+
+ICryptoNet decryptClient = new CryptoNet(symmetricKey, true);
+var decrypt = decryptClient.DecryptToString(encrypt);
+Console.WriteLine($"3- And we will decrypt it back to:\n{decrypt}\n");
+```
 
 ### Example: Encrypt and Decrypt Content With Self-Generated Asymmetric Key
 ```csharp
@@ -138,7 +168,7 @@ docker build . --file .\Dockerfile --tag cryptonet-service:latest
 ## Contributing
 
 I need your help, so if you have good knowledge of C# and Cryptography just grab one of the issues and add a pull request.
-The same is valid, if you have idea for improvement or adding new feature.
+The same is valid, if you have idea for improvement, adding new feature or even documentation improvement and enhancemnet, you are more than welcome to contribute.
 
 ### How to contribute:
 
