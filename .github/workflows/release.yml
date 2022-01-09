@@ -29,6 +29,6 @@ jobs:
     - name: Pack
       run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output .
     - name: Push
-      run: echo #dotnet nuget push CryptoNet.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${NUGET_TOKEN}
+      run: dotnet nuget push CryptoNet.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${NUGET_TOKEN}
       env:
         NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
