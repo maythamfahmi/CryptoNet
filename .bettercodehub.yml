@@ -1,0 +1,5 @@
+exclude:
+- /CryptoNetCmd/.*
+- /CryptoNetUnitTests/.*
+- /docs/.*
+- /img/.*
