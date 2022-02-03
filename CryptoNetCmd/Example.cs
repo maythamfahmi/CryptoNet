@@ -185,7 +185,7 @@ public class Example
         Console.WriteLine(result);
     }
 
-    public static void CiYamlGenerator()
+    public static void CiYamlGenerator(string workflowName = "ci-auto-generated.yaml")
     {
         var adoClient = new ADotNetClient();
 
@@ -249,12 +249,15 @@ public class Example
             }
         };
 
+        CreateWorkFlowFile(adoClient, aspNetPipeline, workflowName);
+    }
+
+    private static void CreateWorkFlowFile(ADotNetClient adoClient, GithubPipeline githubPipeline, string workflowName)
+    {
         var solutionRoot = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName;
         var workflowPath = $"{solutionRoot}\\.github\\workflows";
-
-        string workflowFile = Path.Combine(workflowPath, "ci-auto-generated.yaml");
-
-        adoClient.SerializeAndWriteToFile(aspNetPipeline, workflowFile);
+        string workflowFile = Path.Combine(workflowPath, workflowName);
+        adoClient.SerializeAndWriteToFile(githubPipeline, workflowFile);
     }
 
 
