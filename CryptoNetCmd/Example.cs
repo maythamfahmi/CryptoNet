@@ -5,6 +5,7 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNetCmd project</summary>
 
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using ADotNet.Clients;
 using ADotNet.Models.Pipelines.GithubPipelines.DotNets;
@@ -32,7 +33,8 @@ public class Example
         //Example_4_Using_X509_Certificate();
         //Example_5_Export_Public_Key_For_X509_Certificate();
         //Example_6_Encrypt_Decrypt_Content_With_SymmetricKey();
-        //YamlGenerator();
+        //Example_7_Customize();
+        //CiYamlGenerator();
     }
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey()
@@ -133,8 +135,57 @@ public class Example
         Console.WriteLine();
     }
 
-    //todo work in progress
-    public static void YamlGenerator()
+    /// <summary>
+    /// CryptoNet interact with .net 5/6 for customization, like import/export PEM
+    /// </summary>
+    public static void Example_7_Customize()
+    {
+        X509Certificate2? cert = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+        var privateKey = cert?.GetRSAPrivateKey();
+        var publicKey = cert?.GetRSAPublicKey();
+
+        byte[] certBytes = cert!.RawData;
+        char[] certPem = PemEncoding.Write("CERTIFICATE", certBytes);
+        Console.WriteLine($"Export PEM Certificate \n{new string(certPem)}");
+
+        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
+        byte[] pubKeyBytes = rsa.ExportSubjectPublicKeyInfo();
+        byte[] priKeyBytes = rsa.ExportPkcs8PrivateKey();
+        char[] pubKeyPem = PemEncoding.Write("PUBLIC KEY", pubKeyBytes);
+        Console.WriteLine($"Export PEM public key \n{new string(pubKeyPem)}");
+
+        char[] priKeyPem = PemEncoding.Write("PRIVATE KEY", priKeyBytes);
+        Console.WriteLine($"Export PEM private key \n{new string(priKeyPem)}");
+
+        byte[] password = System.Text.Encoding.UTF8.GetBytes("password");
+        byte[] encryptedPriKeyBytes = rsa.ExportEncryptedPkcs8PrivateKey(
+            password,
+            new PbeParameters(
+                PbeEncryptionAlgorithm.Aes256Cbc,
+                HashAlgorithmName.SHA256,
+                iterationCount: 100_000));
+        Console.WriteLine($"Export encrypted PEM private key \n{new string(priKeyPem)}");
+        Console.WriteLine(CryptoNetUtils.BytesToString(encryptedPriKeyBytes));
+
+        using var rsa1 = RSA.Create();
+        rsa1.ImportEncryptedPkcs8PrivateKey(password, encryptedPriKeyBytes, out _);
+
+        ICryptoNet cryptoNet2 = new CryptoNet();
+        RSA rsa2 = cryptoNet2.Rsa;
+        rsa2.ImportFromPem(pubKeyPem);
+
+        var encryptContent = cryptoNet2.EncryptFromBytes(CryptoNetUtils.StringToBytes(ConfidentialDummyData));
+
+        ICryptoNet cryptoNet3 = new CryptoNet();
+        RSA rsa3 = cryptoNet3.Rsa;
+        rsa3.ImportFromPem(priKeyPem);
+
+        var result = cryptoNet3.DecryptToString(encryptContent);
+
+        Console.WriteLine(result);
+    }
+
+    public static void CiYamlGenerator()
     {
         var adoClient = new ADotNetClient();
 
@@ -198,7 +249,12 @@ public class Example
             }
         };
 
-        //adoClient.SerializeAndWriteToFile(aspNetPipeline, "../../ci.yaml");
+        var solutionRoot = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName;
+        var workflowPath = $"{solutionRoot}\\.github\\workflows";
+
+        string workflowFile = Path.Combine(workflowPath, "ci-auto-generated.yaml");
+
+        adoClient.SerializeAndWriteToFile(aspNetPipeline, workflowFile);
     }
 
 

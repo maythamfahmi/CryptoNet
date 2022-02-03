@@ -4,16 +4,15 @@
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
 [![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml)
 [![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/maythamfahmi/CryptoNet)
-[![The Standard - COMPLIANT](https://img.shields.io/badge/The_Standard-COMPLIANT-2ea44f)](https://github.com/hassanhabib/The-Standard)
 [![BCH compliance](https://bettercodehub.com/edge/badge/maythamfahmi/CryptoNet?branch=main)](https://bettercodehub.com/)
 
 
 # Introdution
-:rocket: CryptoNet is simple, fast and a lightweight asymmetric and symmetric (note 1) encryption NuGet library supporting .NET Standard 2.0 for cross platforms Windows, Linux, iOS.
+:rocket: CryptoNet is simple, fast and a lightweight asymmetric and symmetric (note1) encryption NuGet library supporting .NET Standard 2.0 and C# 8.0 for cross platforms Windows, Linux, iOS.
 It is a 100% native C# implementation based on [RSA](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa?view=net-6.0) factory class.
 It does not depending on other library.
 
-> note 1: symmetric encryption is only supported in Windows OS.
+> note1: symmetric encryption is only supported in Windows OS.
 
 ## Installation
 
@@ -22,6 +21,11 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 ## Versions
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
+
+#### [![Nuget](https://img.shields.io/badge/nuget-v1.6.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.5.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.5.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.5.0)
+- Adapt RSA public interface for customization
+- Adapt customization example for PEM
+- Adapt ADotNet IoC for autogenerating GitHub workflows (first stage)
 
 #### [![Nuget](https://img.shields.io/badge/nuget-v1.5.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.5.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.5.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.5.0)
 - Reintroducing symmertic encryption only for Windows OS.

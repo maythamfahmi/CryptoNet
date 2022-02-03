@@ -17,6 +17,8 @@ namespace CryptoNetLib
     public class CryptoNet : ICryptoNet
     {
         private RSA _rsa;
+        public RSA Rsa => _rsa;
+
         private KeyType _keyType = KeyType.NotSet;
 
         /// <summary>
@@ -58,11 +60,13 @@ namespace CryptoNetLib
 
         private void CreateSymmetricKey(string? symmetricKey)
         {
-            if (string.IsNullOrWhiteSpace(symmetricKey))
-                throw new Exception("Missing symmetric key");
-
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
+                if (string.IsNullOrWhiteSpace(symmetricKey))
+                {
+                    throw new Exception("Missing symmetric key");
+                }
+
                 var parameters = new CspParameters();
                 parameters.KeyContainerName = symmetricKey;
                 var rsaCryptoServiceProvider = new RSACryptoServiceProvider(parameters);
