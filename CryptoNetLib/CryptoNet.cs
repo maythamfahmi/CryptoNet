@@ -63,9 +63,7 @@ namespace CryptoNetLib
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
                 if (string.IsNullOrWhiteSpace(symmetricKey))
-                {
                     throw new Exception("Missing symmetric key");
-                }
 
                 var parameters = new CspParameters();
                 parameters.KeyContainerName = symmetricKey;
@@ -101,9 +99,11 @@ namespace CryptoNetLib
         /// <returns></returns>
         public KeyType GetKeyType()
         {
-            if (_keyType == KeyType.SymmetricKey)
-                return _keyType;
+            return _keyType == KeyType.SymmetricKey ? _keyType : CheckKeyType();
+        }
 
+        private KeyType CheckKeyType()
+        {
             try
             {
                 _rsa.ExportParameters(true);
