@@ -65,17 +65,22 @@ namespace CryptoNetLib
                 if (string.IsNullOrWhiteSpace(symmetricKey))
                     throw new Exception("Missing symmetric key");
 
-                var parameters = new CspParameters();
-                parameters.KeyContainerName = symmetricKey;
-                var rsaCryptoServiceProvider = new RSACryptoServiceProvider(parameters);
-                rsaCryptoServiceProvider.PersistKeyInCsp = true;
-                _rsa = rsaCryptoServiceProvider;
-                _keyType = KeyType.SymmetricKey;
+                CreateSymmetricKeyForWindowsOs(symmetricKey);
             }
             else
             {
                 throw new Exception("Unsupported OS");
             }
+        }
+
+        private void CreateSymmetricKeyForWindowsOs(string? symmetricKey)
+        {
+            var parameters = new CspParameters();
+            parameters.KeyContainerName = symmetricKey;
+            var rsaCryptoServiceProvider = new RSACryptoServiceProvider(parameters);
+            rsaCryptoServiceProvider.PersistKeyInCsp = true;
+            _rsa = rsaCryptoServiceProvider;
+            _keyType = KeyType.SymmetricKey;
         }
 
         /// <summary>
