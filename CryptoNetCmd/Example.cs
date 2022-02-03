@@ -141,8 +141,8 @@ public class Example
     public static void Example_7_Customize()
     {
         X509Certificate2? cert = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
-        var privateKey = cert?.GetRSAPrivateKey();
-        var publicKey = cert?.GetRSAPublicKey();
+        //var privateKey = cert?.GetRSAPrivateKey();
+        //var publicKey = cert?.GetRSAPublicKey();
 
         byte[] certBytes = cert!.RawData;
         char[] certPem = PemEncoding.Write("CERTIFICATE", certBytes);

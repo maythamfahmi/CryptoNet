@@ -2,3 +2,6 @@ exclude:
 - /CryptoNetCmd/.*
 - /docs/.*
 - /img/.*
+component_depth: 1
+languages:
+- csharp
