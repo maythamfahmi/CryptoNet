@@ -25,9 +25,9 @@ You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
 #### [![Nuget](https://img.shields.io/badge/nuget-v1.6.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.6.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.6.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.6.0)
-- Adapt RSA public interface for customization
-- Adapt customization example for PEM
-- Adapt ADotNet IoC for autogenerating GitHub workflows (first stage)
+- Adapt RSA instance for customization.
+- Adapt RSA customization example for PEM exporting and importing.
+- Adapt ADotNet IoC for autogenerating GitHub workflows (ci stage)
 
 #### [![Nuget](https://img.shields.io/badge/nuget-v1.5.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.5.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.5.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.5.0)
 - Reintroducing symmertic encryption only for Windows OS.
