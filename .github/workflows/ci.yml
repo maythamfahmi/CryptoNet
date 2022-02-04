@@ -7,7 +7,7 @@ on:
     - "feature/*"
     - "!feature/ci*"
     paths-ignore:
-    - '**/README.md'
+    - "README.md"
   pull_request:
     branches:
     - main
