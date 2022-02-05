@@ -180,3 +180,4 @@ The same is valid, if you have idea for improvement, adding new feature or even 
 ### How to contribute:
 
 [Here](https://www.dataschool.io/how-to-contribute-on-github/) is a link to learn how to contribute if you are not a ware of how to do it.
+
