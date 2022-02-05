@@ -14,11 +14,13 @@ It does not depending on other library.
 
 > note1: symmetric encryption is only supported in Windows OS.
 
-Webpage: https://maythamfahmi.github.io/CryptoNet
-
 ## Installation
 
 You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet/).
+
+## Website
+
+https://maythamfahmi.github.io/CryptoNet
 
 ## Versions
 
