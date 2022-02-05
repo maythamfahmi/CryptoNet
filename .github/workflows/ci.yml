@@ -3,11 +3,11 @@ name: .NET
 on:
   push:
     branches:
-    - main
-    - "feature/*"
-    - "!feature/ci*"
+      - main
+      - "feature/*"
+      - "!feature/ci*"
     paths-ignore:
-    - "README.md"
+      - "**.md"
   pull_request:
     branches:
     - main
