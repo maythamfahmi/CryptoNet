@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="LICENSE">
+    <Content Include="..\LICENSE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
