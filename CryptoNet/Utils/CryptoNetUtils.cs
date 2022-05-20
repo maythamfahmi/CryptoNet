@@ -22,10 +22,32 @@ namespace CryptoNet.Utils
             return certificate!.GetRSAPrivateKey()!.ExportParameters(keyType == KeyType.PrivateKey);
         }
 
+        public static X509Certificate2? GetCertificateFromStore(StoreName storeName, StoreLocation storeLocation, string certName)
+        {
+            X509Store store = new X509Store(storeName, storeLocation);
+            return GetCertificateFromStore(store, certName);
+        }
+
+        public static X509Certificate2? GetCertificateFromStore(StoreName storeName, string certName)
+        {
+            X509Store store = new X509Store(storeName);
+            return GetCertificateFromStore(store, certName);
+        }
+
+        public static X509Certificate2? GetCertificateFromStore(StoreLocation storeLocation, string certName)
+        {
+            X509Store store = new X509Store(storeLocation);
+            return GetCertificateFromStore(store, certName);
+        }
+
         public static X509Certificate2? GetCertificateFromStore(string certName)
         {
             X509Store store = new X509Store(StoreLocation.CurrentUser);
+            return GetCertificateFromStore(store, certName);
+        }
 
+        private static X509Certificate2? GetCertificateFromStore(X509Store store, string certName)
+        {
             try
             {
                 store.Open(OpenFlags.ReadOnly);
