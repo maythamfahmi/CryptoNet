@@ -1,32 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNetCmd", "CryptoNetCmd\CryptoNetCmd.csproj", "{358AA465-102C-4332-BCDC-22ECAFA3189E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet", "CryptoNet\CryptoNet.csproj", "{8F85375C-A0DC-4B67-B934-F58ED4114F5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNetLib", "CryptoNetLib\CryptoNetLib.csproj", "{3EF2C1C4-D787-4399-B338-9E071355C093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Cli", "CryptoNet.Cli\CryptoNet.Cli.csproj", "{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNetUnitTests", "CryptoNetUnitTests\CryptoNetUnitTests.csproj", "{C824A7F2-9A20-45EA-820B-F809E8067CA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNet.UnitTests", "CryptoNet.UnitTests\CryptoNet.UnitTests.csproj", "{702C8501-AF79-4549-98A8-67A153DF5B70}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{0632D18D-1916-4AB3-9459-46A65AA72837}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{1733D13E-78C2-4A60-8741-EB641832A832}"
 	ProjectSection(SolutionItems) = preProject
 		.bettercodehub.yml = .bettercodehub.yml
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		build.ps1 = build.ps1
 		.github\workflows\ci.yml = .github\workflows\ci.yml
+		Dockerfile = Dockerfile
 		.github\workflows\release-preview.yml = .github\workflows\release-preview.yml
+		.github\workflows\release-test.yml = .github\workflows\release-test.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7FEF6D01-1595-40BD-A0E6-4680598EC992}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{6976E2ED-A139-48C5-A390-639F56A8B348}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{ECD15561-5F6C-471D-B113-A467278DAF8A}"
-	ProjectSection(SolutionItems) = preProject
-		build.ps1 = build.ps1
-		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Global
@@ -35,23 +34,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{358AA465-102C-4332-BCDC-22ECAFA3189E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{358AA465-102C-4332-BCDC-22ECAFA3189E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{358AA465-102C-4332-BCDC-22ECAFA3189E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{358AA465-102C-4332-BCDC-22ECAFA3189E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3EF2C1C4-D787-4399-B338-9E071355C093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EF2C1C4-D787-4399-B338-9E071355C093}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EF2C1C4-D787-4399-B338-9E071355C093}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EF2C1C4-D787-4399-B338-9E071355C093}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C824A7F2-9A20-45EA-820B-F809E8067CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C824A7F2-9A20-45EA-820B-F809E8067CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C824A7F2-9A20-45EA-820B-F809E8067CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C824A7F2-9A20-45EA-820B-F809E8067CA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702C8501-AF79-4549-98A8-67A153DF5B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702C8501-AF79-4549-98A8-67A153DF5B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702C8501-AF79-4549-98A8-67A153DF5B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702C8501-AF79-4549-98A8-67A153DF5B70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {757B78AA-A54E-4B89-ACC9-4C19AE8D97FA}
+		SolutionGuid = {430E000A-5AD5-4D57-BB34-4A1BE6193BBA}
 	EndGlobalSection
 EndGlobal
