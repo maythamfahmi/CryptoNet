@@ -6,7 +6,9 @@
 // <summary>part of CryptoNet project</summary>
 
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using CryptoNet.Models;
 using CryptoNet.Utils;
 
@@ -28,7 +30,7 @@ public class ExampleRsa
         Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content();
         Example_4_Using_X509_Certificate();
         Example_5_Export_Public_Key_For_X509_Certificate();
-        Example_7_Customize();
+        //Example_7_Customize();
     }
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey()
@@ -110,26 +112,70 @@ public class ExampleRsa
     {
         X509Certificate2? cert = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
 
-        var pubKeyPem = CryptoNetUtils.ExportPemKey(cert!, false);
-        var priKeyPem = CryptoNetUtils.ExportPemKey(cert!);
-        
+        var pubKeyPem = ExportPemKey(cert!, false);
+        var priKeyPem = ExportPemKey(cert!);
+
         var password = "password";
-        var encryptedPriKeyBytes = CryptoNetUtils.ExportPemKeyWithPassword(cert!, password);
-        
-        ICryptoNet cryptoNet1 = CryptoNetUtils.ImportPemKeyWithPassword(encryptedPriKeyBytes, password);
+        var encryptedPriKeyBytes = ExportPemKeyWithPassword(cert!, password);
+
+        ICryptoNet cryptoNet1 = ImportPemKeyWithPassword(encryptedPriKeyBytes, password);
         var encrypt1 = cryptoNet1.EncryptFromString(ConfidentialDummyData);
 
-        ICryptoNet cryptoNet2 = CryptoNetUtils.ImportPemKey(pubKeyPem);
+        ICryptoNet cryptoNet2 = ImportPemKey(pubKeyPem);
         var encrypt2 = cryptoNet2.EncryptFromString(ConfidentialDummyData);
 
-        ICryptoNet cryptoNet3 = CryptoNetUtils.ImportPemKey(priKeyPem);
+        ICryptoNet cryptoNet3 = ImportPemKey(priKeyPem);
         var decrypt2 = cryptoNet3.DecryptToString(encrypt2);
-        
+
         Debug.Assert(ConfidentialDummyData == decrypt2);
 
         var decrypt1 = cryptoNet3.DecryptToString(encrypt1);
-        
+
         Debug.Assert(ConfidentialDummyData == decrypt1);
+    }
+
+    public static char[] ExportPemCertificate(X509Certificate2 cert)
+    {
+        byte[] certBytes = cert!.RawData;
+        char[] certPem = PemEncoding.Write("CERTIFICATE", certBytes);
+        return certPem;
+    }
+
+    public static char[] ExportPemKey(X509Certificate2 cert, bool privateKey = true)
+    {
+        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
+
+        if (privateKey)
+        {
+            byte[] priKeyBytes = rsa.ExportPkcs8PrivateKey();
+            return PemEncoding.Write("PRIVATE KEY", priKeyBytes);
+        }
+
+        byte[] pubKeyBytes = rsa.ExportSubjectPublicKeyInfo();
+        return PemEncoding.Write("PUBLIC KEY", pubKeyBytes);
+    }
+
+    public static ICryptoNet ImportPemKey(char[] key)
+    {
+        ICryptoNet cryptoNet = new CryptoNetRsa();
+        cryptoNet.Info.RsaDetail!.Rsa?.ImportFromPem(key);
+        return cryptoNet;
+    }
+
+    public static byte[] ExportPemKeyWithPassword(X509Certificate2 cert, string password)
+    {
+        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
+        byte[] pass = Encoding.UTF8.GetBytes(password);
+        byte[] encryptedPrivateKey = rsa.ExportEncryptedPkcs8PrivateKey(pass,
+            new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
+        return encryptedPrivateKey;
+    }
+
+    public static ICryptoNet ImportPemKeyWithPassword(byte[] encryptedPrivateKey, string password)
+    {
+        ICryptoNet cryptoNet = new CryptoNetRsa();
+        cryptoNet.Info.RsaDetail?.Rsa?.ImportEncryptedPkcs8PrivateKey(password, encryptedPrivateKey, out _);
+        return cryptoNet;
     }
 
 }
