@@ -101,19 +101,19 @@ namespace CryptoNet.Utils
 
         internal static string ExportAndSaveAesKey(Aes aes)
         {
-            KeyInfo keyInfo = new KeyInfo { Key = aes.Key, Iv = aes.IV };
-            XmlSerializer serializer = new XmlSerializer(typeof(KeyInfo));
+            AesKeyValue aesKeyValue = new AesKeyValue { Key = aes.Key, Iv = aes.IV };
+            XmlSerializer serializer = new XmlSerializer(typeof(AesKeyValue));
             StringWriter writer = new StringWriter();
-            serializer.Serialize(writer, keyInfo);
+            serializer.Serialize(writer, aesKeyValue);
             writer.Close();
             return writer.ToString();
         }
 
-        internal static KeyInfo ImportAesKey(string aes)
+        internal static AesKeyValue ImportAesKey(string aes)
         {
-            XmlSerializer deserializer = new XmlSerializer(typeof(KeyInfo));
+            XmlSerializer deserializer = new XmlSerializer(typeof(AesKeyValue));
             StringReader reader = new StringReader(aes);
-            return (KeyInfo)deserializer.Deserialize(reader)!;
+            return (AesKeyValue)deserializer.Deserialize(reader)!;
         }
 
         internal static string GetDescription(KeyType value)

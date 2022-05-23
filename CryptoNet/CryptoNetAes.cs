@@ -25,8 +25,8 @@ namespace CryptoNet
             Aes.GenerateKey();
             Aes.GenerateIV();
             Info = CreateDetails(Aes.Key, Aes.IV);
-            Aes.Key = Info.AesDetail!.KeyInfo.Key;
-            Aes.IV = Info.AesDetail!.KeyInfo.Iv;
+            Aes.Key = Info.AesDetail!.AesKeyValue.Key;
+            Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
 
         public CryptoNetAes(string key)
@@ -35,8 +35,8 @@ namespace CryptoNet
             Aes.KeySize = 256;
             var keyInfo = CryptoNetUtils.ImportAesKey(key);
             Info = CreateDetails(keyInfo.Key, keyInfo.Iv);
-            Aes.Key = Info.AesDetail!.KeyInfo.Key;
-            Aes.IV = Info.AesDetail!.KeyInfo.Iv;
+            Aes.Key = Info.AesDetail!.AesKeyValue.Key;
+            Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
 
         public CryptoNetAes(FileInfo fileInfo)
@@ -45,8 +45,8 @@ namespace CryptoNet
             Aes.KeySize = 256;
             var keyInfo = CryptoNetUtils.ImportAesKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
             Info = CreateDetails(keyInfo.Key, keyInfo.Iv);
-            Aes.Key = Info.AesDetail!.KeyInfo.Key;
-            Aes.IV = Info.AesDetail!.KeyInfo.Iv;
+            Aes.Key = Info.AesDetail!.AesKeyValue.Key;
+            Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
 
         public CryptoNetAes(byte[] key, byte[] iv)
@@ -54,8 +54,8 @@ namespace CryptoNet
             Aes = Aes.Create();
             Aes.KeySize = 256;
             Info = CreateDetails(key, iv);
-            Aes.Key = Info.AesDetail!.KeyInfo.Key;
-            Aes.IV = Info.AesDetail!.KeyInfo.Iv;
+            Aes.Key = Info.AesDetail!.AesKeyValue.Key;
+            Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
 
         private CryptoNetInfo CreateDetails(byte[] key, byte[] iv)

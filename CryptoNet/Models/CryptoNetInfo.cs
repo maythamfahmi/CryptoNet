@@ -40,7 +40,7 @@ namespace CryptoNet.Models
                 throw new ArgumentNullException(nameof(iv));
             }
 
-            KeyInfo = new KeyInfo()
+            AesKeyValue = new AesKeyValue()
             {
                 Key = key,
                 Iv = iv
@@ -48,11 +48,11 @@ namespace CryptoNet.Models
         }
 
         public Aes? Aes { get; set; }
-        public KeyInfo KeyInfo { get; set; }
+        public AesKeyValue AesKeyValue { get; set; }
     }
 
     [Serializable()]
-    public class KeyInfo
+    public class AesKeyValue
     {
         [System.Xml.Serialization.XmlElement("key")]
         public byte[] Key { get; set; }
