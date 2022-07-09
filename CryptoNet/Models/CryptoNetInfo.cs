@@ -79,10 +79,10 @@ namespace CryptoNet.Models
 
     public enum EncryptionType
     {
-        [Description("Key does not exist.")]
+        [Description("Rsa encryption.")]
         Rsa,
 
-        [Description("Public key is set.")]
+        [Description("Aes encryption.")]
         Aes
     }
 }
