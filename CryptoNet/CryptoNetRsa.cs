@@ -45,8 +45,6 @@ namespace CryptoNet
             Info.KeyType = CheckKeyType();
         }
 
-        //todo: consider key size and check this
-        // https://www.ibm.com/docs/en/zos/2.2.0?topic=certificates-size-considerations-public-private-keys
         public CryptoNetRsa(X509Certificate2? certificate, KeyType keyType, int keySize = 2048)
         {
             Rsa = RSA.Create();
