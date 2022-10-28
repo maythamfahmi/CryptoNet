@@ -24,6 +24,10 @@ https://maythamfahmi.github.io/CryptoNet
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
+#### [![Nuget](https://img.shields.io/badge/nuget-v2.2.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/2.2.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v2.2.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v2.2.0)
+- Minor updates
+- Corrected texts
+
 #### [![Nuget](https://img.shields.io/badge/nuget-v2.1.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/2.1.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v2.1.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v2.1.0)
 - !!!Breaking change!!!
 - Refactoring RSA asymmetric encryption.
