@@ -25,6 +25,11 @@ namespace CryptoNet
             Rsa.KeySize = keySize;
             Info = CreateDetails();
             Info.KeyType = CheckKeyType();
+            if (Info.RsaDetail != null)
+            {
+                Info.RsaDetail.PrivateKey = TryGetKey();
+                Info.RsaDetail.PublicKey = TryGetKey(false);
+            }
         }
 
         public CryptoNetRsa(string key, int keySize = 2048)
@@ -34,6 +39,11 @@ namespace CryptoNet
             Info = CreateDetails();
             CreateAsymmetricKey(key);
             Info.KeyType = CheckKeyType();
+            if (Info.RsaDetail != null)
+            {
+                Info.RsaDetail.PrivateKey = TryGetKey();
+                Info.RsaDetail.PublicKey = TryGetKey(false);
+            }
         }
 
         public CryptoNetRsa(FileInfo fileInfo, int keySize = 2048)
@@ -43,6 +53,11 @@ namespace CryptoNet
             Info = CreateDetails();
             CreateAsymmetricKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
             Info.KeyType = CheckKeyType();
+            if (Info.RsaDetail != null)
+            {
+                Info.RsaDetail.PrivateKey = TryGetKey();
+                Info.RsaDetail.PublicKey = TryGetKey(false);
+            }
         }
 
         public CryptoNetRsa(X509Certificate2? certificate, KeyType keyType, int keySize = 2048)
@@ -53,6 +68,31 @@ namespace CryptoNet
             RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
             Rsa.ImportParameters(@params);
             Info.KeyType = CheckKeyType();
+            if (Info.RsaDetail != null)
+            {
+                Info.RsaDetail.PrivateKey = TryGetKey();
+                Info.RsaDetail.PublicKey = TryGetKey(false);
+            }
+        }
+
+        private byte[] TryGetKey(bool privateKey = true)
+        {
+            try
+            {
+                if (privateKey)
+                {
+                    return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PrivateKey));
+                }
+                else
+                {
+                    return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PublicKey));
+                }
+                
+            }
+            catch (Exception)
+            {
+                return Array.Empty<byte>();
+            }
         }
 
         private KeyType CheckKeyType()
