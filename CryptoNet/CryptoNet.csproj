@@ -15,7 +15,7 @@
         <Company>NextBix</Company>
         <Authors>Maytham Fahmi</Authors>
         <MinClientVersion>1.0.0</MinClientVersion>
-        <Version>2.0.0</Version>
+        <Version>2.2.0</Version>
         <Title>CryptoNet</Title>
         <Product>CryptoNet</Product>
         <RootNamespace>CryptoNet</RootNamespace>
