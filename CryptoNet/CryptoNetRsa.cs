@@ -87,7 +87,6 @@ namespace CryptoNet
                 {
                     return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PublicKey));
                 }
-                
             }
             catch (Exception)
             {

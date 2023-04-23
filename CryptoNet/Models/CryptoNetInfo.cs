@@ -73,7 +73,7 @@ namespace CryptoNet.Models
         [Description("Public key is set.")]
         PublicKey,
 
-        [Description("Asymmertric key (both public and private) are set.")]
+        [Description("Asymmetric key (both public and private) are set.")]
         PrivateKey
     }
 
