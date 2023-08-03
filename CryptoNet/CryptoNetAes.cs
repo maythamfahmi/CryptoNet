@@ -90,17 +90,17 @@ namespace CryptoNet
 
         public byte[] EncryptFromBytes(byte[] bytes)
         {
-            return EncryptContent(CryptoNetUtils.BytesToString(bytes));
+            return EncryptContent(bytes);
         }
 
         public string DecryptToString(byte[] bytes)
         {
-            return DecryptContent(bytes);
+            return DecryptContentToString(bytes);
         }
 
         public byte[] DecryptToBytes(byte[] bytes)
         {
-            return CryptoNetUtils.StringToBytes(DecryptContent(bytes));
+            return DecryptContent(bytes);
         }
 
         private byte[] EncryptContent(string content)
@@ -129,7 +129,29 @@ namespace CryptoNet
             return encrypted;
         }
 
-        private string DecryptContent(byte[] bytes)
+        private byte[] EncryptContent(byte[] content)
+        {
+            if (content == null || content.Length <= 0)
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
+            byte[] encrypted;
+            ICryptoTransform encryptor = Aes.CreateEncryptor(Aes.Key, Aes.IV);
+
+            using (MemoryStream msEncrypt = new MemoryStream())
+            {
+                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                {
+                    csEncrypt.Write(content, 0, content.Length);
+                }
+                encrypted = msEncrypt.ToArray();
+            }
+
+            return encrypted;
+        }
+
+        private string DecryptContentToString(byte[] bytes)
         {
             if (bytes == null || bytes.Length <= 0)
             {
@@ -153,6 +175,31 @@ namespace CryptoNet
 
             return plaintext;
         }
+
+        private byte[] DecryptContent(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length <= 0)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
+            byte[] decrypted;
+            ICryptoTransform decryptor = Aes.CreateDecryptor(Aes.Key, Aes.IV);
+
+            using (MemoryStream msDecrypt = new MemoryStream(bytes))
+            {
+                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                {
+                    var temp = new byte[bytes.Length];
+                    var readBytes = csDecrypt.Read(temp, 0, temp.Length);
+                    decrypted = new byte[readBytes];
+                    Array.Copy(temp, decrypted, readBytes);
+                }
+            }
+
+            return decrypted;
+        }
+
         #endregion
     }
 }
