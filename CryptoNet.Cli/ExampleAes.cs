@@ -6,9 +6,11 @@
 // <summary>part of CryptoNet project</summary>
 
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using CryptoNet.Models;
+using CryptoNet.Utils;
 
 namespace CryptoNet.Cli;
 
@@ -25,6 +27,7 @@ public class ExampleAes
         Example_2_SelfGenerated_And_Save_SymmetricKey();
         Example_3_Encrypt_Decrypt_Content_With_Own_SymmetricKey();
         Example_4_Encrypt_Decrypt_Content_With_Human_Readable_Key_Secret_SymmetricKey();
+        Example_5_Encrypt_And_Decrypt_PdfFile_With_SymmetricKey_Test();
     }
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_SymmetricKey()
@@ -102,6 +105,25 @@ public class ExampleAes
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
 
+    public static void Example_5_Encrypt_And_Decrypt_PdfFile_With_SymmetricKey_Test()
+    {
+        ICryptoNet cryptoNet = new CryptoNetAes();
+        var key = cryptoNet.ExportKey();
+
+        ICryptoNet encryptClient = new CryptoNetAes(key);
+        string pdfFilePath = Path.Combine(BaseFolder, $@"D:\0-Development\CryptoNet\CryptoNet.UnitTests\Resources\TestFiles\test.docx");
+        byte[] pdfFileBytes = File.ReadAllBytes(pdfFilePath);
+        var encrypt = encryptClient.EncryptFromBytes(pdfFileBytes);
+
+        ICryptoNet decryptClient = new CryptoNetAes(key);
+        var decrypt = decryptClient.DecryptToBytes(encrypt);
+        string pdfDecryptedFilePath = $@"D:\0-Development\CryptoNet\CryptoNet.UnitTests\Resources\TestFiles\test-decrypted.docx";
+        File.WriteAllBytes(pdfDecryptedFilePath, decrypt);
+
+        var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(pdfFileBytes, decrypt);
+        Debug.Assert(isIdenticalFile);
+    }
+
     public static string UniqueKeyGenerator(string input)
     {
         MD5 md5 = MD5.Create();
@@ -115,5 +137,4 @@ public class ExampleAes
         }
         return sb.ToString();
     }
-
 }

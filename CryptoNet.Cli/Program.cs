@@ -12,7 +12,7 @@ namespace CryptoNet.Cli
         public static void Main()
         {
             ExampleAes.Test();
-            ExampleRsa.Test();
+            //ExampleRsa.Test();
         }
     }
 }

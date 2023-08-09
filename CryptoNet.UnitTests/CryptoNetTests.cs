@@ -6,11 +6,13 @@
 // <summary>part of CryptoNet project</summary>
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using CryptoNet.Models;
+using CryptoNet.Utils;
 using NUnit.Framework;
 using Shouldly;
 
@@ -57,12 +59,30 @@ namespace CryptoNet.UnitTests
         }
 
         [Test]
+        public void Encrypt_And_Decrypt_PdfFile_With_SymmetricKey_Test()
+        {
+            ICryptoNet cryptoNet = new CryptoNetAes();
+            var key = cryptoNet.ExportKey();
+
+            ICryptoNet encryptClient = new CryptoNetAes(key);
+            var pdfFilePath = Path.Combine(_testFilesFolder, $"test.pdf");
+            byte[] pdfFileBytes = File.ReadAllBytes(pdfFilePath);
+            var encrypt = encryptClient.EncryptFromBytes(pdfFileBytes);
+
+            ICryptoNet decryptClient = new CryptoNetAes(key);
+            var decrypt = decryptClient.DecryptToBytes(encrypt);
+
+            var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(pdfFileBytes, decrypt);
+            isIdenticalFile.ShouldBeTrue();
+        }
+
+        [Test]
         public void Encrypt_And_Decrypt_With_Wrong_SymmetricKey_Test()
         {
             var key = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
             var keyWrong = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315b1916");
             var iv = new byte[16];
-            
+
             // arrange
             ICryptoNet encryptClient = new CryptoNetAes(key, iv);
             ICryptoNet decryptClient = new CryptoNetAes(keyWrong, iv);
@@ -242,11 +262,8 @@ namespace CryptoNet.UnitTests
 
         private static string CalculateMd5(string content)
         {
-            using (var md5 = MD5.Create())
-            {
-                var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(content));
-                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-            }
+            var hash = MD5.HashData(Encoding.UTF8.GetBytes(content));
+            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
         #endregion
 

@@ -76,21 +76,21 @@ namespace CryptoNet
             return CryptoNetUtils.ExportAndSaveAesKey(Aes);
         }
 
-        public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = null)
+        public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false)
         {
             var key = CryptoNetUtils.ExportAndSaveAesKey(Aes);
             CryptoNetUtils.SaveKey(fileInfo.FullName, key);
         }
 
         #region encryption logic
-        public byte[] EncryptFromString(string bytes)
+        public byte[] EncryptFromString(string content)
         {
-            return EncryptContent(bytes);
+            return EncryptContent(content);
         }
 
         public byte[] EncryptFromBytes(byte[] bytes)
         {
-            return EncryptContent(CryptoNetUtils.BytesToString(bytes));
+            return EncryptContent(CryptoNetUtils.Base64BytesToString(bytes));
         }
 
         public string DecryptToString(byte[] bytes)
@@ -100,14 +100,14 @@ namespace CryptoNet
 
         public byte[] DecryptToBytes(byte[] bytes)
         {
-            return CryptoNetUtils.StringToBytes(DecryptContent(bytes));
+            return CryptoNetUtils.Base64StringToBytes(DecryptContent(bytes));
         }
 
         private byte[] EncryptContent(string content)
         {
             if (content == null || content.Length <= 0)
             {
-                throw new ArgumentNullException("content");
+                throw new ArgumentNullException(nameof(content));
             }
 
             byte[] encrypted;
@@ -133,20 +133,20 @@ namespace CryptoNet
         {
             if (bytes == null || bytes.Length <= 0)
             {
-                throw new ArgumentNullException("bytes");
+                throw new ArgumentNullException(nameof(bytes));
             }
 
             string? plaintext;
 
             ICryptoTransform decryptor = Aes.CreateDecryptor(Aes.Key, Aes.IV);
 
-            using (MemoryStream msDecrypt = new MemoryStream(bytes))
+            using (MemoryStream ms = new MemoryStream(bytes))
             {
-                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                 {
-                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                    using (StreamReader sr = new StreamReader(cs))
                     {
-                        plaintext = srDecrypt.ReadToEnd();
+                        plaintext = sr.ReadToEnd();
                     }
                 }
             }
