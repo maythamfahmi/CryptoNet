@@ -6,7 +6,7 @@
 [![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/maythamfahmi/CryptoNet)
 
 # Introduction
-:rocket: CryptoNet is simple, fast, and a lightweight asymmetric and symmetric encryption NuGet library supporting .NET Standard 2.0 and C# 8.0 for cross platforms Windows, Linux, iOS.
+:rocket: CryptoNet is simple, fast, and a lightweight asymmetric and symmetric encryption NuGet library supporting .NET Standard 2.0 and C# 8.0 for cross platforms Windows, Linux, and iOS.
 It is a 100% native C# implementation based on [Microsoft](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography?view=net-6.0) cryptography.
 It does not depend on other libraries.
 
@@ -22,36 +22,13 @@ https://maythamfahmi.github.io/CryptoNet
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
-#### [![Nuget](https://img.shields.io/badge/nuget-v2.2.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/2.2.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v2.2.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v2.2.0)
-- Minor updates
-- Corrected texts
-
-#### [![Nuget](https://img.shields.io/badge/nuget-v2.1.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/2.1.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v2.1.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v2.1.0)
-- !!!Breaking change!!!
-- Refactoring RSA asymmetric encryption.
-- Introducing AES symmetric encryption.
-- Adapt RSA PEM exporting and importing helpers with examples.
-- Windows symmetric encryption from v.1.6 is no longer available.
-
-#### [![Nuget](https://img.shields.io/badge/nuget-v1.6.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.6.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.6.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.6.0)
-- Adapt RSA instance for customization.
-- Adapt RSA customization example for PEM exporting and importing.
-
-#### [![Nuget](https://img.shields.io/badge/nuget-v1.5.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.5.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.5.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.5.0)
-- Reintroducing symmetric encryption only for Windows OS.
-- Adding Source Link, Deterministic, and Compiler Flags to the NuGet package.
-- Readme enhancement.
-
-#### [![Nuget](https://img.shields.io/badge/nuget-v1.2.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.2.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.2.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.2.0)
-- Change from RSACryptoServiceProvider to RSA factory that supports cross platforms (Windows, Linux, iOS).
-- No longer support symmetric encryption from version 1.0.0.
-- Console examples and Unit testing refactored.
+List of features:
+- RSA asymmetric encryption.
+- AES symmetric encryption.
+- RSA PEM exporting and importing.
 - Support for X509Certificate2.
-
-#### [![Nuget](https://img.shields.io/badge/nuget-v1.0.0-blue?style=social)](https://www.nuget.org/packages/CryptoNet/1.0.0) [![Release%20Code](https://img.shields.io/badge/release%20code-v1.0.0-blue?style=social)](https://github.com/maythamfahmi/CryptoNet/releases/tag/v1.0.0)
-
-- Ability to encrypt and decrypt files like, images, word, excel, etc.
-- Improvement documentation
+- Ability to encrypt and decrypt text, files like images, word, excel, etc.
+- Cross-platform compatible Windows, Linux, and iOS.
 
 ## Issues
 
@@ -170,7 +147,7 @@ docker build . --file .\Dockerfile --tag cryptonet-service:latest
 You are more than welcome to contribute in one of the following ways:
 
 1. Basic: Give input, and suggestions for improvement by creating an issue and labeling it https://github.com/maythamfahmi/CryptoNet/issues
-2. Advance: if you have good knowledge of C# and Cryptography just grab one of the issues, features, or refactoring and add a pull request.
+2. Advance: if you have good knowledge of C# and Cryptography just grab one of the issues, or features, or create a new one and refactor and add a pull request.
 3. Documentation: Add, update, or improve documentation, by making a pull request.
 
 ### How to contribute:

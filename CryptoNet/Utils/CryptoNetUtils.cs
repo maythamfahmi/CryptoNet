@@ -8,6 +8,8 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -73,6 +75,26 @@ namespace CryptoNet.Utils
         public static byte[] StringToBytes(string content)
         {
             return Encoding.ASCII.GetBytes(content);
+        }
+
+        public static string Base64BytesToString(byte[] bytes)
+        {
+            return Convert.ToBase64String(bytes);
+        }
+
+        public static byte[] Base64StringToBytes(string content)
+        {
+            return Convert.FromBase64String(content);
+        }
+
+        public static bool ByteArrayCompare(byte[] b1, byte[] b2)
+        {
+            if (b1.Length != b2.Length)
+            {
+                return false;
+            }
+
+            return (b1.Length - b2.Length) == 0 && b1.SequenceEqual(b2);
         }
         #endregion
 

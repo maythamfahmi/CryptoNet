@@ -132,12 +132,12 @@ namespace CryptoNet
             };
         }
 
-        public string ExportKey(bool? privateKey)
+        public string ExportKey(bool? privateKey = null)
         {
             return privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         }
 
-        public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey)
+        public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false)
         {
             string key = privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
             if (!string.IsNullOrEmpty(key))
@@ -148,10 +148,15 @@ namespace CryptoNet
 
         private string ExportKey(KeyType keyType)
         {
-            return keyType == KeyType.PrivateKey ? Rsa.ToXmlString(true) :
-                keyType == KeyType.PublicKey ? Rsa.ToXmlString(false) :
-                keyType == KeyType.NotSet ? string.Empty :
-                throw new ArgumentOutOfRangeException(nameof(keyType), keyType, null);
+            string result = keyType switch
+            {
+                KeyType.NotSet => string.Empty,
+                KeyType.PublicKey => Rsa.ToXmlString(false),
+                KeyType.PrivateKey => Rsa.ToXmlString(true),
+                _ => throw new ArgumentOutOfRangeException(nameof(keyType), keyType, null)
+            };
+
+            return result;
         }
 
         #region encryption logic
@@ -160,19 +165,19 @@ namespace CryptoNet
             return EncryptContent(CryptoNetUtils.StringToBytes(content));
         }
 
-        public byte[] EncryptFromBytes(byte[] content)
+        public byte[] EncryptFromBytes(byte[] bytes)
         {
-            return EncryptContent(content);
+            return EncryptContent(bytes);
         }
 
-        public string DecryptToString(byte[] content)
+        public string DecryptToString(byte[] bytes)
         {
-            return CryptoNetUtils.BytesToString(DecryptContent(content));
+            return CryptoNetUtils.BytesToString(DecryptContent(bytes));
         }
 
-        public byte[] DecryptToBytes(byte[] content)
+        public byte[] DecryptToBytes(byte[] bytes)
         {
-            return DecryptContent(content);
+            return DecryptContent(bytes);
         }
 
         private byte[] EncryptContent(byte[] content)
