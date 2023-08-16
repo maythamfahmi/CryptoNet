@@ -7,19 +7,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet", "CryptoNet\Cryp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Cli", "CryptoNet.Cli\CryptoNet.Cli.csproj", "{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNet.UnitTests", "CryptoNet.UnitTests\CryptoNet.UnitTests.csproj", "{702C8501-AF79-4549-98A8-67A153DF5B70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.UnitTests", "CryptoNet.UnitTests\CryptoNet.UnitTests.csproj", "{702C8501-AF79-4549-98A8-67A153DF5B70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{1733D13E-78C2-4A60-8741-EB641832A832}"
 	ProjectSection(SolutionItems) = preProject
-		.bettercodehub.yml = .bettercodehub.yml
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		build.ps1 = build.ps1
+		.github\workflows\cd-release.yml = .github\workflows\cd-release.yml
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		Dockerfile = Dockerfile
 		.github\workflows\release-preview.yml = .github\workflows\release-preview.yml
 		.github\workflows\release-test.yml = .github\workflows\release-test.yml
-		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info", "Info", "{6976E2ED-A139-48C5-A390-639F56A8B348}"
