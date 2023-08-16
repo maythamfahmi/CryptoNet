@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 using CryptoNet.Models;
 using CryptoNet.Utils;
 using NUnit.Framework;
@@ -173,10 +172,10 @@ namespace CryptoNet.UnitTests
             // act
             var filePath = Path.Combine(Common.TestFilesFolder, filename);
             byte[] originalFileBytes = File.ReadAllBytes(filePath);
-            byte[] encrypted = cryptoNet.EncryptFromBytes(originalFileBytes);
-            byte[] decrypted = cryptoNet.DecryptToBytes(encrypted);
+            byte[] encryptedBytes = cryptoNet.EncryptFromBytes(originalFileBytes);
+            byte[] decryptedBytes = cryptoNet.DecryptToBytes(encryptedBytes);
 
-            var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(originalFileBytes, decrypted);
+            var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(originalFileBytes, decryptedBytes);
 
             // assert
             isIdenticalFile.ShouldBeTrue();
