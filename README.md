@@ -28,7 +28,7 @@ List of features:
 - RSA PEM exporting and importing.
 - Support for X509Certificate2.
 - Ability to encrypt and decrypt text, files like images, word, excel, etc.
-- Cross-platform compatible Windows, Linux, and iOS.
+- Cross-platform compatible with Windows, Linux, and iOS.
 
 ## Issues
 
