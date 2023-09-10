@@ -24,7 +24,7 @@ namespace CryptoNet
             Aes.KeySize = 256;
             Aes.GenerateKey();
             Aes.GenerateIV();
-            Info = CreateDetails(Aes.Key, Aes.IV);
+            Info = CreateInfo(Aes.Key, Aes.IV);
             Aes.Key = Info.AesDetail!.AesKeyValue.Key;
             Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
@@ -34,7 +34,7 @@ namespace CryptoNet
             Aes = Aes.Create();
             Aes.KeySize = 256;
             var keyInfo = CryptoNetUtils.ImportAesKey(key);
-            Info = CreateDetails(keyInfo.Key, keyInfo.Iv);
+            Info = CreateInfo(keyInfo.Key, keyInfo.Iv);
             Aes.Key = Info.AesDetail!.AesKeyValue.Key;
             Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
@@ -44,7 +44,7 @@ namespace CryptoNet
             Aes = Aes.Create();
             Aes.KeySize = 256;
             var keyInfo = CryptoNetUtils.ImportAesKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
-            Info = CreateDetails(keyInfo.Key, keyInfo.Iv);
+            Info = CreateInfo(keyInfo.Key, keyInfo.Iv);
             Aes.Key = Info.AesDetail!.AesKeyValue.Key;
             Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
@@ -53,12 +53,12 @@ namespace CryptoNet
         {
             Aes = Aes.Create();
             Aes.KeySize = 256;
-            Info = CreateDetails(key, iv);
+            Info = CreateInfo(key, iv);
             Aes.Key = Info.AesDetail!.AesKeyValue.Key;
             Aes.IV = Info.AesDetail!.AesKeyValue.Iv;
         }
 
-        private CryptoNetInfo CreateDetails(byte[] key, byte[] iv)
+        private CryptoNetInfo CreateInfo(byte[] key, byte[] iv)
         {
             return new CryptoNetInfo()
             {
@@ -85,74 +85,109 @@ namespace CryptoNet
         #region encryption logic
         public byte[] EncryptFromString(string content)
         {
-            return EncryptContent(content);
+            return EncryptContent(CryptoNetUtils.StringToBytes(content));
+
         }
 
         public byte[] EncryptFromBytes(byte[] bytes)
         {
-            return EncryptContent(CryptoNetUtils.Base64BytesToString(bytes));
+            return EncryptContent(bytes);
         }
 
         public string DecryptToString(byte[] bytes)
         {
-            return DecryptContent(bytes);
+            return CryptoNetUtils.BytesToString(DecryptContent(bytes));
         }
 
         public byte[] DecryptToBytes(byte[] bytes)
         {
-            return CryptoNetUtils.Base64StringToBytes(DecryptContent(bytes));
+            return DecryptContent(bytes);
         }
 
-        private byte[] EncryptContent(string content)
-        {
-            if (content == null || content.Length <= 0)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
-
-            byte[] encrypted;
-
-            ICryptoTransform encryptor = Aes.CreateEncryptor(Aes.Key, Aes.IV);
-
-            using (MemoryStream msEncrypt = new MemoryStream())
-            {
-                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                {
-                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                    {
-                        swEncrypt.Write(content);
-                    }
-                    encrypted = msEncrypt.ToArray();
-                }
-            }
-
-            return encrypted;
-        }
-
-        private string DecryptContent(byte[] bytes)
+        private byte[] EncryptContent(byte[] bytes)
         {
             if (bytes == null || bytes.Length <= 0)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
 
-            string? plaintext;
+            byte[] result;
 
-            ICryptoTransform decryptor = Aes.CreateDecryptor(Aes.Key, Aes.IV);
+            var encryptor = Aes.CreateEncryptor(Aes.Key, Aes.IV);
 
-            using (MemoryStream ms = new MemoryStream(bytes))
+            using (var msOut = new MemoryStream())
             {
-                using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                using (var csEncryptedOut = new CryptoStream(msOut, encryptor, CryptoStreamMode.Write))
                 {
-                    using (StreamReader sr = new StreamReader(cs))
+                    var blockSizeBytes = Aes.BlockSize / 8;
+                    var data = new byte[blockSizeBytes];
+
+                    using (var msIn = new MemoryStream(bytes))
                     {
-                        plaintext = sr.ReadToEnd();
+                        int count;
+                        do
+                        {
+                            count = msIn.Read(data, 0, blockSizeBytes);
+                            csEncryptedOut.Write(data, 0, count);
+                        } while (count > 0);
+
+                        msIn.Close();
                     }
+
+                    csEncryptedOut.FlushFinalBlock();
+                    csEncryptedOut.Close();
                 }
+
+                result = msOut.ToArray();
+
+                msOut.Close();
             }
 
-            return plaintext;
+            return result;
         }
+
+        private byte[] DecryptContent(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length <= 0)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
+            byte[] result;
+
+            using (var inMs = new MemoryStream(bytes))
+            {
+                var decryptor = Aes.CreateDecryptor(Aes.Key, Aes.IV);
+
+                using (var outMs = new MemoryStream())
+                {
+                    var blockSizeBytes = Aes.BlockSize / 8;
+                    var data = new byte[blockSizeBytes];
+
+                    using (var csDecryptedOut = new CryptoStream(outMs, decryptor, CryptoStreamMode.Write))
+                    {
+                        int count;
+                        do
+                        {
+                            count = inMs.Read(data, 0, blockSizeBytes);
+                            csDecryptedOut.Write(data, 0, count);
+                        } while (count > 0);
+
+                        csDecryptedOut.FlushFinalBlock();
+                        csDecryptedOut.Close();
+                    }
+
+                    result = outMs.ToArray();
+
+                    outMs.Close();
+                }
+
+                inMs.Close();
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

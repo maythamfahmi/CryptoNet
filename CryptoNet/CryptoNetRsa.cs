@@ -23,7 +23,7 @@ namespace CryptoNet
         {
             Rsa = RSA.Create();
             Rsa.KeySize = keySize;
-            Info = CreateDetails();
+            Info = CreateInfo();
             Info.KeyType = CheckKeyType();
             if (Info.RsaDetail != null)
             {
@@ -36,7 +36,7 @@ namespace CryptoNet
         {
             Rsa = RSA.Create();
             Rsa.KeySize = keySize;
-            Info = CreateDetails();
+            Info = CreateInfo();
             CreateAsymmetricKey(key);
             Info.KeyType = CheckKeyType();
             if (Info.RsaDetail != null)
@@ -50,7 +50,7 @@ namespace CryptoNet
         {
             Rsa = RSA.Create();
             Rsa.KeySize = keySize;
-            Info = CreateDetails();
+            Info = CreateInfo();
             CreateAsymmetricKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
             Info.KeyType = CheckKeyType();
             if (Info.RsaDetail != null)
@@ -64,7 +64,7 @@ namespace CryptoNet
         {
             Rsa = RSA.Create();
             Rsa.KeySize = keySize;
-            Info = CreateDetails();
+            Info = CreateInfo();
             RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
             Rsa.ImportParameters(@params);
             Info.KeyType = CheckKeyType();
@@ -119,7 +119,7 @@ namespace CryptoNet
             }
         }
 
-        private CryptoNetInfo CreateDetails()
+        private CryptoNetInfo CreateInfo()
         {
             return new CryptoNetInfo()
             {
@@ -180,16 +180,21 @@ namespace CryptoNet
             return DecryptContent(bytes);
         }
 
-        private byte[] EncryptContent(byte[] content)
+        private byte[] EncryptContent(byte[] bytes)
         {
-            byte[] bytes;
+            if (bytes == null || bytes.Length <= 0)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
+            byte[] result;
 
             var aes = Aes.Create();
             aes.KeySize = 256;
             aes.BlockSize = 128;
             aes.Mode = CipherMode.CBC;
 
-            var transform = aes.CreateEncryptor();
+            var encryptor = aes.CreateEncryptor();
 
             var keyEncrypted = Rsa.Encrypt(aes.Key, RSAEncryptionPadding.OaepSHA1);
 
@@ -205,38 +210,43 @@ namespace CryptoNet
                 msOut.Write(keyEncrypted, 0, lKey);
                 msOut.Write(aes.IV, 0, lIv);
 
-                using (var outStreamEncrypted = new CryptoStream(msOut, transform, CryptoStreamMode.Write))
+                using (var csEncryptedOut = new CryptoStream(msOut, encryptor, CryptoStreamMode.Write))
                 {
                     var blockSizeBytes = aes.BlockSize / 8;
                     var data = new byte[blockSizeBytes];
 
-                    using (var msIn = new MemoryStream(content))
+                    using (var msIn = new MemoryStream(bytes))
                     {
                         int count;
                         do
                         {
                             count = msIn.Read(data, 0, blockSizeBytes);
-                            outStreamEncrypted.Write(data, 0, count);
+                            csEncryptedOut.Write(data, 0, count);
                         } while (count > 0);
 
                         msIn.Close();
                     }
 
-                    outStreamEncrypted.FlushFinalBlock();
-                    outStreamEncrypted.Close();
+                    csEncryptedOut.FlushFinalBlock();
+                    csEncryptedOut.Close();
                 }
 
-                bytes = msOut.ToArray();
+                result = msOut.ToArray();
 
                 msOut.Close();
             }
 
-            return bytes;
+            return result;
         }
 
         private byte[] DecryptContent(byte[] bytes)
         {
-            byte[] content;
+            if (bytes == null || bytes.Length <= 0)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
+            byte[] result;
 
             var aes = Aes.Create();
             aes.KeySize = 256;
@@ -269,7 +279,7 @@ namespace CryptoNet
 
                 var keyDecrypted = Rsa.Decrypt(keyEncrypted, RSAEncryptionPadding.OaepSHA1);
 
-                var transform = aes.CreateDecryptor(keyDecrypted, iv);
+                var decryptor = aes.CreateDecryptor(keyDecrypted, iv);
 
                 using (var outMs = new MemoryStream())
                 {
@@ -277,20 +287,20 @@ namespace CryptoNet
                     var data = new byte[blockSizeBytes];
 
                     inMs.Seek(startC, SeekOrigin.Begin);
-                    using (var outStreamDecrypted = new CryptoStream(outMs, transform, CryptoStreamMode.Write))
+                    using (var csDecryptedOut = new CryptoStream(outMs, decryptor, CryptoStreamMode.Write))
                     {
                         int count;
                         do
                         {
                             count = inMs.Read(data, 0, blockSizeBytes);
-                            outStreamDecrypted.Write(data, 0, count);
+                            csDecryptedOut.Write(data, 0, count);
                         } while (count > 0);
 
-                        outStreamDecrypted.FlushFinalBlock();
-                        outStreamDecrypted.Close();
+                        csDecryptedOut.FlushFinalBlock();
+                        csDecryptedOut.Close();
                     }
 
-                    content = outMs.ToArray();
+                    result = outMs.ToArray();
 
                     outMs.Close();
                 }
@@ -298,7 +308,7 @@ namespace CryptoNet
                 inMs.Close();
             }
 
-            return content;
+            return result;
         }
         #endregion
     }
