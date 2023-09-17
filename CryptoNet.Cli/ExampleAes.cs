@@ -15,8 +15,6 @@ namespace CryptoNet.Cli;
 
 public class ExampleAes
 {
-    protected ExampleAes() { }
-
     private const string ConfidentialDummyData = @"Some Secret Data";
 
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
