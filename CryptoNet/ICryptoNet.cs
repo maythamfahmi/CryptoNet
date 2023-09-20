@@ -8,16 +8,15 @@
 using System.IO;
 using CryptoNet.Models;
 
-namespace CryptoNet
+namespace CryptoNet;
+
+public interface ICryptoNet
 {
-    public interface ICryptoNet
-    {
-        CryptoNetInfo Info { get; }
-        string ExportKey(bool? privateKey = null);
-        void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false);
-        byte[] EncryptFromString(string content);
-        string DecryptToString(byte[] bytes);
-        byte[] EncryptFromBytes(byte[] bytes);
-        byte[] DecryptToBytes(byte[] bytes);
-    }
+    CryptoNetInfo Info { get; }
+    string ExportKey(bool? privateKey = null);
+    void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false);
+    byte[] EncryptFromString(string content);
+    string DecryptToString(byte[] bytes);
+    byte[] EncryptFromBytes(byte[] bytes);
+    byte[] DecryptToBytes(byte[] bytes);
 }

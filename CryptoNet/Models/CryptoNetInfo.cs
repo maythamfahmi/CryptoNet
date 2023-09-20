@@ -9,80 +9,79 @@ using System;
 using System.ComponentModel;
 using System.Security.Cryptography;
 
-namespace CryptoNet.Models
+namespace CryptoNet.Models;
+
+public class CryptoNetInfo
 {
-    public class CryptoNetInfo
-    {
-        public EncryptionType EncryptionType { get; set; }
-        public KeyType KeyType { get; set; }
-        public RsaDetail? RsaDetail { get; set; }
-        public AesDetail? AesDetail { get; set; }
-    }
+    public EncryptionType EncryptionType { get; set; }
+    public KeyType KeyType { get; set; }
+    public RsaDetail? RsaDetail { get; set; }
+    public AesDetail? AesDetail { get; set; }
+}
 
-    public class RsaDetail
-    {
-        public RSA? Rsa { get; set; }
-        public byte[] PublicKey { get; set; }
-        public byte[] PrivateKey { get; set; }
-    }
+public class RsaDetail
+{
+    public RSA? Rsa { get; set; }
+    public byte[] PublicKey { get; set; }
+    public byte[] PrivateKey { get; set; }
+}
 
-    public class AesDetail
+public class AesDetail
+{
+    public AesDetail(byte[] key, byte[] iv)
     {
-        public AesDetail(byte[] key, byte[] iv)
+        if (key == null || key.Length <= 0)
         {
-            if (key == null || key.Length <= 0)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (iv == null || iv.Length <= 0)
-            {
-                throw new ArgumentNullException(nameof(iv));
-            }
-
-            AesKeyValue = new AesKeyValue()
-            {
-                Key = key,
-                Iv = iv
-            };
+            throw new ArgumentNullException(nameof(key));
         }
 
-        public Aes? Aes { get; set; }
-        public AesKeyValue AesKeyValue { get; set; }
+        if (iv == null || iv.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(iv));
+        }
+
+        AesKeyValue = new AesKeyValue()
+        {
+            Key = key,
+            Iv = iv
+        };
     }
 
-    [Serializable()]
-    public class AesKeyValue
-    {
-        [System.Xml.Serialization.XmlElement("key")]
-        public byte[] Key { get; set; }
+    public Aes? Aes { get; set; }
+    public AesKeyValue AesKeyValue { get; set; }
+}
 
-        [System.Xml.Serialization.XmlElement("iv")]
-        public byte[] Iv { get; set; }
+[Serializable()]
+public class AesKeyValue
+{
+    [System.Xml.Serialization.XmlElement("key")]
+    public byte[] Key { get; set; }
 
-    }
+    [System.Xml.Serialization.XmlElement("iv")]
+    public byte[] Iv { get; set; }
 
-    public enum KeyType
-    {
-        [Description("Key does not exist.")]
-        NotSet,
+}
 
-        [Description("Symmetric key is set.")]
-        SymmetricKey,
+public enum KeyType
+{
+    [Description("Key does not exist.")]
+    NotSet,
 
-        [Description("Public key is set.")]
-        PublicKey,
+    [Description("Symmetric key is set.")]
+    SymmetricKey,
 
-        [Description("Asymmetric key (both public and private) are set.")]
-        PrivateKey
-    }
+    [Description("Public key is set.")]
+    PublicKey,
 
-    public enum EncryptionType
-    {
-        [Description("Rsa encryption.")]
-        Rsa,
+    [Description("Asymmetric key (both public and private) are set.")]
+    PrivateKey
+}
 
-        [Description("Aes encryption.")]
-        Aes
-    }
+public enum EncryptionType
+{
+    [Description("Rsa encryption.")]
+    Rsa,
+
+    [Description("Aes encryption.")]
+    Aes
 }
