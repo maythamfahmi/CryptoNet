@@ -9,6 +9,8 @@ namespace CryptoNet.Cli;
 
 internal class Program
 {
+    protected Program() { }
+
     public static void Main()
     {
         ExampleAes.Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_SymmetricKey();

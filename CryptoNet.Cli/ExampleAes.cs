@@ -13,7 +13,7 @@ using CryptoNet.Utils;
 
 namespace CryptoNet.Cli;
 
-public class ExampleAes
+public static class ExampleAes
 {
     private const string ConfidentialDummyData = @"Some Secret Data";
 

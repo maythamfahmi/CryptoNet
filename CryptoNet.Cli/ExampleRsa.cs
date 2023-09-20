@@ -14,7 +14,7 @@ using CryptoNet.Utils;
 
 namespace CryptoNet.Cli;
 
-public class ExampleRsa
+public static class ExampleRsa
 {
     private const string ConfidentialDummyData = @"Some Secret Data";
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
