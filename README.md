@@ -40,13 +40,13 @@ Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
 
 The library can be used in 2 ways:
 
-* Symmetric way
-* Asymmetric way
+* Symmetrically encryption
+* Asymmetrically encryption (public key encryption)
 
-#### Symmetric way
+#### Symmetric encryption
 You use the same key (any secret key) for encryption and decryption.
 
-#### Asymmetric way
+#### Asymmetric encryption
 In an asymmetric way, the library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
 
 You can store the private key on one or more machines. The public key can easily distribute to all clients.
@@ -57,10 +57,12 @@ It is also possible to use asymmetric keys of the X509 Certificate instead of ge
 
 The main concept with asymmetric encryption is that you have a Private and Public key. You use the Public key to encrypt the content and use the Private key to decrypt the content back again.
 
+Read more about asymmetric or public key encryption [here](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/)
+
 You find the complete and all examples for:
 
-- Rsa encryption [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNet.Cli/ExampleRsa.cs)
-- Aes encryption [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNet.Cli/ExampleAes.cs) 
+- RSA encryption [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNet.Cli/ExampleRsa.cs)
+- AES encryption [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNet.Cli/ExampleAes.cs) 
 
 
 Here are some examples:
@@ -68,7 +70,7 @@ Here are some examples:
 ### Examples
 
 ### Example: Encrypt and Decrypt Content With Symmetric Key
-In this example CryptoNetAes generate a random key and iv, hence we use the same instance we can both encrypt and decrypt.
+In this example CryptoNetAes generate a random key and IV, hence we use the same instance we can both encrypt and decrypt.
 ```csharp
 ICryptoNet cryptoNet = new CryptoNetAes();
 var key = cryptoNet.ExportKey();
@@ -98,7 +100,7 @@ var decrypt = cryptoNetKeyImport.DecryptToString(encrypt);
 Debug.Assert(ConfidentialDummyData == decrypt);
 ```
 
-### Example: Generate Asymmetric Rsa key pair, Export Private and Public, use Public key to encrypt with and Use Private key to decrypt with
+### Example: Generate Asymmetric RSA key pair, Export Private and Public, use Public key to encrypt with and Use Private key to decrypt with
 ```csharp
 ICryptoNet cryptoNet = new CryptoNetRsa();
 
