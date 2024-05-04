@@ -95,7 +95,7 @@ public static class ExampleAes
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
 
-    public static void Example_5_Encrypt_And_Decrypt_PdfFile_With_SymmetricKey_Test(string filename)
+    public static void Example_5_Encrypt_And_Decrypt_File_With_SymmetricKey_Test(string filename)
     {
         ICryptoNet cryptoNet = new CryptoNetAes();
         var key = cryptoNet.ExportKey();
