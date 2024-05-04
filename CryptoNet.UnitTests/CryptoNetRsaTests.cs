@@ -10,6 +10,7 @@ using System.IO;
 using CryptoNet.Models;
 using CryptoNet.Utils;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Shouldly;
 
 // ReSharper disable All
@@ -116,7 +117,7 @@ public class CryptoNetRsaTests
         var decrypt = decryptClient.DecryptToBytes(encrypt);
 
         // assert
-        Assert.AreEqual(testDocument, decrypt);
+        ClassicAssert.AreEqual(testDocument, decrypt);
     }
 
     [Test]
