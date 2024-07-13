@@ -5,7 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using CryptoNet.Models;
@@ -22,14 +21,10 @@ public static class ExampleAes
 
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_SymmetricKey()
     {
-        ICryptoNet cryptoNet = new CryptoNetAes();
-        var key = cryptoNet.ExportKey();
+        var key = new CryptoNetAes().ExportKey();
 
-        ICryptoNet encryptClient = new CryptoNetAes(key);
-        var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
-
-        ICryptoNet decryptClient = new CryptoNetAes(key);
-        var decrypt = decryptClient.DecryptToString(encrypt);
+        var encrypt = new CryptoNetAes(key).EncryptFromString(ConfidentialDummyData);
+        var decrypt = new CryptoNetAes(key).DecryptToString(encrypt);
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
@@ -69,11 +64,8 @@ public static class ExampleAes
         var key = Encoding.UTF8.GetBytes(symmetricKey);
         var iv = Encoding.UTF8.GetBytes(secret);
 
-        ICryptoNet encryptClient = new CryptoNetAes(key, iv);
-        var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
-
-        ICryptoNet decryptClient = new CryptoNetAes(key, iv);
-        var decrypt = decryptClient.DecryptToString(encrypt);
+        var encrypt = new CryptoNetAes(key, iv).EncryptFromString(ConfidentialDummyData);
+        var decrypt = new CryptoNetAes(key, iv).DecryptToString(encrypt);
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
@@ -86,29 +78,23 @@ public static class ExampleAes
         var key = Encoding.UTF8.GetBytes(symmetricKey);
         var iv = Encoding.UTF8.GetBytes(secret);
 
-        ICryptoNet encryptClient = new CryptoNetAes(key, iv);
-        var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
-
-        ICryptoNet decryptClient = new CryptoNetAes(key, iv);
-        var decrypt = decryptClient.DecryptToString(encrypt);
+        var encrypt = new CryptoNetAes(key, iv).EncryptFromString(ConfidentialDummyData);
+        var decrypt = new CryptoNetAes(key, iv).DecryptToString(encrypt);
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
 
     public static void Example_5_Encrypt_And_Decrypt_File_With_SymmetricKey_Test(string filename)
     {
-        ICryptoNet cryptoNet = new CryptoNetAes();
-        var key = cryptoNet.ExportKey();
+        var key = new CryptoNetAes().ExportKey();
 
         FileInfo fi = new FileInfo(filename);
 
-        ICryptoNet encryptClient = new CryptoNetAes(key);
         string pdfFilePath = Path.Combine(BaseFolder, filename);
         byte[] pdfFileBytes = File.ReadAllBytes(pdfFilePath);
-        var encrypt = encryptClient.EncryptFromBytes(pdfFileBytes);
+        var encrypt = new CryptoNetAes(key).EncryptFromBytes(pdfFileBytes);
 
-        ICryptoNet decryptClient = new CryptoNetAes(key);
-        var decrypt = decryptClient.DecryptToBytes(encrypt);
+        var decrypt = new CryptoNetAes(key).DecryptToBytes(encrypt);
         string pdfDecryptedFilePath = $"TestFiles\\{Path.GetFileNameWithoutExtension(fi.Name)}-decrypted.{fi.Extension}";
         File.WriteAllBytes(pdfDecryptedFilePath, decrypt);
 
