@@ -38,9 +38,7 @@ public static class ExampleAes
         Debug.Assert(File.Exists(file.FullName));
 
         var encrypt = cryptoNet.EncryptFromString(ConfidentialDummyData);
-
-        ICryptoNet cryptoNetKeyImport = new CryptoNetAes(file);
-        var decrypt = cryptoNetKeyImport.DecryptToString(encrypt);
+        var decrypt = new CryptoNetAes(file).DecryptToString(encrypt);
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
