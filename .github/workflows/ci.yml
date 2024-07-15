@@ -3,9 +3,10 @@ name: "Continuous integration"
 on:
   push:
     branches:
-      - main
-      - "feature/*"
-      - "!feature/ci*"
+      - none
+      # - main
+      # - "feature/*"
+      # - "!feature/ci*"
     paths-ignore:
       - "**/README.md"
   pull_request:
