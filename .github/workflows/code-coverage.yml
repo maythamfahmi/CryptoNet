@@ -1,13 +1,10 @@
-name: .NET Core CI with Code Coverage
+name: Code Coverage
 
 on:
   push:
     branches:
       - main
       - "feature/*"
-      - "!feature/ci*"
-    paths-ignore:
-      - "**/README.md"
   pull_request:
     branches:
       - main
@@ -17,30 +14,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET Core
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: 8.0.x
 
-      - name: Install dependencies
+      - name: Install ReportGenerator tool
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build
+      - name: Build the solution
         run: dotnet build --no-restore
 
-      - name: Run tests with coverage
+      - name: Run tests and collect code coverage
         run: dotnet test --no-build --collect:"XPlat Code Coverage"
+
+      - name: Generate code coverage report
+        run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:HtmlInline_AzurePipelines;Badges
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: code-coverage
-          path: "**/coverage.cobertura.xml"
+          name: code-coverage-report
+          path: coverage
 
-      - name: Generate coverage badge
-        uses: tj-actions/coverage-reporter@v5.1
+      - name: Upload coverage badge
+        uses: actions/upload-artifact@v4
         with:
-          coverage-command: "python -m coverage report"
+          name: code-coverage-badge
+          path: coverage/badge_linecoverage.svg
+
+      - name: Create coverage badge
+        run: cp coverage/badge_linecoverage.svg ./coverage-badge.svg
+
+      - name: Commit coverage badge
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add coverage-badge.svg
+          git commit -m 'Update coverage badge'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
