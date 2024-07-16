@@ -57,7 +57,7 @@ jobs:
 
       - name: Commit coverage badge
         run: |
-          git config --global user.name 'github-actions[bot]'
+          git config --global user.name 'github-actions[bot]' --force
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add coverage-badge.svg -i
           git commit -m 'Update coverage badge'
