@@ -3,11 +3,7 @@ name: Code Coverage
 on:
   push:
     branches:
-      - main
       - "feature/*"
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
@@ -16,6 +12,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
