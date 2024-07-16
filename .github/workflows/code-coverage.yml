@@ -1,4 +1,4 @@
-name: Code Coverage
+name: "Code Coverage"
 
 on:
   push:
@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -58,7 +55,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
+          git add coverage-badge.svg
           if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
               git commit -m 'Update coverage badge'
               git push

@@ -3,10 +3,9 @@ name: "Continuous integration"
 on:
   push:
     branches:
-      - none
-      # - main
-      # - "feature/*"
-      # - "!feature/ci*"
+      - main
+      - "feature/*"
+      - "!feature/ci*"
     paths-ignore:
       - "**/README.md"
   pull_request:
@@ -34,7 +33,3 @@ jobs:
         run: dotnet build --configuration Release
       - name: Test
         run: dotnet test --configuration Release --no-build
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
