@@ -60,7 +60,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git rm --cached coverage-badge.svg
-          git add coverage-badge.svg
+          git add .
           git commit -m 'Update coverage badge'
           git push --force
         env:
