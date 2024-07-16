@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Use Node.js
         uses: actions/setup-node@v3
 
@@ -58,9 +58,10 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git rm --cached coverage-badge.svg
           git add .
-          git commit -m 'Update coverage badge'
-          git push --force
+          if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
+              git commit -m 'Update coverage badge'
+              git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
