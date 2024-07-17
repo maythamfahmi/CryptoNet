@@ -395,3 +395,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 CoverageReport
+Resources/RsaKeys/privateKey
+Resources/RsaKeys/privateKey.pub
