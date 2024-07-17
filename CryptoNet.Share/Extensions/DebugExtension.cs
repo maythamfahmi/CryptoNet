@@ -24,6 +24,8 @@ namespace CryptoNet.Share.Extensions
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Assert failed: {message}");
                 Console.ForegroundColor = ConsoleColor.White;
+
+                throw new InvalidOperationException(message);
             }
         }
     }

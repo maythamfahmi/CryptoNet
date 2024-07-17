@@ -397,3 +397,7 @@ FodyWeavers.xsd
 CoverageReport
 Resources/RsaKeys/privateKey
 Resources/RsaKeys/publicKey.pub
+/Resources/TestFiles/test-decrypted.docx
+/Resources/TestFiles/test-decrypted.pdf
+/Resources/TestFiles/test-decrypted.png
+/Resources/TestFiles/test-decrypted.xlsx
