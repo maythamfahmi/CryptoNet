@@ -1,6 +1,13 @@
-﻿using System.Runtime.CompilerServices;
+﻿// <copyright file="Program.cs" company="NextBix" year="2021">
+// Copyright (c) 2021 All Rights Reserved
+// </copyright>
+// <author>Maytham Fahmi</author>
+// <date>17-12-2021 12:18:44</date>
+// <summary>part of CryptoNet project</summary>
 
-namespace CryptoNet.Cli
+using System.Runtime.CompilerServices;
+
+namespace CryptoNet.Share.Extensions
 {
     public static class Debug
     {
