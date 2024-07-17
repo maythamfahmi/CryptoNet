@@ -396,4 +396,4 @@ FodyWeavers.xsd
 
 CoverageReport
 Resources/RsaKeys/privateKey
-Resources/RsaKeys/privateKey.pub
+Resources/RsaKeys/publicKey.pub
