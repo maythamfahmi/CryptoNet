@@ -6,3 +6,5 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "<Pending>", Scope = "member", Target = "~M:CryptoNet.Cli.ExampleAes.Example_2_SelfGenerated_And_Save_SymmetricKey")]
+[assembly: SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "<Pending>", Scope = "member", Target = "~M:CryptoNet.Cli.ExampleRsa.Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey")]
+[assembly: SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "<Pending>", Scope = "member", Target = "~M:CryptoNet.Cli.ExampleRsa.Example_2_SelfGenerated_And_Save_AsymmetricKey")]

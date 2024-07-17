@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\CryptoNet.Share\CryptoNet.Share.csproj" />
         <ProjectReference Include="..\CryptoNet\CryptoNet.csproj" />
     </ItemGroup>
 

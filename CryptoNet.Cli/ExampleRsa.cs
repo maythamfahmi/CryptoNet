@@ -5,12 +5,12 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CryptoNet.Models;
 using CryptoNet.Utils;
+using Debug = CryptoNet.Share.Extensions.Debug;
 
 namespace CryptoNet.Cli;
 
@@ -29,11 +29,9 @@ public static class ExampleRsa
         var privateKey = cryptoNet.ExportKey(true);
         var publicKey = cryptoNet.ExportKey(false);
 
-        ICryptoNet encryptClient = new CryptoNetRsa(publicKey);
-        var encrypt = encryptClient.EncryptFromString(ConfidentialDummyData);
+        var encrypt = new CryptoNetRsa(publicKey).EncryptFromString(ConfidentialDummyData);
 
-        ICryptoNet decryptClient = new CryptoNetRsa(privateKey);
-        var decrypt = decryptClient.DecryptToString(encrypt);
+        var decrypt = new CryptoNetRsa(privateKey).DecryptToString(encrypt);
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
@@ -48,22 +46,18 @@ public static class ExampleRsa
         Debug.Assert(File.Exists(new FileInfo(PrivateKeyFile).FullName));
         Debug.Assert(File.Exists(new FileInfo(PublicKeyFile).FullName));
 
-        ICryptoNet cryptoNetPubKey = new CryptoNetRsa(new FileInfo(PublicKeyFile));
-        var encrypt = cryptoNetPubKey.EncryptFromString(ConfidentialDummyData);
+        var encrypt = new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromString(ConfidentialDummyData);
 
-        ICryptoNet cryptoNetPriKey = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
-        var decrypt = cryptoNetPriKey.DecryptToString(encrypt);
+        var decrypt = new CryptoNetRsa(new FileInfo(PrivateKeyFile)).DecryptToString(encrypt);
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
 
     public static void Example_3_Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content()
     {
-        ICryptoNet cryptoNetWithPublicKey = new CryptoNetRsa(new FileInfo(PublicKeyFile));
-        var encryptWithPublicKey = cryptoNetWithPublicKey.EncryptFromString(ConfidentialDummyData);
+        var encryptWithPublicKey = new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromString(ConfidentialDummyData);
 
-        ICryptoNet cryptoNetWithPrivateKey = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
-        var decryptWithPrivateKey = cryptoNetWithPrivateKey.DecryptToString(encryptWithPublicKey);
+        var decryptWithPrivateKey = new CryptoNetRsa(new FileInfo(PrivateKeyFile)).DecryptToString(encryptWithPublicKey);
 
         Debug.Assert(ConfidentialDummyData == decryptWithPrivateKey);
     }
@@ -73,11 +67,9 @@ public static class ExampleRsa
         // Find and replace CN=Maytham with your own certificate
         X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
 
-        ICryptoNet cryptoNetWithPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey);
-        var encryptWithPublicKey = cryptoNetWithPublicKey.EncryptFromString(ConfidentialDummyData);
+        var encryptWithPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey).EncryptFromString(ConfidentialDummyData);
 
-        ICryptoNet cryptoNetWithPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey);
-        var decryptWithPrivateKey = cryptoNetWithPrivateKey.DecryptToString(encryptWithPublicKey);
+        var decryptWithPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey).DecryptToString(encryptWithPublicKey);
 
         Debug.Assert(ConfidentialDummyData == decryptWithPrivateKey);
     }
@@ -87,8 +79,7 @@ public static class ExampleRsa
         // Find and replace CN=Maytham with your own certificate
         X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
 
-        ICryptoNet cryptoNetWithPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey);
-        var publicKey = cryptoNetWithPublicKey.ExportKey(false);
+        var publicKey = new CryptoNetRsa(certificate, KeyType.PublicKey).ExportKey(false);
 
         Debug.Assert(!string.IsNullOrEmpty(publicKey));
     }
@@ -130,7 +121,7 @@ public static class ExampleRsa
         return certPem;
     }
 
-    public static char[] ExportPemKey(X509Certificate2 cert, bool privateKey = true)
+    private static char[] ExportPemKey(X509Certificate2 cert, bool privateKey = true)
     {
         AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
 
@@ -144,14 +135,14 @@ public static class ExampleRsa
         return PemEncoding.Write("PUBLIC KEY", pubKeyBytes);
     }
 
-    public static ICryptoNet ImportPemKey(char[] key)
+    private static ICryptoNet ImportPemKey(char[] key)
     {
         ICryptoNet cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail!.Rsa?.ImportFromPem(key);
         return cryptoNet;
     }
 
-    public static byte[] ExportPemKeyWithPassword(X509Certificate2 cert, string password)
+    private static byte[] ExportPemKeyWithPassword(X509Certificate2 cert, string password)
     {
         AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
         byte[] pass = Encoding.UTF8.GetBytes(password);
@@ -160,7 +151,7 @@ public static class ExampleRsa
         return encryptedPrivateKey;
     }
 
-    public static ICryptoNet ImportPemKeyWithPassword(byte[] encryptedPrivateKey, string password)
+    private static ICryptoNet ImportPemKeyWithPassword(byte[] encryptedPrivateKey, string password)
     {
         ICryptoNet cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail?.Rsa?.ImportEncryptedPkcs8PrivateKey(password, encryptedPrivateKey, out _);

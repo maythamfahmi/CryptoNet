@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using CryptoNet.Models;
 using CryptoNet.Utils;
+using CryptoNet.Share;
 using NUnit.Framework;
 using Shouldly;
 
@@ -25,23 +26,17 @@ public class CryptoNetAesTests
     {
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
-            // arrange
             var key = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
             var iv = new byte[16];
 
-            ICryptoNet encryptClient = new CryptoNetAes(key, iv);
-            ICryptoNet decryptClient = new CryptoNetAes(key, iv);
+            var encryptData = new CryptoNetAes(key, iv).EncryptFromString(Common.ConfidentialDummyData);
+            var decryptData = new CryptoNetAes(key, iv).DecryptToString(encryptData);
 
-            // act
-            var encryptData = encryptClient.EncryptFromString(Common.ConfidentialDummyData);
-            var decryptData = decryptClient.DecryptToString(encryptData);
-
-            // assert
             Common.ConfidentialDummyData.ShouldBe(decryptData);
-            encryptClient.Info.KeyType.ShouldBe(KeyType.SymmetricKey);
-            encryptClient.Info.KeyType.ShouldNotBe(KeyType.PublicKey);
-            encryptClient.Info.KeyType.ShouldNotBe(KeyType.PrivateKey);
-            encryptClient.Info.KeyType.ShouldNotBe(KeyType.NotSet);
+            new CryptoNetAes(key, iv).Info.KeyType.ShouldBe(KeyType.SymmetricKey);
+            new CryptoNetAes(key, iv).Info.KeyType.ShouldNotBe(KeyType.PublicKey);
+            new CryptoNetAes(key, iv).Info.KeyType.ShouldNotBe(KeyType.PrivateKey);
+            new CryptoNetAes(key, iv).Info.KeyType.ShouldNotBe(KeyType.NotSet);
         }
     }
 
@@ -52,19 +47,14 @@ public class CryptoNetAesTests
         var keyWrong = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315b1916");
         var iv = new byte[16];
 
-        // arrange
-        ICryptoNet encryptClient = new CryptoNetAes(key, iv);
-        ICryptoNet decryptClient = new CryptoNetAes(keyWrong, iv);
-
-        // act
-        var encryptData = encryptClient.EncryptFromString(Common.ConfidentialDummyData);
+        var encryptData = new CryptoNetAes(key, iv).EncryptFromString(Common.ConfidentialDummyData);
+        
         try
         {
-            decryptClient.DecryptToString(encryptData);
+            new CryptoNetAes(keyWrong, iv).DecryptToString(encryptData);
         }
         catch (Exception e)
         {
-            // assert
             e.Message.ShouldBe("Padding is invalid and cannot be removed.");
         }
     }
@@ -75,22 +65,16 @@ public class CryptoNetAesTests
     [TestCase("test.pdf")]
     public void Validate_Decrypted_File_Against_The_Original_File_By_Comparing_Bytes_Test(string filename)
     {
-        // arrange
         var key = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
         var iv = new byte[16];
 
-        ICryptoNet encryptClient = new CryptoNetAes(key, iv);
-        ICryptoNet decryptClient = new CryptoNetAes(key, iv);
-
-        // act
-        var filePath = Path.Combine(Common.TestFilesFolder, filename);
+        var filePath = Path.Combine(Common.TestFilesPath, filename);
         byte[] originalFileBytes = File.ReadAllBytes(filePath);
-        byte[] encrypted = encryptClient.EncryptFromBytes(originalFileBytes);
-        byte[] decrypted = decryptClient.DecryptToBytes(encrypted);
+        byte[] encrypted = new CryptoNetAes(key, iv).EncryptFromBytes(originalFileBytes);
+        byte[] decrypted = new CryptoNetAes(key, iv).DecryptToBytes(encrypted);
 
         var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(originalFileBytes, decrypted);
 
-        // assert
         isIdenticalFile.ShouldBeTrue();
     }
 
