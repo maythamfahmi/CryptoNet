@@ -8,12 +8,12 @@
 
 # Introduction
 :rocket: CryptoNet is simple, fast, and a lightweight asymmetric and symmetric encryption NuGet library supporting .NET Standard 2.0 and C# 8.0 for cross platforms Windows, Linux, and iOS.
-It is a 100% native C# implementation based on [Microsoft](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography?view=net-6.0) cryptography.
+It is a 100% native C# implementation based on [Microsoft](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography?view=net-8.0) cryptography.
 It does not depend on other libraries.
 
 ## Installation
 
-You can download CryptoNet via [NuGet](https://www.nuget.org/packages/CryptoNet).
+You can install the CryptoNet NuGet package via [NuGet](https://www.nuget.org/packages/CryptoNet).
 
 ## Website
 
@@ -28,7 +28,7 @@ List of features:
 - AES symmetric encryption.
 - RSA PEM exporting and importing.
 - Support for X509Certificate2.
-- Ability to encrypt and decrypt text, files like images, word, excel, etc.
+- Ability to encrypt and decrypt text, and files like images, word, excel, etc.
 - Cross-platform compatible with Windows, Linux, and iOS.
 
 ## Issues
@@ -48,13 +48,13 @@ The library can be used in 2 ways:
 You use the same key (any secret key) for encryption and decryption.
 
 #### Asymmetric encryption
-In an asymmetric way, the library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
+Asymmetrically, the library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
 
-You can store the private key on one or more machines. The public key can easily distribute to all clients.
+You can store the private key on one or more machines. The public key can easily be distributed to all clients.
 
-> Note: Please be aware not to distribute private key publicly and keep it in a safe place. If a private key mistakenly gets exposed, you need to reissue new keys. The content that is already encrypted with the private key, can not be decrypted back with the newly generated private key. So before updating the private key or deleting the old key ensure all your content is decrypted, otherwise, you lose the content.
+> I'd like to point out that you don't distribute private keys publicly and keep them in a safe place. You need to reissue new keys if a private key mistakenly gets exposed. The content already encrypted with the private key, can not be decrypted back with the newly generated private key. So before updating the private key or deleting the old key ensure all your content is decrypted, otherwise, you lose the content.
 
-It is also possible to use asymmetric keys of the X509 Certificate instead of generating your own keys.
+It is also possible to use asymmetric keys of the X509 Certificate instead of generating your keys.
 
 The main concept with asymmetric encryption is that you have a Private and Public key. You use the Public key to encrypt the content and use the Private key to decrypt the content back again.
 
@@ -71,7 +71,7 @@ Here are some examples:
 ### Examples
 
 ### Example: Encrypt and Decrypt Content With Symmetric Key
-In this example CryptoNetAes generate a random key and IV, hence we use the same instance we can both encrypt and decrypt.
+In this example CryptoNetAes generates a random key and IV, hence we use the same instance we can both encrypt and decrypt.
 ```csharp
 ICryptoNet cryptoNet = new CryptoNetAes();
 var key = cryptoNet.ExportKey();
