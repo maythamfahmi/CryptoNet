@@ -7,6 +7,7 @@
 
 using System.Security.Cryptography;
 using System.Text;
+using CryptoNet.Share.Extensions;
 using CryptoNet.Models;
 using CryptoNet.Utils;
 
@@ -82,25 +83,25 @@ public static class ExampleAes
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
 
-    public static void Example_5_Encrypt_And_Decrypt_File_With_SymmetricKey_Test(string filename)
+    public static void Example_5_Encrypt_And_Decrypt_File_With_SymmetricKey_Test(string path, string filename)
     {
         var key = new CryptoNetAes().ExportKey();
 
-        FileInfo fi = new FileInfo(filename);
+        var filePath = Path.Combine(path, filename);
+        FileInfo fi = new FileInfo(filePath);
 
-        string pdfFilePath = Path.Combine(BaseFolder, filename);
-        byte[] pdfFileBytes = File.ReadAllBytes(pdfFilePath);
+        byte[] pdfFileBytes = File.ReadAllBytes(filePath);
         var encrypt = new CryptoNetAes(key).EncryptFromBytes(pdfFileBytes);
 
         var decrypt = new CryptoNetAes(key).DecryptToBytes(encrypt);
-        string pdfDecryptedFilePath = $"TestFiles\\{Path.GetFileNameWithoutExtension(fi.Name)}-decrypted.{fi.Extension}";
+        string pdfDecryptedFilePath = Path.Combine(path, $"{Path.GetFileNameWithoutExtension(fi.Name)}-decrypted{fi.Extension}");
         File.WriteAllBytes(pdfDecryptedFilePath, decrypt);
 
         var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(pdfFileBytes, decrypt);
         Debug.Assert(isIdenticalFile);
     }
 
-    public static string UniqueKeyGenerator(string input)
+    private static string UniqueKeyGenerator(string input)
     {
         byte[] inputBytes = Encoding.ASCII.GetBytes(input);
         byte[] hash = MD5.HashData(inputBytes);

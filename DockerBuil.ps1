@@ -1,0 +1,1 @@
+docker build . --file .\Dockerfile --tag cryptonet-service:latest
