@@ -137,9 +137,10 @@ Debug.Assert(ConfidentialDummyData == decryptWithPrivateKey);
 ## Build and Testing
 You have different options to build and run the unit tests from:
  1. Visual Studio 2019/2022.
- 2. dotnet command line.
- 3. start Powershell, and run ```build.ps1``` from solution folder.
- 4. Docker, run the following command from the solution folder:
+ 2. Visual Studio Code.
+ 3. dotnet command line.
+ 4. dotnet commands are preserved in a PowerShell script ```build.ps1```.
+ 5. Docker, run the following command from the solution folder:
 
 ```
 docker build . --file .\Dockerfile --tag cryptonet-service:latest
