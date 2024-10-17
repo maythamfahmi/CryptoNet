@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Share", "CryptoNe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Models", "CryptoNet.Models\CryptoNet.Models.csproj", "{DF6B3E1D-B65F-4836-8E9B-CBCF21D4E82D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Helpers", "CryptoNet.Helpers\CryptoNet.Helpers.csproj", "{5327C9AF-5EFE-4700-AF56-BAAC9355E216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Extensions", "CryptoNet.Extensions\CryptoNet.Extensions.csproj", "{5327C9AF-5EFE-4700-AF56-BAAC9355E216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

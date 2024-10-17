@@ -4,22 +4,22 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>10.0</LangVersion>
-        <PackageId>CryptoNet.Helpers</PackageId>
+        <PackageId>CryptoNet.Extensions</PackageId>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
         <PackageProjectUrl>https://github.com/maythamfahmi/CryptoNet</PackageProjectUrl>
-        <!--<ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>-->
+        <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
         <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
         <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
         <Company>NextBix</Company>
         <Authors>Maytham Fahmi</Authors>
         <MinClientVersion>1.0.0</MinClientVersion>
         <Version>3.0.0</Version>
-        <Title>CryptoNet.Helpers</Title>
-        <Product>CryptoNet.Helpers</Product>
-        <RootNamespace>CryptoNet.Helpers</RootNamespace>
-        <AssemblyName>CryptoNet.Helpers</AssemblyName>
+        <Title>CryptoNet.Extensions</Title>
+        <Product>CryptoNet.Extensions</Product>
+        <RootNamespace>CryptoNet.Extensions</RootNamespace>
+        <AssemblyName>CryptoNet.Extensions</AssemblyName>
         <PackageDescription>Simple and lightweight content encryption and decryption package. CryptoNet extensions methods.</PackageDescription>
         <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA; AES</PackageTags>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

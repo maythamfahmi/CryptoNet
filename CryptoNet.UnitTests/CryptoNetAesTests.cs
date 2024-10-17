@@ -12,7 +12,7 @@ using CryptoNet.Models;
 using CryptoNet.Share;
 using NUnit.Framework;
 using Shouldly;
-using CryptoNet.Helpers;
+using CryptoNet.Extensions;
 
 // ReSharper disable All
 
@@ -73,7 +73,7 @@ public class CryptoNetAesTests
         byte[] encrypted = new CryptoNetAes(key, iv).EncryptFromBytes(originalFileBytes);
         byte[] decrypted = new CryptoNetAes(key, iv).DecryptToBytes(encrypted);
 
-        var isIdenticalFile = CryptoNetHelpers.ByteArrayCompare(originalFileBytes, decrypted);
+        var isIdenticalFile = CryptoNetExtensions.ByteArrayCompare(originalFileBytes, decrypted);
 
         isIdenticalFile.ShouldBeTrue();
     }

@@ -12,9 +12,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CryptoNet.Models;
 
-namespace CryptoNet.Helpers;
+namespace CryptoNet.Extensions;
 
-public static class CryptoNetHelpers
+public static class CryptoNetExtensions
 {
     #region External methods
     public static RSAParameters GetParameters(X509Certificate2? certificate, KeyType keyType)

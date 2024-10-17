@@ -10,7 +10,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Xml.Serialization;
 using CryptoNet.Models;
-using CryptoNet.Helpers;
+using CryptoNet.Extensions;
 
 namespace CryptoNet.Utils;
 
@@ -23,7 +23,7 @@ public static class CryptoNetUtils
 
     internal static string LoadFileToString(string filename)
     {
-        return CryptoNetHelpers.BytesToString(LoadFileToBytes(filename));
+        return CryptoNetExtensions.BytesToString(LoadFileToBytes(filename));
     }
 
     internal static void SaveKey(string filename, byte[] bytes)
@@ -34,7 +34,7 @@ public static class CryptoNetUtils
 
     internal static void SaveKey(string filename, string content)
     {
-        var bytes = CryptoNetHelpers.StringToBytes(content);
+        var bytes = CryptoNetExtensions.StringToBytes(content);
         SaveKey(filename, bytes);
     }
 

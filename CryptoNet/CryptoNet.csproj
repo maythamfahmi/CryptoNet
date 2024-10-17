@@ -57,7 +57,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CryptoNet.Helpers\CryptoNet.Helpers.csproj" />
+      <ProjectReference Include="..\CryptoNet.Extensions\CryptoNet.Extensions.csproj" />
       <ProjectReference Include="..\CryptoNet.Models\CryptoNet.Models.csproj" />
     </ItemGroup>
 
