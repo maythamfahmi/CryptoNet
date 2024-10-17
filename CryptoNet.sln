@@ -5,8 +5,6 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet", "CryptoNet\CryptoNet.csproj", "{8F85375C-A0DC-4B67-B934-F58ED4114F5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Cli", "CryptoNet.Cli\CryptoNet.Cli.csproj", "{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.UnitTests", "CryptoNet.UnitTests\CryptoNet.UnitTests.csproj", "{702C8501-AF79-4549-98A8-67A153DF5B70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{1733D13E-78C2-4A60-8741-EB641832A832}"
@@ -46,10 +44,6 @@ Global
 		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{702C8501-AF79-4549-98A8-67A153DF5B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{702C8501-AF79-4549-98A8-67A153DF5B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{702C8501-AF79-4549-98A8-67A153DF5B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
