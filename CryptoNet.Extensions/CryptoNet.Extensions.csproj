@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>10.0</LangVersion>
-        <PackageId>CryptoNet</PackageId>
+        <PackageId>CryptoNet.Extensions</PackageId>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
@@ -16,15 +16,15 @@
         <Authors>Maytham Fahmi</Authors>
         <MinClientVersion>1.0.0</MinClientVersion>
         <Version>3.0.0</Version>
-        <Title>CryptoNet</Title>
-        <Product>CryptoNet</Product>
-        <RootNamespace>CryptoNet</RootNamespace>
-        <AssemblyName>CryptoNet</AssemblyName>
-        <PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
+        <Title>CryptoNet.Extensions</Title>
+        <Product>CryptoNet.Extensions</Product>
+        <RootNamespace>CryptoNet.Extensions</RootNamespace>
+        <AssemblyName>CryptoNet.Extensions</AssemblyName>
+        <PackageDescription>Simple and lightweight content encryption and decryption package. CryptoNet extensions methods.</PackageDescription>
         <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA; AES</PackageTags>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Copyright>Copyright © 2020</Copyright>
+        <Copyright>Copyright © 2024</Copyright>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
@@ -57,8 +57,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CryptoNet.Extensions\CryptoNet.Extensions.csproj" />
-      <ProjectReference Include="..\CryptoNet.Models\CryptoNet.Models.csproj" />
+        <ProjectReference Include="..\CryptoNet.Models\CryptoNet.Models.csproj" />
     </ItemGroup>
 
 </Project>

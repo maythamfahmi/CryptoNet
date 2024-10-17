@@ -8,11 +8,11 @@
 using System;
 using System.IO;
 using CryptoNet.Models;
-using CryptoNet.Utils;
 using CryptoNet.Share;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using Shouldly;
+using CryptoNet.Extensions;
 
 // ReSharper disable All
 
@@ -147,7 +147,7 @@ public class CryptoNetRsaTests
         byte[] encryptedBytes = cryptoNet.EncryptFromBytes(originalFileBytes);
         byte[] decryptedBytes = cryptoNet.DecryptToBytes(encryptedBytes);
 
-        var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var isIdenticalFile = CryptoNetExtensions.ByteArrayCompare(originalFileBytes, decryptedBytes);
 
         isIdenticalFile.ShouldBeTrue();
     }

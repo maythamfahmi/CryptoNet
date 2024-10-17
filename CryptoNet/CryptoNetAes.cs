@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using CryptoNet.Models;
+using CryptoNet.Extensions;
 using CryptoNet.Utils;
 
 namespace CryptoNet;
@@ -85,7 +86,7 @@ public class CryptoNetAes : ICryptoNet
     #region encryption logic
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetUtils.StringToBytes(content));
+        return EncryptContent(CryptoNetExtensions.StringToBytes(content));
 
     }
 
@@ -96,7 +97,7 @@ public class CryptoNetAes : ICryptoNet
 
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetUtils.BytesToString(DecryptContent(bytes));
+        return CryptoNetExtensions.BytesToString(DecryptContent(bytes));
     }
 
     public byte[] DecryptToBytes(byte[] bytes)

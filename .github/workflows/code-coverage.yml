@@ -6,7 +6,6 @@ on:
       - "main"
       - "feature/*"
       - "version3/*"
-
 jobs:
   build:
     runs-on: ubuntu-latest
