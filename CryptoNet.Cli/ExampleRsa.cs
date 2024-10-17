@@ -8,6 +8,7 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using CryptoNet.Helpers;
 using CryptoNet.Models;
 using CryptoNet.Utils;
 using Debug = CryptoNet.Share.Extensions.Debug;
@@ -65,7 +66,7 @@ public static class ExampleRsa
     public static void Example_4_Using_X509_Certificate()
     {
         // Find and replace CN=Maytham with your own certificate
-        X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+        X509Certificate2? certificate = CryptoNetHelpers.GetCertificateFromStore("CN=Maytham");
 
         var encryptWithPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey).EncryptFromString(ConfidentialDummyData);
 
@@ -77,7 +78,7 @@ public static class ExampleRsa
     public static void Example_5_Export_Public_Key_For_X509_Certificate()
     {
         // Find and replace CN=Maytham with your own certificate
-        X509Certificate2? certificate = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+        X509Certificate2? certificate = CryptoNetHelpers.GetCertificateFromStore("CN=Maytham");
 
         var publicKey = new CryptoNetRsa(certificate, KeyType.PublicKey).ExportKey(false);
 
@@ -90,7 +91,7 @@ public static class ExampleRsa
     /// </summary>
     public static void Example_7_Customize()
     {
-        X509Certificate2? cert = CryptoNetUtils.GetCertificateFromStore("CN=Maytham");
+        X509Certificate2? cert = CryptoNetHelpers.GetCertificateFromStore("CN=Maytham");
 
         var pubKeyPem = ExportPemKey(cert!, false);
         var priKeyPem = ExportPemKey(cert!);

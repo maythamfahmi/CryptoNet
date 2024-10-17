@@ -1,30 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>10.0</LangVersion>
-        <PackageId>CryptoNet</PackageId>
+        <PackageId>CryptoNet.Helpers</PackageId>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
         <PackageProjectUrl>https://github.com/maythamfahmi/CryptoNet</PackageProjectUrl>
-        <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
+        <!--<ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>-->
         <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
         <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
         <Company>NextBix</Company>
         <Authors>Maytham Fahmi</Authors>
         <MinClientVersion>1.0.0</MinClientVersion>
         <Version>3.0.0</Version>
-        <Title>CryptoNet</Title>
-        <Product>CryptoNet</Product>
-        <RootNamespace>CryptoNet</RootNamespace>
-        <AssemblyName>CryptoNet</AssemblyName>
-        <PackageDescription>Simple and lightweight content encryption and decryption package.</PackageDescription>
+        <Title>CryptoNet.Helpers</Title>
+        <Product>CryptoNet.Helpers</Product>
+        <RootNamespace>CryptoNet.Helpers</RootNamespace>
+        <AssemblyName>CryptoNet.Helpers</AssemblyName>
+        <PackageDescription>Simple and lightweight content encryption and decryption package. CryptoNet extensions methods.</PackageDescription>
         <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA; AES</PackageTags>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Copyright>Copyright © 2020</Copyright>
+        <Copyright>Copyright © 2024</Copyright>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
@@ -57,8 +57,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CryptoNet.Helpers\CryptoNet.Helpers.csproj" />
-      <ProjectReference Include="..\CryptoNet.Models\CryptoNet.Models.csproj" />
+        <ProjectReference Include="..\CryptoNet.Models\CryptoNet.Models.csproj" />
     </ItemGroup>
 
 </Project>

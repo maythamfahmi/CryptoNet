@@ -10,6 +10,7 @@ using System.Text;
 using CryptoNet.Share.Extensions;
 using CryptoNet.Models;
 using CryptoNet.Utils;
+using CryptoNet.Helpers;
 
 namespace CryptoNet.Cli;
 
@@ -97,7 +98,7 @@ public static class ExampleAes
         string pdfDecryptedFilePath = Path.Combine(path, $"{Path.GetFileNameWithoutExtension(fi.Name)}-decrypted{fi.Extension}");
         File.WriteAllBytes(pdfDecryptedFilePath, decrypt);
 
-        var isIdenticalFile = CryptoNetUtils.ByteArrayCompare(pdfFileBytes, decrypt);
+        var isIdenticalFile = CryptoNetHelpers.ByteArrayCompare(pdfFileBytes, decrypt);
         Debug.Assert(isIdenticalFile);
     }
 

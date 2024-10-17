@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using CryptoNet.Helpers;
 using CryptoNet.Models;
 using CryptoNet.Utils;
 
@@ -65,7 +66,7 @@ public class CryptoNetRsa : ICryptoNet
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
         Info = CreateInfo();
-        RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
+        RSAParameters @params = CryptoNetHelpers.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -81,11 +82,11 @@ public class CryptoNetRsa : ICryptoNet
         {
             if (privateKey)
             {
-                return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PrivateKey));
+                return CryptoNetHelpers.StringToBytes(ExportKey(KeyType.PrivateKey));
             }
             else
             {
-                return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PublicKey));
+                return CryptoNetHelpers.StringToBytes(ExportKey(KeyType.PublicKey));
             }
         }
         catch (Exception)
@@ -162,7 +163,7 @@ public class CryptoNetRsa : ICryptoNet
     #region encryption logic
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetUtils.StringToBytes(content));
+        return EncryptContent(CryptoNetHelpers.StringToBytes(content));
     }
 
     public byte[] EncryptFromBytes(byte[] bytes)
@@ -172,7 +173,7 @@ public class CryptoNetRsa : ICryptoNet
 
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetUtils.BytesToString(DecryptContent(bytes));
+        return CryptoNetHelpers.BytesToString(DecryptContent(bytes));
     }
 
     public byte[] DecryptToBytes(byte[] bytes)
