@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
       - "feature/*"
+      - "version3/*"
 
 jobs:
   build:

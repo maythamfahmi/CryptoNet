@@ -6,6 +6,7 @@ on:
       - "main"
       - "feature/*"
       - "!feature/ci*"
+      - "version3/*"
     paths-ignore:
       - "**/README.md"
   pull_request:
