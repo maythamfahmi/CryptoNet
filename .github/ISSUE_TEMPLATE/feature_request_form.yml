@@ -9,7 +9,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for suggesting a new feature or enhancement!
+        Thanks for suggesting a new feature or enhancement! Please fill out the following details to help us better understand your request.
   - type: input
     id: contact
     attributes:
@@ -19,21 +19,37 @@ body:
     validations:
       required: false
   - type: textarea
-    id: feature-description
+    id: problem-description
     attributes:
-      label: Feature Description
-      description: Please provide a detailed description of the feature you would like to see.
-      placeholder: Describe the feature you'd like to request.
+      label: Is your feature request related to a problem? Please describe.
+      description: A clear and concise description of what the problem is. Ex. "I'm always frustrated when [...]"
+      placeholder: Describe the problem.
     validations:
       required: true
   - type: textarea
-    id: why-needed
+    id: solution-description
     attributes:
-      label: Why is this feature needed?
-      description: Explain the problem this feature would solve or the improvement it would bring.
-      placeholder: Why do you need this feature?
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen.
+      placeholder: What would you like to see?
     validations:
       required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: A clear and concise description of any alternative solutions or features you've considered.
+      placeholder: List any alternative solutions.
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the feature request here.
+      placeholder: Provide additional information.
+    validations:
+      required: false
   - type: dropdown
     id: priority
     attributes:
@@ -47,14 +63,6 @@ body:
       default: 1
     validations:
       required: true
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Possible Alternatives
-      description: Have you considered any alternative solutions or workarounds?
-      placeholder: List any alternative approaches you've thought of.
-    validations:
-      required: false
   - type: checkboxes
     id: terms
     attributes:
