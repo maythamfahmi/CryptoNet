@@ -1,7 +1,7 @@
 name: Feature Request
 description: Suggest a new feature or enhancement.
-title: "[feature]: "
-labels: ["feature", "enhancement"]
+title: "[feature request]: "
+labels: ["feature request", "enhancement"]
 projects: ["maythamfahmi/CryptoNet/2"]
 assignees:
   - maythamfahmi
