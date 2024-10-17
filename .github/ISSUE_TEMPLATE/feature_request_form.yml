@@ -1,10 +1,10 @@
 name: Feature Request
 description: Suggest a new feature or enhancement.
 title: "[Feature Request]: "
-labels: ["feature", "enhancement", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
+labels: ["feature request", "enhancement"]
+projects: ["maythamfahmi/CryptoNet/2"]
 assignees:
-  - octocat
+  - maythamfahmi
 body:
   - type: markdown
     attributes:
