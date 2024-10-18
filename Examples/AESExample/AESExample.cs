@@ -25,7 +25,7 @@ Console.WriteLine($"Decrypted: {decryptedMessage}");
 // Demonstrates key creation.
 string CreateKey()
 {
-    ICryptoNet encoder = new CryptoNetAes();
+    ICryptoNetAes encoder = new CryptoNetAes();
 
     return encoder.ExportKey();
 }
@@ -41,7 +41,7 @@ byte[] SimulateEncryptor(string key, string message)
 // Demonstrates how to decrypt a cypher with a key.
 string SimulateDecryptor(string key, byte[] encrypted)
 {
-    ICryptoNet decryptClient = new CryptoNetAes(key);
+    ICryptoNetAes decryptClient = new CryptoNetAes(key);
     
     return decryptClient.DecryptToString(encrypted);
 }

@@ -131,7 +131,7 @@ public class CryptoNetAesTests
     public void SelfGenerated_And_Save_SymmetricKey_Test()
     {
         // Arrange
-        ICryptoNet cryptoNet = new CryptoNetAes();
+        ICryptoNetAes cryptoNet = new CryptoNetAes();
         var file = new FileInfo(SymmetricKeyFile);
 
         // Act
@@ -206,7 +206,6 @@ public class CryptoNetAesTests
 
         encoder.ExportKeyAndSave(keyFileInfo);
 
-        var decoder = new CryptoNetAes(keyFileInfo);
         var keyIn = encoder.ExportKey();
 
         ClassicAssert.AreEqual(keyOut, keyIn);

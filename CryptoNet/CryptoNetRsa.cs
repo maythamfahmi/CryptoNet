@@ -13,7 +13,7 @@ using CryptoNet.Models;
 
 namespace CryptoNet;
 
-public class CryptoNetRsa : ICryptoNet
+public class CryptoNetRsa : ICryptoNetRsa
 {
     private RSA Rsa { get; }
     public CryptoNetInfo Info { get; }
@@ -132,14 +132,14 @@ public class CryptoNetRsa : ICryptoNet
         };
     }
 
-    public string ExportKey(bool? privateKey = null)
+    public string ExportKey(bool privateKey = false)
     {
-        return privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
+        return privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
     }
 
-    public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false)
+    public void ExportKeyAndSave(FileInfo fileInfo, bool privateKey = false)
     {
-        string key = privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
+        string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
             CryptoNetUtils.SaveKey(fileInfo.FullName, key);

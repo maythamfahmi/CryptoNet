@@ -27,7 +27,7 @@ Console.WriteLine($"Decrypted: {decryptedMessage}");
 void SimulateKeyManagement()
 {
     // Create keys.
-    ICryptoNet cryptoNet = new CryptoNetRsa();
+    ICryptoNetRsa cryptoNet = new CryptoNetRsa();
 
     // Secure the private key and distribute the public key.
     cryptoNet.ExportKeyAndSave(new FileInfo(privateKeyFile), true);
@@ -37,7 +37,7 @@ void SimulateKeyManagement()
 byte[] SimulateEncryptor(string confidentialData)
 {
     // Sender retrieves public key from key store.
-    ICryptoNet cryptoNetPubKey = new CryptoNetRsa(new FileInfo(publicKeyFile));
+    ICryptoNetRsa cryptoNetPubKey = new CryptoNetRsa(new FileInfo(publicKeyFile));
     
     // Public key is used to encrypt the message.
     return cryptoNetPubKey.EncryptFromString(confidentialData);
@@ -46,7 +46,7 @@ byte[] SimulateEncryptor(string confidentialData)
 string SimulateDecryptor(byte[] cypher)
 {
     // Receiver retrieves private key from key store.
-    ICryptoNet cryptoNetPriKey = new CryptoNetRsa(new FileInfo(privateKeyFile));
+    ICryptoNetRsa cryptoNetPriKey = new CryptoNetRsa(new FileInfo(privateKeyFile));
 
     return cryptoNetPriKey.DecryptToString(cypher);
 }
