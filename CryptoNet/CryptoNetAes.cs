@@ -5,8 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System;
-using System.IO;
 using System.Security.Cryptography;
 using CryptoNet.Models;
 using CryptoNet.Extensions;
