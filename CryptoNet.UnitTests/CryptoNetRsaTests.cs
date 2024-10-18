@@ -30,16 +30,16 @@ public class CryptoNetRsaTests
     private const string ConfidentialData = @"Some Secret Data";
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
 
-    internal static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
-    internal static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
+    private static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
+    private static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
 
     [Test]
     public void SelfGenerated_AsymmetricKey_And_TypeValidation_Test()
     {
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
 
-        cryptoNet.ExportKeyAndSave(new FileInfo(Common.PrivateKeyFile), true);
-        cryptoNet.ExportKeyAndSave(new FileInfo(Common.PublicKeyFile), false);
+        cryptoNet.SaveKey(new FileInfo(Common.PrivateKeyFile), true);
+        cryptoNet.SaveKey(new FileInfo(Common.PublicKeyFile), false);
 
         new CryptoNetRsa(new FileInfo(Common.PrivateKeyFile)).Info.KeyType.ShouldBe(KeyType.PrivateKey);
         new CryptoNetRsa(new FileInfo(Common.PublicKeyFile)).Info.KeyType.ShouldBe(KeyType.PublicKey);
@@ -49,8 +49,8 @@ public class CryptoNetRsaTests
     public void Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey_Test()
     {
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
-        var privateKey = cryptoNet.ExportKey(true);
-        var publicKey = cryptoNet.ExportKey(false);
+        var privateKey = cryptoNet.GetKey(true);
+        var publicKey = cryptoNet.GetKey(false);
 
         var encrypt = new CryptoNetRsa(publicKey).EncryptFromString(Common.ConfidentialDummyData);
         var decrypt = new CryptoNetRsa(privateKey).DecryptToString(encrypt);
@@ -100,8 +100,8 @@ public class CryptoNetRsaTests
         var testDocument = File.ReadAllBytes(Path.Combine(Common.TestFilesPath, filename));
 
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
-        cryptoNet.ExportKeyAndSave(new FileInfo(Common.PrivateKeyFile), true);
-        cryptoNet.ExportKeyAndSave(new FileInfo(Common.PublicKeyFile), false);
+        cryptoNet.SaveKey(new FileInfo(Common.PrivateKeyFile), true);
+        cryptoNet.SaveKey(new FileInfo(Common.PublicKeyFile), false);
 
         // arrange
         var encrypt = new CryptoNetRsa(new FileInfo(Common.PublicKeyFile)).EncryptFromBytes(testDocument);
@@ -130,7 +130,7 @@ public class CryptoNetRsaTests
         var certificate = new FileInfo(Common.RsaStoredKeyPair);
         
         // Export public key
-        new CryptoNetRsa(certificate).ExportKeyAndSave(new FileInfo(Common.PublicKeyFile), false);
+        new CryptoNetRsa(certificate).SaveKey(new FileInfo(Common.PublicKeyFile), false);
 
         // Import public key and encrypt
         var importPublicKey = new FileInfo(Common.PublicKeyFile);
@@ -171,8 +171,8 @@ public class CryptoNetRsaTests
         var cryptoNet = new CryptoNetRsa();
 
         // Act
-        cryptoNet.ExportKeyAndSave(new FileInfo(PrivateKeyFile), true);
-        cryptoNet.ExportKeyAndSave(new FileInfo(PublicKeyFile), false);
+        cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
+        cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
 
         var fileExistsPrivateKey = File.Exists(new FileInfo(PrivateKeyFile).FullName);
         var fileExistsPublicKey = File.Exists(new FileInfo(PublicKeyFile).FullName);
@@ -226,7 +226,7 @@ public class CryptoNetRsaTests
         var rsa = new CryptoNetRsa(certificate, KeyType.PublicKey);
 
         // Act
-        var publicKey = rsa.ExportKey(false);
+        var publicKey = rsa.GetKey(false);
 
         // Assert
         publicKey.ShouldNotBeNull();

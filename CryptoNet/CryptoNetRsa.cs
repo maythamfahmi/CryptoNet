@@ -132,18 +132,23 @@ public class CryptoNetRsa : ICryptoNetRsa
         };
     }
 
-    public string ExportKey(bool privateKey = false)
+    public string GetKey(bool privateKey = false)
     {
         return privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
     }
 
-    public void ExportKeyAndSave(FileInfo fileInfo, bool privateKey = false)
+    public void SaveKey(FileInfo fileInfo, bool privateKey = false)
     {
         string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
             CryptoNetUtils.SaveKey(fileInfo.FullName, key);
         }
+    }
+
+    public void SaveKey(string filename, bool privateKey = false)
+    {
+        SaveKey(new FileInfo(filename), privateKey);
     }
 
     private string ExportKey(KeyType keyType)

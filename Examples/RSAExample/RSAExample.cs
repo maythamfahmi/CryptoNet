@@ -30,8 +30,8 @@ void SimulateKeyManagement()
     ICryptoNetRsa cryptoNet = new CryptoNetRsa();
 
     // Secure the private key and distribute the public key.
-    cryptoNet.ExportKeyAndSave(new FileInfo(privateKeyFile), true);
-    cryptoNet.ExportKeyAndSave(new FileInfo(publicKeyFile), false);
+    cryptoNet.SaveKey(new FileInfo(privateKeyFile), true);
+    cryptoNet.SaveKey(new FileInfo(publicKeyFile), false);
 }
 
 byte[] SimulateEncryptor(string confidentialData)

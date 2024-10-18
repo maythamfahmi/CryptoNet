@@ -27,7 +27,7 @@ string CreateKey()
 {
     ICryptoNetAes encoder = new CryptoNetAes();
 
-    return encoder.ExportKey();
+    return encoder.GetKey();
 }
 
 // Demonstrates how to create a cypher with a key.

@@ -9,6 +9,7 @@ namespace CryptoNet;
 
 public interface ICryptoNetAes : ICryptoNet
 {
-    string ExportKey();
-    void ExportKeyAndSave(FileInfo fileInfo);
+    string GetKey();
+    void SaveKey(FileInfo fileInfo);
+    void SaveKey(string filename);
 }

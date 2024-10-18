@@ -99,7 +99,7 @@ public class CryptoNetAesTests
     public void Encrypt_And_Decrypt_File_With_SymmetricKey_Test(string filename)
     {
         // Arrange
-        var key = new CryptoNetAes().ExportKey();
+        var key = new CryptoNetAes().GetKey();
         var filePath = Path.Combine(Common.TestFilesPath, filename);
         byte[] originalFileBytes = File.ReadAllBytes(filePath);
 
@@ -116,7 +116,7 @@ public class CryptoNetAesTests
     public void Encrypt_And_Decrypt_Content_With_SelfGenerated_SymmetricKey_Test()
     {
         // Arrange
-        var key = new CryptoNetAes().ExportKey();
+        var key = new CryptoNetAes().GetKey();
         var cryptoNetAes = new CryptoNetAes(key);
 
         // Act
@@ -135,7 +135,7 @@ public class CryptoNetAesTests
         var file = new FileInfo(SymmetricKeyFile);
 
         // Act
-        cryptoNet.ExportKeyAndSave(file);
+        cryptoNet.SaveKey(file);
         var encryptedData = cryptoNet.EncryptFromString(ConfidentialData);
         var decryptedData = new CryptoNetAes(file).DecryptToString(encryptedData);
 
@@ -200,13 +200,13 @@ public class CryptoNetAesTests
         var tmpDirPrefix = $"{nameof(CryptoNet.UnitTests)}-{nameof(Can_Save_And_Rertieve_Symetric_Keys)}-";
         var keyFileInfo = new FileInfo("key");
         var encoder = new CryptoNetAes();
-        var keyOut = encoder.ExportKey();
+        var keyOut = encoder.GetKey();
 
         using var tmpDir = new TempDirectory(tmpDirPrefix);
 
-        encoder.ExportKeyAndSave(keyFileInfo);
+        encoder.SaveKey(keyFileInfo);
 
-        var keyIn = encoder.ExportKey();
+        var keyIn = encoder.GetKey();
 
         ClassicAssert.AreEqual(keyOut, keyIn);
     }

@@ -9,6 +9,7 @@ namespace CryptoNet;
 
 public interface ICryptoNetRsa : ICryptoNet
 {
-    string ExportKey(bool privateKey = false);
-    void ExportKeyAndSave(FileInfo fileInfo, bool privateKey = false);
+    string GetKey(bool privateKey = false);
+    void SaveKey(FileInfo fileInfo, bool privateKey = false);
+    void SaveKey(string filename, bool privateKey = false);
 }

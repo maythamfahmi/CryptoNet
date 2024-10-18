@@ -70,15 +70,20 @@ public class CryptoNetAes : ICryptoNetAes
         };
     }
 
-    public string ExportKey()
+    public string GetKey()
     {
         return CryptoNetUtils.ExportAndSaveAesKey(Aes);
     }
 
-    public void ExportKeyAndSave(FileInfo fileInfo)
+    public void SaveKey(FileInfo fileInfo)
     {
         var key = CryptoNetUtils.ExportAndSaveAesKey(Aes);
         CryptoNetUtils.SaveKey(fileInfo.FullName, key);
+    }
+
+    public void SaveKey(string filename)
+    {
+        SaveKey(new FileInfo(filename));
     }
 
     #region encryption logic
