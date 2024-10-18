@@ -401,3 +401,9 @@ Resources/RsaKeys/publicKey.pub
 /Resources/TestFiles/test-decrypted.pdf
 /Resources/TestFiles/test-decrypted.png
 /Resources/TestFiles/test-decrypted.xlsx
+
+# SlickEdit workspace, project, history and tag files
+*.vpj
+*.vpw
+*.vpwhist
+*.vtg
