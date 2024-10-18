@@ -10,6 +10,7 @@ using CryptoNet.Models;
 using CryptoNet.Share;
 
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 using SharperHacks.CoreLibs.IO;
 
@@ -98,7 +99,7 @@ public class CryptoNetAesTests
         var decoder = new CryptoNetAes(keyFileInfo);
         var keyIn = encoder.ExportKey();
 
-        Assert.Equals(keyOut, keyIn);
+        ClassicAssert.AreEqual(keyOut, keyIn);
     }
 
     [Test]
@@ -108,5 +109,14 @@ public class CryptoNetAesTests
 
         Assert.Throws<ArgumentNullException>(() => encoder.EncryptFromBytes(null!));
         Assert.Throws<ArgumentNullException>(() => encoder.EncryptFromString(string.Empty));
+    }
+
+    [Test]
+    public void DecryptContent_Throws_ArgumentNullException()
+    {
+        var encoder = new CryptoNetAes();
+
+        Assert.Throws<ArgumentNullException>(() => encoder.DecryptToBytes(null!));
+        Assert.Throws<ArgumentNullException>(() => encoder.DecryptToBytes(new byte[0]));
     }
 }

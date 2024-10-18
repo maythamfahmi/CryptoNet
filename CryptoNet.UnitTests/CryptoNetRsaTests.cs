@@ -15,6 +15,9 @@ using NUnit.Framework.Legacy;
 using Shouldly;
 
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 // ReSharper disable All
 
@@ -155,4 +158,16 @@ public class CryptoNetRsaTests
         isIdenticalFile.ShouldBeTrue();
     }
 
+#if false
+    [Test]
+    public void Can_Create_From_X509_Certificate()
+    {
+        // Find and replace CN=Maytham with your own certificate
+        X509Certificate2? certificate = CryptoNetExtensions.GetCertificateFromStore("CN=???");
+
+        var publicKey = new CryptoNetRsa(certificate, KeyType.PublicKey).ExportKey(false);
+
+//        Debug.Assert(!string.IsNullOrEmpty(publicKey));
+    }
+#endif
 }

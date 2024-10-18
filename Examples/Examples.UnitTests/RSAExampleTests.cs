@@ -1,5 +1,7 @@
 ﻿// Copyright and trademark notices at the end of this file.
 
+using NUnit.Framework.Legacy;
+
 namespace CryptoNet.Examples.UnitTests;
 
 [ExcludeFromCodeCoverage]
@@ -29,12 +31,12 @@ public class RSAExampleTests
         Console.WriteLine(stdOut);
         Console.Error.WriteLine(stdErr);
 
-        Assert.IsNotEmpty(stdOut);
-        Assert.IsEmpty(stdErr);
+        ClassicAssert.IsNotEmpty(stdOut);
+        ClassicAssert.IsEmpty(stdErr);
 
-        Assert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
-        Assert.IsTrue(stdOut.Contains("Encrypted:"));
-        Assert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
+        ClassicAssert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
+        ClassicAssert.IsTrue(stdOut.Contains("Encrypted:"));
+        ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
     }
 }
 

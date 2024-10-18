@@ -5,6 +5,9 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
+using NUnit.Compatibility;
+using NUnit.Framework.Legacy;
+
 namespace CryptoNet.Examples.UnitTests;
 
 [ExcludeFromCodeCoverage]
@@ -37,11 +40,11 @@ public class AESExampleTests
         Console.WriteLine(stdOut);
         Console.Error.WriteLine(stdErr);
 
-        Assert.IsNotEmpty(stdOut);
-        Assert.IsEmpty(stdErr);
+        ClassicAssert.IsNotEmpty(stdOut);
+        ClassicAssert.IsEmpty(stdErr);
 
-        Assert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
-        Assert.IsTrue(stdOut.Contains("Encrypted:"));
-        Assert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
+        ClassicAssert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
+        ClassicAssert.IsTrue(stdOut.Contains("Encrypted:"));
+        ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
     }
 }
