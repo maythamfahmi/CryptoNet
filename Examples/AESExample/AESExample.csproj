@@ -14,4 +14,8 @@
     <FileVersion>0.0.0.0</FileVersion>
     <Title>$(AssemblyName)</Title>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CryptoNet\CryptoNet.csproj" />
+  </ItemGroup>
 </Project>

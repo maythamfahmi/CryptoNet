@@ -1,41 +1,49 @@
 ﻿// Copyright and trademark notices at the end of this file.
 
-namespace CryptoNet.Examples.UnitTests;
+// Demonstrates a sender (encryptor) and a receiver (decryptor),
+// using a shared key.
 
-[ExcludeFromCodeCoverage]
-[TestFixture]
-public class RSAExampleTests
+using CryptoNet;
+
+var confidentialMessage = "Watson, can you hear me?";
+
+Console.WriteLine($"Original: {confidentialMessage}");
+
+var sharedKey = CreateKey();
+
+var cypher = SimulateEncryptor(sharedKey, confidentialMessage);
+
+Console.WriteLine("Encrypted: " + BitConverter.ToString(cypher).Replace("-", ""));
+
+var decryptedMessage = SimulateDecryptor(sharedKey, cypher);
+
+Console.WriteLine($"Decrypted: {decryptedMessage}");
+
+////////////////////////
+//
+
+// Demonstrates key creation.
+string CreateKey()
 {
-    [Test]
-    public async Task RSAExampleSmokeTest()
-    {
-        var tmpDirPrefix = $"{nameof(AESExampleTests)}.{nameof(RSAExampleSmokeTest)}-{Guid.NewGuid().ToString("D")}";
+    ICryptoNet encoder = new CryptoNetAes();
 
-        var stdOutBuffer = new StringBuilder();
-        var stdErrBuffer = new StringBuilder();
+    return encoder.ExportKey();
+}
 
-        using (var tmpDir = new TempDirectory())
-        {
-            var result = await Cli.Wrap("RSAExample.exe")
-                .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
-                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
-                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
-                .ExecuteAsync();
-        }
+// Demonstrates how to create a cypher with a key.
+byte[] SimulateEncryptor(string key, string message)
+{
+    ICryptoNet encryptClient = new CryptoNetAes(key);
+    
+    return encryptClient.EncryptFromString(message);
+}
 
-        var stdOut = stdOutBuffer.ToString().Trim();
-        var stdErr = stdErrBuffer.ToString();
-
-        Console.WriteLine(stdOut);
-        Console.Error.WriteLine(stdErr);
-
-        Assert.IsNotEmpty(stdOut);
-        Assert.IsEmpty(stdErr);
-
-        Assert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
-        Assert.IsTrue(stdOut.Contains("Encrypted:"));
-        Assert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
-    }
+// Demonstrates how to decrypt a cypher with a key.
+string SimulateDecryptor(string key, byte[] encrypted)
+{
+    ICryptoNet decryptClient = new CryptoNetAes(key);
+    
+    return decryptClient.DecryptToString(encrypted);
 }
 
 // Copyright CryptoNet contributors.

@@ -14,12 +14,15 @@ public class AESExampleTests
     [Test]
     public async Task AESExampleSmokeTest()
     {
-        var tmpDirPrefix = $"{nameof(AESExampleTests)}.{nameof(AESExampleSmokeTest)}-{Guid.NewGuid().ToString("D")}";
+        // This provides a human readable temporary directory name prefix.
+        // If you see a lot of these laying around your temp directory, it's
+        // probably due to some failures in this test.
+        var tmpDirPrefix = $"{nameof(AESExampleTests)}.{nameof(AESExampleSmokeTest)}-";
 
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
 
-        using (var tmpDir = new TempDirectory())
+        using (var tmpDir = new TempDirectory(tmpDirPrefix))
         {
             var result = await Cli.Wrap("AESExample.exe")
                 .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
@@ -28,7 +31,7 @@ public class AESExampleTests
                 .ExecuteAsync();
         }
 
-        var stdOut = stdOutBuffer.ToString();
+        var stdOut = stdOutBuffer.ToString().Trim();
         var stdErr = stdErrBuffer.ToString();
 
         Console.WriteLine(stdOut);
@@ -37,6 +40,8 @@ public class AESExampleTests
         Assert.IsNotEmpty(stdOut);
         Assert.IsEmpty(stdErr);
 
-        Assert.Fail("AESExample is incomplete and so is this test.");
+        Assert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
+        Assert.IsTrue(stdOut.Contains("Encrypted:"));
+        Assert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
     }
 }
