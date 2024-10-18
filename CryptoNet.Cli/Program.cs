@@ -16,7 +16,7 @@ internal class Program
     {
         var workingDirectory = DirectoryExension.TryGetSolutionDirectoryInfo();
         var resourcePath = $"{workingDirectory}/Resources/TestFiles";
-        ExampleAes.Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_SymmetricKey();
+//        ExampleAes.Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_SymmetricKey();
         ExampleAes.Example_2_SelfGenerated_And_Save_SymmetricKey();
         ExampleAes.Example_3_Encrypt_Decrypt_Content_With_Own_SymmetricKey();
         ExampleAes.Example_4_Encrypt_Decrypt_Content_With_Human_Readable_Key_Secret_SymmetricKey();

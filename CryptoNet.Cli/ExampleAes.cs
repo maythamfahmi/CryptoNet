@@ -18,6 +18,7 @@ public static class ExampleAes
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
     private readonly static string SymmetricKeyFile = Path.Combine(BaseFolder, $"{KeyType.SymmetricKey}.xml");
 
+#if false // This is covered in AESExample.
     public static void Example_1_Encrypt_Decrypt_Content_With_SelfGenerated_SymmetricKey()
     {
         var key = new CryptoNetAes().ExportKey();
@@ -27,7 +28,7 @@ public static class ExampleAes
 
         Debug.Assert(ConfidentialDummyData == decrypt);
     }
-
+#endif
     public static void Example_2_SelfGenerated_And_Save_SymmetricKey()
     {
         ICryptoNet cryptoNet = new CryptoNetAes();

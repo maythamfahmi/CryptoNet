@@ -5,15 +5,18 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System;
-using System.IO;
-using System.Text;
+using CryptoNet.Extensions;
 using CryptoNet.Models;
 using CryptoNet.Share;
+
 using NUnit.Framework;
+
+using SharperHacks.CoreLibs.IO;
+
 using Shouldly;
-using CryptoNet.Extensions;
+
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 // ReSharper disable All
 
@@ -80,4 +83,30 @@ public class CryptoNetAesTests
         isIdenticalFile.ShouldBeTrue();
     }
 
+    [Test]
+    public void Can_Save_And_Rertieve_Symetric_Keys()
+    {
+        var tmpDirPrefix = $"{nameof(CryptoNet.UnitTests)}-{nameof(Can_Save_And_Rertieve_Symetric_Keys)}-";
+        var keyFileInfo = new FileInfo("key");
+        var encoder = new CryptoNetAes();
+        var keyOut = encoder.ExportKey();
+
+        using var tmpDir = new TempDirectory(tmpDirPrefix);
+
+        encoder.ExportKeyAndSave(keyFileInfo);
+
+        var decoder = new CryptoNetAes(keyFileInfo);
+        var keyIn = encoder.ExportKey();
+
+        Assert.Equals(keyOut, keyIn);
+    }
+
+    [Test]
+    public void EncryptContent_Throws_ArgumentNullException()
+    {
+        var encoder = new CryptoNetAes();
+
+        Assert.Throws<ArgumentNullException>(() => encoder.EncryptFromBytes(null!));
+        Assert.Throws<ArgumentNullException>(() => encoder.EncryptFromString(string.Empty));
+    }
 }
