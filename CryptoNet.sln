@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
@@ -10,6 +9,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{1733D13E-78C2-4A60-8741-EB641832A832}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		build.ps1 = build.ps1
 		.github\workflows\cd-release.yml = .github\workflows\cd-release.yml
@@ -33,6 +33,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Models", "CryptoNet.Models\CryptoNet.Models.csproj", "{DF6B3E1D-B65F-4836-8E9B-CBCF21D4E82D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Extensions", "CryptoNet.Extensions\CryptoNet.Extensions.csproj", "{5327C9AF-5EFE-4700-AF56-BAAC9355E216}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{8170DCC7-94A8-4495-BC40-BA2E1C8FD556}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\Examples.md = Examples\Examples.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AESExample", "Examples\AESExample\AESExample.csproj", "{A4A408B3-21D9-4657-8E8D-B9445513690C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSAExample", "Examples\RSAExample\RSAExample.csproj", "{F2074419-AFCC-440E-B3D5-A06731C76D5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.UnitTests", "Examples\Examples.UnitTests\Examples.UnitTests.csproj", "{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,9 +71,26 @@ Global
 		{5327C9AF-5EFE-4700-AF56-BAAC9355E216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5327C9AF-5EFE-4700-AF56-BAAC9355E216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5327C9AF-5EFE-4700-AF56-BAAC9355E216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4A408B3-21D9-4657-8E8D-B9445513690C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A408B3-21D9-4657-8E8D-B9445513690C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A408B3-21D9-4657-8E8D-B9445513690C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A408B3-21D9-4657-8E8D-B9445513690C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A4A408B3-21D9-4657-8E8D-B9445513690C} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
+		{F2074419-AFCC-440E-B3D5-A06731C76D5A} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {430E000A-5AD5-4D57-BB34-4A1BE6193BBA}

@@ -21,6 +21,7 @@
         </PackageReference>
         <PackageReference Include="ReportGenerator" Version="5.3.11" />
         <PackageReference Include="Shouldly" Version="4.2.1" />
+        <PackageReference Include="SharperHacks.CoreLibs.IO" Version="5.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -37,6 +38,12 @@
         </None>
         <None Update="Resources\RsaKeys\RsaKeys">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\RsaKeys\publicKey.pub">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\RsaKeys\privateKey">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Resources\TestFiles\test.docx">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>

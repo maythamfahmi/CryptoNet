@@ -61,6 +61,7 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    // ToDo: Needs unit test coverage.
     public CryptoNetRsa(X509Certificate2? certificate, KeyType keyType, int keySize = 2048)
     {
         Rsa = RSA.Create();
