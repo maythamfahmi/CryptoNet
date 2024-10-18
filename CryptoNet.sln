@@ -1,23 +1,20 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet", "CryptoNet\CryptoNet.csproj", "{8F85375C-A0DC-4B67-B934-F58ED4114F5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.Cli", "CryptoNet.Cli\CryptoNet.Cli.csproj", "{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoNet.UnitTests", "CryptoNet.UnitTests\CryptoNet.UnitTests.csproj", "{702C8501-AF79-4549-98A8-67A153DF5B70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{1733D13E-78C2-4A60-8741-EB641832A832}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		build.ps1 = build.ps1
 		.github\workflows\cd-release.yml = .github\workflows\cd-release.yml
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		.github\workflows\code-coverage.yml = .github\workflows\code-coverage.yml
-		Directory.Build.Props = Directory.Build.Props
 		DockerBuild.ps1 = DockerBuild.ps1
 		Dockerfile = Dockerfile
 		RELEASE-NOTES = RELEASE-NOTES
@@ -42,11 +39,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{81
 		Examples\Examples.md = Examples\Examples.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AESExample", "Examples\AESExample\AESExample.csproj", "{A4A408B3-21D9-4657-8E8D-B9445513690C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AESExample", "Examples\AESExample\AESExample.csproj", "{A4A408B3-21D9-4657-8E8D-B9445513690C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSAExample", "Examples\RSAExample\RSAExample.csproj", "{F2074419-AFCC-440E-B3D5-A06731C76D5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSAExample", "Examples\RSAExample\RSAExample.csproj", "{F2074419-AFCC-440E-B3D5-A06731C76D5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.UnitTests", "Examples\Examples.UnitTests\Examples.UnitTests.csproj", "{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.UnitTests", "Examples\Examples.UnitTests\Examples.UnitTests.csproj", "{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +55,6 @@ Global
 		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F85375C-A0DC-4B67-B934-F58ED4114F5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90A48ACF-6DE9-4627-8DAC-5FC9B3D02FDC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{702C8501-AF79-4549-98A8-67A153DF5B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{702C8501-AF79-4549-98A8-67A153DF5B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{702C8501-AF79-4549-98A8-67A153DF5B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,11 +86,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A4A408B3-21D9-4657-8E8D-B9445513690C} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
-		{F2074419-AFCC-440E-B3D5-A06731C76D5A} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
-		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {430E000A-5AD5-4D57-BB34-4A1BE6193BBA}
