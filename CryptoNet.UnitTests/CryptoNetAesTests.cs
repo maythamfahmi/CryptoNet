@@ -13,11 +13,13 @@ using CryptoNet.Share;
 using NUnit.Framework;
 using Shouldly;
 using CryptoNet.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable All
 
 namespace CryptoNet.UnitTests;
 
+[ExcludeFromCodeCoverage]
 [TestFixture]
 public class CryptoNetAesTests
 {

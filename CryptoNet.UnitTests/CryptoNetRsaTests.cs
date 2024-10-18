@@ -5,19 +5,22 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System;
-using System.IO;
+using CryptoNet.Extensions;
 using CryptoNet.Models;
 using CryptoNet.Share;
+
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+
 using Shouldly;
-using CryptoNet.Extensions;
+
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable All
 
 namespace CryptoNet.UnitTests;
 
+[ExcludeFromCodeCoverage]
 [TestFixture]
 public class CryptoNetRsaTests
 {

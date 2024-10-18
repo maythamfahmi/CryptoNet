@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AESExample", "Examples\AESE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSAExample", "Examples\RSAExample\RSAExample.csproj", "{F2074419-AFCC-440E-B3D5-A06731C76D5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.UnitTests", "Examples\Examples.UnitTests\Examples.UnitTests.csproj", "{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2074419-AFCC-440E-B3D5-A06731C76D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A4A408B3-21D9-4657-8E8D-B9445513690C} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
 		{F2074419-AFCC-440E-B3D5-A06731C76D5A} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
+		{BE3D0F86-C8B6-44BC-B7A1-89FA56050874} = {8170DCC7-94A8-4495-BC40-BA2E1C8FD556}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {430E000A-5AD5-4D57-BB34-4A1BE6193BBA}
