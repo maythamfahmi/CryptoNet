@@ -18,6 +18,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System;
+using System.IO;
 
 // ReSharper disable All
 
@@ -28,7 +30,7 @@ namespace CryptoNet.UnitTests;
 public class CryptoNetRsaTests
 {
     private const string ConfidentialData = @"Some Secret Data";
-    private static readonly string BaseFolder = AppDomain.CurrentDomain.SetupInformation.ApplicationBase ?? AppDomain.CurrentDomain.BaseDirectory;
+    private static readonly string BaseFolder = AppContext.BaseDirectory;
 
     private static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
     private static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
@@ -128,7 +130,7 @@ public class CryptoNetRsaTests
     public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test()
     {
         var certificate = new FileInfo(Common.RsaStoredKeyPair);
-        
+
         // Export public key
         new CryptoNetRsa(certificate).SaveKey(new FileInfo(Common.PublicKeyFile), false);
 
@@ -192,8 +194,7 @@ public class CryptoNetRsaTests
         // Arrange
         var publicKeyRsa = new CryptoNetRsa(new FileInfo(PublicKeyFile));
         var privateKeyRsa = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
-        var solution_dir = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-        Console.WriteLine(solution_dir);
+
         // Act
         var encryptedData = publicKeyRsa.EncryptFromString(ConfidentialData);
         var decryptedData = privateKeyRsa.DecryptToString(encryptedData);
