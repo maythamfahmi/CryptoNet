@@ -5,7 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using NUnit.Compatibility;
 using NUnit.Framework.Legacy;
 
 namespace CryptoNet.Examples.UnitTests;

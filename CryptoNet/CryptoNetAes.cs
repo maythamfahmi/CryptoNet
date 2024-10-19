@@ -5,8 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System;
-using System.IO;
 using System.Security.Cryptography;
 using CryptoNet.Models;
 using CryptoNet.Extensions;
@@ -14,7 +12,7 @@ using CryptoNet.Utils;
 
 namespace CryptoNet;
 
-public class CryptoNetAes : ICryptoNet
+public class CryptoNetAes : ICryptoNetAes
 {
     private Aes Aes { get; }
     public CryptoNetInfo Info { get; }
@@ -72,15 +70,20 @@ public class CryptoNetAes : ICryptoNet
         };
     }
 
-    public string ExportKey(bool? privateKey = null)
+    public string GetKey()
     {
         return CryptoNetUtils.ExportAndSaveAesKey(Aes);
     }
 
-    public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false)
+    public void SaveKey(FileInfo fileInfo)
     {
         var key = CryptoNetUtils.ExportAndSaveAesKey(Aes);
         CryptoNetUtils.SaveKey(fileInfo.FullName, key);
+    }
+
+    public void SaveKey(string filename)
+    {
+        SaveKey(new FileInfo(filename));
     }
 
     #region encryption logic

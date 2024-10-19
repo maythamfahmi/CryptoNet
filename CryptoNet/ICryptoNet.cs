@@ -5,7 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System.IO;
 using CryptoNet.Models;
 
 namespace CryptoNet;
@@ -13,8 +12,6 @@ namespace CryptoNet;
 public interface ICryptoNet
 {
     CryptoNetInfo Info { get; }
-    string ExportKey(bool? privateKey = null);
-    void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false);
     byte[] EncryptFromString(string content);
     string DecryptToString(byte[] bytes);
     byte[] EncryptFromBytes(byte[] bytes);

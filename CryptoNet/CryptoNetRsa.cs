@@ -5,8 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using System;
-using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using CryptoNet.Extensions;
@@ -15,7 +13,7 @@ using CryptoNet.Models;
 
 namespace CryptoNet;
 
-public class CryptoNetRsa : ICryptoNet
+public class CryptoNetRsa : ICryptoNetRsa
 {
     private RSA Rsa { get; }
     public CryptoNetInfo Info { get; }
@@ -134,18 +132,23 @@ public class CryptoNetRsa : ICryptoNet
         };
     }
 
-    public string ExportKey(bool? privateKey = null)
+    public string GetKey(bool privateKey = false)
     {
-        return privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
+        return privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
     }
 
-    public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false)
+    public void SaveKey(FileInfo fileInfo, bool privateKey = false)
     {
-        string key = privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
+        string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
             CryptoNetUtils.SaveKey(fileInfo.FullName, key);
         }
+    }
+
+    public void SaveKey(string filename, bool privateKey = false)
+    {
+        SaveKey(new FileInfo(filename), privateKey);
     }
 
     private string ExportKey(KeyType keyType)

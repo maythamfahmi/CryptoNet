@@ -6,7 +6,6 @@
 // <summary>part of CryptoNet project</summary>
 
 using System.ComponentModel;
-using System.IO;
 using System.Security.Cryptography;
 using System.Xml.Serialization;
 using CryptoNet.Models;
