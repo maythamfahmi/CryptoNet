@@ -6,8 +6,8 @@ on:
       - "main"
       - "version3"
       - "feature/*"
-      - "bugfix/*" 
-      - "hotfix/*" 
+      - "bugfix/*"
+      - "hotfix/*"
       - "!feature/ci*"
     paths-ignore:
       - "**/README.md"
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest] #, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
