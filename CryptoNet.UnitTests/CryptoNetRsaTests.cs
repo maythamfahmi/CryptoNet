@@ -32,14 +32,12 @@ namespace CryptoNet.UnitTests;
 public class CryptoNetRsaTests
 {
     private static readonly string BaseFolder = AppContext.BaseDirectory;
-
     private static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
     private static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
 
     public CryptoNetRsaTests()
     {
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
-
         cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
         cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
     }
@@ -47,30 +45,40 @@ public class CryptoNetRsaTests
     [Test]
     public void SelfGenerated_AsymmetricKey_And_TypeValidation_Test()
     {
-        new CryptoNetRsa(new FileInfo(PrivateKeyFile)).Info.KeyType.ShouldBe(KeyType.PrivateKey);
-        new CryptoNetRsa(new FileInfo(PublicKeyFile)).Info.KeyType.ShouldBe(KeyType.PublicKey);
+        // Arrange & Act
+        var privateKeyCrypto = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
+        var publicKeyCrypto = new CryptoNetRsa(new FileInfo(PublicKeyFile));
+
+        // Assert
+        privateKeyCrypto.Info.KeyType.ShouldBe(KeyType.PrivateKey);
+        publicKeyCrypto.Info.KeyType.ShouldBe(KeyType.PublicKey);
     }
 
     [Test]
     public void Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey_Test()
     {
+        // Arrange
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         var privateKey = cryptoNet.GetKey(true);
         var publicKey = cryptoNet.GetKey(false);
 
+        // Act
         var encrypt = new CryptoNetRsa(publicKey).EncryptFromString(Common.ConfidentialDummyData);
         var decrypt = new CryptoNetRsa(privateKey).DecryptToString(encrypt);
 
+        // Assert
         Common.CheckContent(Common.ConfidentialDummyData, decrypt).ShouldBeTrue();
     }
 
     [Test]
     public void Encrypt_Decrypt_Content_With_Invalid_AsymmetricKey_Test()
     {
+        // Arrange
         var encrypt = new CryptoNetRsa().EncryptFromString(Common.ConfidentialDummyData);
-
         const string invalidKey = "invalid-key";
         string decrypt = string.Empty;
+
+        // Act & Assert
         try
         {
             decrypt = new CryptoNetRsa(invalidKey).DecryptToString(encrypt);
@@ -85,16 +93,17 @@ public class CryptoNetRsaTests
     [Test]
     public void Encrypt_Decrypt_Content_With_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test()
     {
+        // Arrange
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         var encrypt = cryptoNet.EncryptFromString(Common.ConfidentialDummyData);
         File.WriteAllBytes(Common.EncryptedContentFile, encrypt);
 
+        // Act
         var encryptFile = File.ReadAllBytes(Common.EncryptedContentFile);
         var content = cryptoNet.DecryptToString(encryptFile);
 
+        // Assert
         Common.CheckContent(Common.ConfidentialDummyData, content).ShouldBeTrue();
-
-        Common.DeleteTestFiles(Common.DummyFiles);
     }
 
     [TestCase("test.docx"), Order(5)]
@@ -103,49 +112,45 @@ public class CryptoNetRsaTests
     [TestCase("test.pdf")]
     public void Encrypt_Decrypt_Documents_With_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test(string filename)
     {
+        // Arrange
         var testDocument = File.ReadAllBytes(Path.Combine(Common.TestFilesPath, filename));
-
-        ICryptoNetRsa cryptoNet = new CryptoNetRsa();
-        cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
-        cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
-
-        // arrange
         var encrypt = new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromBytes(testDocument);
 
-        // act
+        // Act
         var decrypt = new CryptoNetRsa(new FileInfo(PrivateKeyFile)).DecryptToBytes(encrypt);
 
-        // assert
+        // Assert
         ClassicAssert.AreEqual(testDocument, decrypt);
     }
 
     [Test]
     public void Encrypt_Decrypt_Content_With_PreStored_SelfGenerated_AsymmetricKey_Test()
     {
+        // Arrange
         ICryptoNetRsa cryptoNet = new CryptoNetRsa(new FileInfo(Common.RsaStoredKeyPair));
 
+        // Act
         var encrypt = cryptoNet.EncryptFromString(Common.ConfidentialDummyData);
         var content = cryptoNet.DecryptToString(encrypt);
 
-        Common.CheckContent(Common.ConfidentialDummyData, content);
+        // Assert
+        Common.CheckContent(Common.ConfidentialDummyData, content).ShouldBeTrue();
     }
 
     [Test]
     public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test()
     {
+        // Arrange
         var certificate = new FileInfo(Common.RsaStoredKeyPair);
-
-        // Export public key
         new CryptoNetRsa(certificate).SaveKey(new FileInfo(PublicKeyFile), false);
 
-        // Import public key and encrypt
+        // Act
         var importPublicKey = new FileInfo(PublicKeyFile);
-
         var encryptWithPublicKey = new CryptoNetRsa(importPublicKey).EncryptFromString(Common.ConfidentialDummyData);
         var decryptWithPrivateKey = new CryptoNetRsa(certificate).DecryptToString(encryptWithPublicKey);
 
-        Common.CheckContent(Common.ConfidentialDummyData, decryptWithPrivateKey);
-
+        // Assert
+        Common.CheckContent(Common.ConfidentialDummyData, decryptWithPrivateKey).ShouldBeTrue();
         Common.DeleteTestFiles(Common.DummyFiles);
     }
 
@@ -155,41 +160,31 @@ public class CryptoNetRsaTests
     [TestCase("test.pdf")]
     public void Validate_Decrypted_File_Against_The_Original_File_By_Comparing_Bytes_Test(string filename)
     {
-        // arrange
+        // Arrange
         var certificate = new FileInfo(Common.RsaStoredKeyPair);
-        // Export public key
         ICryptoNetRsa cryptoNet = new CryptoNetRsa(certificate);
-
         var filePath = Path.Combine(Common.TestFilesPath, filename);
         byte[] originalFileBytes = File.ReadAllBytes(filePath);
+
+        // Act
         byte[] encryptedBytes = cryptoNet.EncryptFromBytes(originalFileBytes);
         byte[] decryptedBytes = cryptoNet.DecryptToBytes(encryptedBytes);
 
+        // Assert
         var isIdenticalFile = CryptoNetExtensions.ByteArrayCompare(originalFileBytes, decryptedBytes);
-
         isIdenticalFile.ShouldBeTrue();
     }
 
     [Test]
-    public void SelfGenerated_And_Save_AsymmetricKey_Test()
+    public void Control_SelfGenerated_Exist_AsymmetricKey_Test()
     {
-        // Arrange
-        var cryptoNet = new CryptoNetRsa();
-
-        // Act
-        cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
-        cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
-
+        // Arrange & Act
         var fileExistsPrivateKey = File.Exists(new FileInfo(PrivateKeyFile).FullName);
         var fileExistsPublicKey = File.Exists(new FileInfo(PublicKeyFile).FullName);
-
-        var encryptedData = new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromString(Common.ConfidentialDummyData);
-        var decryptedData = new CryptoNetRsa(new FileInfo(PrivateKeyFile)).DecryptToString(encryptedData);
 
         // Assert
         fileExistsPrivateKey.ShouldBeTrue();
         fileExistsPublicKey.ShouldBeTrue();
-        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
