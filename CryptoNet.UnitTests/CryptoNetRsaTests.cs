@@ -192,7 +192,8 @@ public class CryptoNetRsaTests
         // Arrange
         var publicKeyRsa = new CryptoNetRsa(new FileInfo(PublicKeyFile));
         var privateKeyRsa = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
-
+        var solution_dir = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        Console.WriteLine(solution_dir);
         // Act
         var encryptedData = publicKeyRsa.EncryptFromString(ConfidentialData);
         var decryptedData = privateKeyRsa.DecryptToString(encryptedData);

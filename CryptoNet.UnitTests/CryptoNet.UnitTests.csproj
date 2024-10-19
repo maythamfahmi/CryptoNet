@@ -30,12 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="Resources\TestFiles\ExcelDocument.xlsx">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\TestFiles\Image.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <None Update="Resources\RsaKeys\RsaKeys">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -55,9 +49,6 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Resources\TestFiles\test.xlsx">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\TestFiles\WordDocument.docx">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
