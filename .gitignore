@@ -395,8 +395,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 CoverageReport
-Resources/RsaKeys/privateKey
-Resources/RsaKeys/publicKey.pub
 /Resources/TestFiles/test-decrypted.docx
 /Resources/TestFiles/test-decrypted.pdf
 /Resources/TestFiles/test-decrypted.png
