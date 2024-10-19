@@ -19,6 +19,9 @@ using Shouldly;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
+using System;
+using System.IO;
+using System.Linq;
 
 // ReSharper disable All
 

@@ -1,68 +1,68 @@
-name: "Code Coverage"
+# name: "Code Coverage"
 
-on:
-  push:
-    branches:
-      - "main"
-      - "version3"
-      - "feature/*"
-      - "bugfix/*" 
-      - "hotfix/*" 
+# on:
+#   push:
+#     branches:
+#       - "main"
+#       - "version3"
+#       - "feature/*"
+#       - "bugfix/*" 
+#       - "hotfix/*" 
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+#       - name: Setup .NET
+#         uses: actions/setup-dotnet@v4
+#         with:
+#           dotnet-version: 8.0.x
 
-      - name: Install ReportGenerator tool
-        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+#       - name: Install ReportGenerator tool
+#         run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-      - name: Restore dependencies
-        run: dotnet restore
+#       - name: Restore dependencies
+#         run: dotnet restore
 
-      - name: Build the solution
-        run: dotnet build --no-restore
+#       - name: Build the solution
+#         run: dotnet build --no-restore
 
-      - name: Run tests and collect code coverage
-        run: dotnet test --no-build --collect:"XPlat Code Coverage"
+#       - name: Run tests and collect code coverage
+#         run: dotnet test --no-build --collect:"XPlat Code Coverage"
 
-      - name: Generate code coverage report
-        run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HtmlInline_AzurePipelines;Badges"
+#       - name: Generate code coverage report
+#         run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HtmlInline_AzurePipelines;Badges"
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: coverage
+#       - name: Upload coverage report
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: code-coverage-report
+#           path: coverage
 
-      - name: Upload coverage badge
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-badge
-          path: coverage/badge_linecoverage.svg
+#       - name: Upload coverage badge
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: code-coverage-badge
+#           path: coverage/badge_linecoverage.svg
 
-      - name: Create coverage badge
-        run: cp coverage/badge_linecoverage.svg ./coverage-badge.svg
+#       - name: Create coverage badge
+#         run: cp coverage/badge_linecoverage.svg ./coverage-badge.svg
 
-      - name: Print Directory Structure
-        uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
+#       - name: Print Directory Structure
+#         uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
 
-      - name: Commit coverage badge
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add coverage-badge.svg
-          if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
-              git commit -m 'Update coverage badge'
-              git push
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Commit coverage badge
+#         run: |
+#           git config --global user.name 'github-actions[bot]'
+#           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+#           git add coverage-badge.svg
+#           if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
+#               git commit -m 'Update coverage badge'
+#               git push
+#           fi
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
