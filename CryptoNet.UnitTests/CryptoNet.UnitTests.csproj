@@ -39,12 +39,6 @@
         <None Update="Resources\RsaKeys\RsaKeys">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Resources\RsaKeys\publicKey.pub">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Resources\RsaKeys\privateKey">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <None Update="Resources\TestFiles\test.docx">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
