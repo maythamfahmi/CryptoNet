@@ -17,13 +17,9 @@ public static class Common
 
     public static readonly string RsaStoredKeyPair = Path.Combine(RsaKeysPath, "RsaKeys");
     public static readonly string EncryptedContentFile = Path.Combine(RsaKeysPath, "encrypted.txt");
-    public static readonly string PrivateKeyFile = Path.Combine(RsaKeysPath, "privateKey");
-    public static readonly string PublicKeyFile = Path.Combine(RsaKeysPath, "publicKey.pub");
     public static readonly string[] DummyFiles =
     [
-        EncryptedContentFile,
-        PublicKeyFile,
-        PrivateKeyFile
+        EncryptedContentFile
     ];
 
     #region Private methods

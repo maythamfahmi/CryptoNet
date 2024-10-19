@@ -31,7 +31,6 @@ namespace CryptoNet.UnitTests;
 [TestFixture]
 public class CryptoNetAesTests
 {
-    private const string ConfidentialData = @"Some Secret Data";
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
     private static readonly string SymmetricKeyFile = Path.Combine(BaseFolder, $"{KeyType.SymmetricKey}.xml");
     private static readonly byte[] symmetricKey = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
@@ -46,11 +45,11 @@ public class CryptoNetAesTests
             var cryptoNetAes = new CryptoNetAes(symmetricKey, iv);
 
             // Act
-            var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+            var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
             var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
             // Assert
-            ConfidentialData.ShouldBe(decryptedData);
+            Common.ConfidentialDummyData.ShouldBe(decryptedData);
             cryptoNetAes.Info.KeyType.ShouldBe(KeyType.SymmetricKey);
             cryptoNetAes.Info.KeyType.ShouldNotBe(KeyType.PublicKey);
             cryptoNetAes.Info.KeyType.ShouldNotBe(KeyType.PrivateKey);
@@ -66,7 +65,7 @@ public class CryptoNetAesTests
         var wrongKey = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315b1916");
         var iv = new byte[16];
         var cryptoNetAes = new CryptoNetAes(correctKey, iv);
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
 
         // Act & Assert
         Assert.Throws<CryptographicException>(() =>
@@ -123,11 +122,11 @@ public class CryptoNetAesTests
         var cryptoNetAes = new CryptoNetAes(key);
 
         // Act
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
         // Assert
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -139,12 +138,12 @@ public class CryptoNetAesTests
 
         // Act
         cryptoNet.SaveKey(file);
-        var encryptedData = cryptoNet.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNet.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = new CryptoNetAes(file).DecryptToString(encryptedData);
 
         // Assert
         File.Exists(file.FullName).ShouldBeTrue();
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -158,11 +157,11 @@ public class CryptoNetAesTests
         var cryptoNetAes = new CryptoNetAes(keyBytes, ivBytes);
 
         // Act
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
         // Assert
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -176,11 +175,11 @@ public class CryptoNetAesTests
         var cryptoNetAes = new CryptoNetAes(keyBytes, ivBytes);
 
         // Act
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
         // Assert
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     // Helper method
