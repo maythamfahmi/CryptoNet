@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - "main"
+      - "version3"
       - "feature/*"
       - "!feature/ci*"
-      - "version3/*"
     paths-ignore:
       - "**/README.md"
   pull_request:
