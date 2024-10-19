@@ -28,7 +28,7 @@ namespace CryptoNet.UnitTests;
 public class CryptoNetRsaTests
 {
     private const string ConfidentialData = @"Some Secret Data";
-    private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
+    private static readonly string BaseFolder = AppDomain.CurrentDomain.SetupInformation.ApplicationBase ?? AppDomain.CurrentDomain.BaseDirectory;
 
     private static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
     private static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
