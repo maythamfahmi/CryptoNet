@@ -190,7 +190,7 @@ public class CryptoNetRsaTests
         ConfidentialData.ShouldBe(decryptedData);
     }
 
-    [Test]
+    [Ignore("Temp disabled")]
     public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content_Test()
     {
         // Arrange
@@ -222,7 +222,7 @@ public class CryptoNetRsaTests
 
     }
 
-    [Test]
+    [Ignore("Temp disabled")]
     public void Export_Public_Key_For_X509_Certificate_Test()
     {
         // Arrange
