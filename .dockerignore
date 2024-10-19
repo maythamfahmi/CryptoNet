@@ -1,0 +1,5 @@
+bin/
+obj/
+.git/
+*.txt  # If you want to exclude all .txt files
+run_codecoverage.txt  # Exclude this specific file
