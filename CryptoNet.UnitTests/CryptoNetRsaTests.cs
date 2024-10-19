@@ -190,16 +190,20 @@ public class CryptoNetRsaTests
         ConfidentialData.ShouldBe(decryptedData);
     }
 
-    [Ignore("Temp disabled")]
+    [Test]
     public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Of_Content_Test()
     {
-        // Arrange
-        var publicKeyRsa = new CryptoNetRsa(new FileInfo(PublicKeyFile));
-        var privateKeyRsa = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
+        //// Arrange
+        //var publicKeyRsa = new CryptoNetRsa(new FileInfo(PublicKeyFile));
+        //var privateKeyRsa = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
 
-        // Act
-        var encryptedData = publicKeyRsa.EncryptFromString(ConfidentialData);
-        var decryptedData = privateKeyRsa.DecryptToString(encryptedData);
+        //// Act
+        //var encryptedData = publicKeyRsa.EncryptFromString(ConfidentialData);
+        //var decryptedData = privateKeyRsa.DecryptToString(encryptedData);
+
+        var encryptedData = new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromString(ConfidentialData);
+
+        var decryptedData = new CryptoNetRsa(new FileInfo(PrivateKeyFile)).DecryptToString(encryptedData);
 
         // Assert
         ConfidentialData.ShouldBe(decryptedData);
