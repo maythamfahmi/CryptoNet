@@ -168,8 +168,8 @@ public class CryptoNetAesTests
     public void Encrypt_And_Decrypt_With_Human_Readable_Key_And_Secret_SymmetricKey_Test()
     {
         // Arrange
-        var key = UniqueKeyGenerator("symmetricKey");
-        var iv = new string(UniqueKeyGenerator("password").Take(16).ToArray());
+        var key = Common.UniqueKeyGenerator("symmetricKey");
+        var iv = new string(Common.UniqueKeyGenerator("password").Take(16).ToArray());
         var keyBytes = Encoding.UTF8.GetBytes(key);
         var ivBytes = Encoding.UTF8.GetBytes(iv);
         var cryptoNetAes = new CryptoNetAes(keyBytes, ivBytes);
@@ -180,20 +180,6 @@ public class CryptoNetAesTests
 
         // Assert
         Common.ConfidentialDummyData.ShouldBe(decryptedData);
-    }
-
-    // Helper method
-    private static string UniqueKeyGenerator(string input)
-    {
-        byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-        byte[] hashBytes = MD5.HashData(inputBytes);
-
-        var stringBuilder = new StringBuilder();
-        foreach (var byteValue in hashBytes)
-        {
-            stringBuilder.Append(byteValue.ToString("X2"));
-        }
-        return stringBuilder.ToString();
     }
 
     [Test]
@@ -230,6 +216,5 @@ public class CryptoNetAesTests
         Assert.Throws<ArgumentNullException>(() => encoder.DecryptToBytes(null!));
         Assert.Throws<ArgumentNullException>(() => encoder.DecryptToBytes(new byte[0]));
     }
-
 }
 

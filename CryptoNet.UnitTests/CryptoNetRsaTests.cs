@@ -240,10 +240,10 @@ public class CryptoNetRsaTests
         // Arrange
         X509Certificate2? cert = CryptoNetExtensions.GetCertificateFromStore("CN=Maytham");
 
-        var pubKeyPem = ExportPemKey(cert!, false);
-        var priKeyPem = ExportPemKey(cert!);
+        var pubKeyPem = Common.ExportPemKey(cert!, false);
+        var priKeyPem = Common.ExportPemKey(cert!);
         var password = "password";
-        var encryptedPriKeyBytes = ExportPemKeyWithPassword(cert!, password);
+        var encryptedPriKeyBytes = Common.ExportPemKeyWithPassword(cert!, password);
 
         // Act
         ICryptoNetRsa cryptoNet1 = ImportPemKeyWithPassword(encryptedPriKeyBytes, password);
@@ -261,40 +261,17 @@ public class CryptoNetRsaTests
         Common.ConfidentialDummyData.ShouldBe(decryptedData2);
     }
 
-    private static char[] ExportPemKey(X509Certificate2 cert, bool privateKey = true)
-    {
-        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
-
-        if (privateKey)
-        {
-            byte[] priKeyBytes = rsa.ExportPkcs8PrivateKey();
-            return PemEncoding.Write("PRIVATE KEY", priKeyBytes);
-        }
-
-        byte[] pubKeyBytes = rsa.ExportSubjectPublicKeyInfo();
-        return PemEncoding.Write("PUBLIC KEY", pubKeyBytes);
-    }
-
-    private static ICryptoNetRsa ImportPemKey(char[] key)
+    public static ICryptoNetRsa ImportPemKey(char[] key)
     {
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail!.Rsa?.ImportFromPem(key);
         return cryptoNet;
     }
 
-    private static byte[] ExportPemKeyWithPassword(X509Certificate2 cert, string password)
-    {
-        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
-        byte[] pass = Encoding.UTF8.GetBytes(password);
-        return rsa.ExportEncryptedPkcs8PrivateKey(pass,
-            new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
-    }
-
-    private static ICryptoNetRsa ImportPemKeyWithPassword(byte[] encryptedPrivateKey, string password)
+    public static ICryptoNetRsa ImportPemKeyWithPassword(byte[] encryptedPrivateKey, string password)
     {
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail?.Rsa?.ImportEncryptedPkcs8PrivateKey(password, encryptedPrivateKey, out _);
         return cryptoNet;
     }
-
 }
