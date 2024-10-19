@@ -222,7 +222,7 @@ public class CryptoNetRsaTests
 
     }
 
-    [Ignore("Temp disabled")]
+    [Ignore("Private")]
     public void Export_Public_Key_For_X509_Certificate_Test()
     {
         // Arrange
