@@ -31,7 +31,6 @@ namespace CryptoNet.UnitTests;
 [TestFixture]
 public class CryptoNetAesTests
 {
-    private const string ConfidentialData = @"Some Secret Data";
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
     private static readonly string SymmetricKeyFile = Path.Combine(BaseFolder, $"{KeyType.SymmetricKey}.xml");
     private static readonly byte[] symmetricKey = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
@@ -46,11 +45,11 @@ public class CryptoNetAesTests
             var cryptoNetAes = new CryptoNetAes(symmetricKey, iv);
 
             // Act
-            var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+            var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
             var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
             // Assert
-            ConfidentialData.ShouldBe(decryptedData);
+            Common.ConfidentialDummyData.ShouldBe(decryptedData);
             cryptoNetAes.Info.KeyType.ShouldBe(KeyType.SymmetricKey);
             cryptoNetAes.Info.KeyType.ShouldNotBe(KeyType.PublicKey);
             cryptoNetAes.Info.KeyType.ShouldNotBe(KeyType.PrivateKey);
@@ -66,7 +65,7 @@ public class CryptoNetAesTests
         var wrongKey = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315b1916");
         var iv = new byte[16];
         var cryptoNetAes = new CryptoNetAes(correctKey, iv);
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
 
         // Act & Assert
         Assert.Throws<CryptographicException>(() =>
@@ -123,11 +122,11 @@ public class CryptoNetAesTests
         var cryptoNetAes = new CryptoNetAes(key);
 
         // Act
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
         // Assert
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -139,12 +138,12 @@ public class CryptoNetAesTests
 
         // Act
         cryptoNet.SaveKey(file);
-        var encryptedData = cryptoNet.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNet.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = new CryptoNetAes(file).DecryptToString(encryptedData);
 
         // Assert
         File.Exists(file.FullName).ShouldBeTrue();
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -158,43 +157,29 @@ public class CryptoNetAesTests
         var cryptoNetAes = new CryptoNetAes(keyBytes, ivBytes);
 
         // Act
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
         // Assert
-        ConfidentialData.ShouldBe(decryptedData);
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
     public void Encrypt_And_Decrypt_With_Human_Readable_Key_And_Secret_SymmetricKey_Test()
     {
         // Arrange
-        var key = UniqueKeyGenerator("symmetricKey");
-        var iv = new string(UniqueKeyGenerator("password").Take(16).ToArray());
+        var key = Common.UniqueKeyGenerator("symmetricKey");
+        var iv = new string(Common.UniqueKeyGenerator("password").Take(16).ToArray());
         var keyBytes = Encoding.UTF8.GetBytes(key);
         var ivBytes = Encoding.UTF8.GetBytes(iv);
         var cryptoNetAes = new CryptoNetAes(keyBytes, ivBytes);
 
         // Act
-        var encryptedData = cryptoNetAes.EncryptFromString(ConfidentialData);
+        var encryptedData = cryptoNetAes.EncryptFromString(Common.ConfidentialDummyData);
         var decryptedData = cryptoNetAes.DecryptToString(encryptedData);
 
         // Assert
-        ConfidentialData.ShouldBe(decryptedData);
-    }
-
-    // Helper method
-    private static string UniqueKeyGenerator(string input)
-    {
-        byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-        byte[] hashBytes = MD5.HashData(inputBytes);
-
-        var stringBuilder = new StringBuilder();
-        foreach (var byteValue in hashBytes)
-        {
-            stringBuilder.Append(byteValue.ToString("X2"));
-        }
-        return stringBuilder.ToString();
+        Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -231,6 +216,5 @@ public class CryptoNetAesTests
         Assert.Throws<ArgumentNullException>(() => encoder.DecryptToBytes(null!));
         Assert.Throws<ArgumentNullException>(() => encoder.DecryptToBytes(new byte[0]));
     }
-
 }
 
