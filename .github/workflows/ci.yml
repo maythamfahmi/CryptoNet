@@ -6,6 +6,8 @@ on:
       - "main"
       - "version3"
       - "feature/*"
+      - "bugfix/*" 
+      - "hotfix/*" 
       - "!feature/ci*"
     paths-ignore:
       - "**/README.md"

@@ -6,6 +6,9 @@ on:
       - "main"
       - "version3"
       - "feature/*"
+      - "bugfix/*" 
+      - "hotfix/*" 
+
 jobs:
   build:
     runs-on: ubuntu-latest
