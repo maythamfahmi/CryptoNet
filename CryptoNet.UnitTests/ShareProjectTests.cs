@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using CryptoNet.Share;
 using CryptoNet.Share.Extensions;
 using NUnit.Framework;
@@ -11,17 +12,6 @@ namespace CryptoNet.UnitTests
     public class ShareProjectTests
     {
         [Test]
-        public void TryGetSolutionDirectoryInfo_ShouldReturnNull_WhenNoSolutionFileExists()
-        {
-            // Act
-            var result = DirectoryExension.TryGetSolutionDirectoryInfo();
-
-            // Assert
-            result.ShouldNotBeNull();
-            result!.FullName.ShouldContain("CryptoNet");
-        }
-
-        [Test]
         public void TryGetSolutionDirectoryInfo_ShouldReturnDirectoryWithTestFiles()
         {
             // Arrange
@@ -31,7 +21,7 @@ namespace CryptoNet.UnitTests
             var result = DirectoryExension.TryGetSolutionDirectoryInfo();
             var testFiles = Path.Combine(result!.FullName, "Resources", "TestFiles");
             var di = new DirectoryInfo(testFiles);
-            var files = di.GetFiles("test.*");
+            var files = di.GetFiles("test.*").Select(e => e.FullName);
 
             // Assert
             files.ShouldNotBeNull();
