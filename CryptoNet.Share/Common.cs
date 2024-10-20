@@ -41,6 +41,11 @@ public static class Common
 
     public static string UniqueKeyGenerator(string input)
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            throw new ArgumentNullException(nameof(input), "Input cannot be null or empty");
+        }
+
         byte[] inputBytes = Encoding.ASCII.GetBytes(input);
         byte[] hashBytes = MD5.HashData(inputBytes);
 
