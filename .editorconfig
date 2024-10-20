@@ -1,4 +1,4 @@
-﻿[*.cs]
+﻿[ "*.cs" ]
 
 # CA1507: Use nameof to express symbol names
 dotnet_diagnostic.CA1507.severity = none
@@ -19,6 +19,9 @@ csharp_space_around_binary_operators = before_and_after
 
 # CS8618: Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 dotnet_diagnostic.CS8618.severity = none
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -86,3 +89,10 @@ dotnet_diagnostic.IDE0063.severity = none
 
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = none
+
+# All files
+[*]
+indent_style = space
+
+[*.csproj]
+indent_size = 2
