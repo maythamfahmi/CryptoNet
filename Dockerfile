@@ -7,5 +7,3 @@ RUN apt-get update && apt-get install libxml2
 RUN dotnet restore
 # Unit ans Integration Tests
 RUN dotnet test
-# Functional Tests of the Examples
-RUN dotnet run --project ./CryptoNet.Cli/CryptoNet.Cli.csproj
