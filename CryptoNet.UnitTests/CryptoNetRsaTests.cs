@@ -151,7 +151,6 @@ public class CryptoNetRsaTests
 
         // Assert
         Common.CheckContent(Common.ConfidentialDummyData, decryptWithPrivateKey).ShouldBeTrue();
-        Common.DeleteTestFiles(Common.DummyFiles);
     }
 
     [TestCase("test.docx")]
@@ -202,7 +201,7 @@ public class CryptoNetRsaTests
         Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
-    [Ignore("Private")]
+    [Ignore("Private: This test works only on local Windows enviroment for debugging and testing. You can also put your own certifciate when debugging and testing")]
     public void Encrypt_Decrypt_Using_X509_Certificate_Test()
     {
         // Arrange
@@ -219,7 +218,7 @@ public class CryptoNetRsaTests
 
     }
 
-    [Ignore("Private")]
+    [Ignore("Private: This test works only on local Windows enviroment for debugging and testing. You can also put your own certifciate when debugging and testing")]
     public void Export_Public_Key_For_X509_Certificate_Test()
     {
         // Arrange
@@ -234,7 +233,7 @@ public class CryptoNetRsaTests
         publicKey.ShouldNotBeEmpty();
     }
 
-    [Ignore("Private")]
+    [Ignore("Private: This test works only on local Windows enviroment for debugging and testing. You can also put your own certifciate when debugging and testing")]
     public void Customize_PEM_Key_Encryption_Decryption_Test()
     {
         // Arrange
