@@ -201,11 +201,11 @@ public class CryptoNetRsaTests
         Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
-    [Ignore("Private")]
+    [Test()]
     public void Encrypt_Decrypt_Using_X509_Certificate_Test()
     {
         // Arrange
-        X509Certificate2? certificate = CryptoNetExtensions.GetCertificateFromStore("CN=Maytham");
+        X509Certificate2? certificate = CryptoNetExtensions.GetCertificateFromStore("CN=localhost");
         var rsaPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey);
         var rsaPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey);
 
