@@ -23,18 +23,13 @@ public static class Common
         EncryptedContentFile
     ];
 
-    #region Private methods
-    public static void DeleteTestFiles(string[] files)
-    {
-        Thread.Sleep(500);
-        foreach (string file in files)
-        {
-            File.Delete(file);
-        }
-    }
-
     public static bool CheckContent(string originalContent, string decryptedContent)
     {
+        if (originalContent == null || decryptedContent == null)
+        {
+            return originalContent == decryptedContent;
+        }
+
         return CalculateMd5(originalContent).Equals(CalculateMd5(decryptedContent));
     }
 
@@ -78,5 +73,4 @@ public static class Common
         return rsa.ExportEncryptedPkcs8PrivateKey(pass,
             new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
     }
-    #endregion
 }
