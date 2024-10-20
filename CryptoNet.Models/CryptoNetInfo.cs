@@ -51,15 +51,10 @@ public class AesDetail
     public AesKeyValue AesKeyValue { get; set; }
 }
 
-[Serializable()]
 public class AesKeyValue
 {
-    [System.Xml.Serialization.XmlElement("key")]
     public byte[] Key { get; set; }
-
-    [System.Xml.Serialization.XmlElement("iv")]
     public byte[] Iv { get; set; }
-
 }
 
 public enum KeyType

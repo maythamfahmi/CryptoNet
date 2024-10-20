@@ -32,7 +32,7 @@ namespace CryptoNet.UnitTests;
 public class CryptoNetAesTests
 {
     private static readonly string BaseFolder = AppDomain.CurrentDomain.BaseDirectory;
-    private static readonly string SymmetricKeyFile = Path.Combine(BaseFolder, $"{KeyType.SymmetricKey}.xml");
+    private static readonly string SymmetricKeyFile = Path.Combine(BaseFolder, $"{KeyType.SymmetricKey}.json");
     private static readonly byte[] symmetricKey = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
 
     [Test]
