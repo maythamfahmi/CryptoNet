@@ -151,7 +151,6 @@ public class CryptoNetRsaTests
 
         // Assert
         Common.CheckContent(Common.ConfidentialDummyData, decryptWithPrivateKey).ShouldBeTrue();
-        Common.DeleteTestFiles(Common.DummyFiles);
     }
 
     [TestCase("test.docx")]
