@@ -7,6 +7,7 @@
 
 using System;
 using System.IO;
+using System.Text.Json;
 using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Xml.Serialization;
@@ -42,18 +43,12 @@ public static class CryptoNetUtils
     internal static string ExportAndSaveAesKey(Aes aes)
     {
         AesKeyValue aesKeyValue = new AesKeyValue { Key = aes.Key, Iv = aes.IV };
-        XmlSerializer serializer = new XmlSerializer(typeof(AesKeyValue));
-        StringWriter writer = new StringWriter();
-        serializer.Serialize(writer, aesKeyValue);
-        writer.Close();
-        return writer.ToString();
+        return JsonSerializer.Serialize(aesKeyValue);
     }
 
-    internal static AesKeyValue ImportAesKey(string aes)
+    internal static AesKeyValue ImportAesKey(string aesJson)
     {
-        XmlSerializer deserializer = new XmlSerializer(typeof(AesKeyValue));
-        StringReader reader = new StringReader(aes);
-        return (AesKeyValue)deserializer.Deserialize(reader)!;
+        return JsonSerializer.Deserialize<AesKeyValue>(aesJson)!;
     }
 
     internal static string GetDescription(KeyType value)
