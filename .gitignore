@@ -405,3 +405,4 @@ CoverageReport
 *.vpw
 *.vpwhist
 *.vtg
+/Resources/RsaKeys/encrypted.txt
