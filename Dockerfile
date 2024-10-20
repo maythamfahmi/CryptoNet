@@ -6,4 +6,4 @@ RUN apt-get update && apt-get install libxml2
 
 RUN dotnet restore
 # Unit ans Integration Tests
-RUN dotnet test
+RUN dotnet test --verbosity normal
