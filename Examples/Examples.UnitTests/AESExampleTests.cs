@@ -1,9 +1,4 @@
-﻿// <copyright file="AESExampleTests.cs"">
-// Copyright (c) All Rights Reserved
-// </copyright>
-// <author>Maytham Fahmi and contributors</author>
-// <date>17-12-2021 12:18:44</date>
-// <summary>part of CryptoNet project</summary>
+﻿// Copyright and trademark notices at the end of this file.
 
 using NUnit.Framework.Legacy;
 
@@ -11,9 +6,12 @@ namespace CryptoNet.Examples.UnitTests;
 
 [ExcludeFromCodeCoverage]
 [TestFixture]
-public class AESExampleTests
+public class AESExampleTests : ExampleTestBase
 {
-    [Ignore("temp")]
+    private const string AESExampleExeName = "AESExample.exe";
+
+    //[Ignore("temp")]
+    [Test]
     public async Task AESExampleSmokeTest()
     {
         // This provides a human readable temporary directory name prefix.
@@ -26,7 +24,13 @@ public class AESExampleTests
 
         using (var tmpDir = new TempDirectory(tmpDirPrefix))
         {
-            var result = await Cli.Wrap("AESExample.exe")
+            ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
+            ClassicAssert.IsTrue(File.Exists(AESExampleExeName));
+
+
+            ShowAvailableExecutables();
+
+            var result = await Cli.Wrap(AESExampleExeName)
                 .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
@@ -47,3 +51,25 @@ public class AESExampleTests
         ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
     }
 }
+
+// Copyright CryptoNet contributors.
+//
+// The MIT License is a permissive free software license. The original MIT License text is as follows:
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.

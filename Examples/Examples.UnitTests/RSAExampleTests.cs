@@ -6,9 +6,12 @@ namespace CryptoNet.Examples.UnitTests;
 
 [ExcludeFromCodeCoverage]
 [TestFixture]
-public class RSAExampleTests
+public class RSAExampleTests : ExampleTestBase
 {
-    [Ignore("temp")]
+    private const string RSAExampleExeName = "RSAExample.exe";
+
+    //[Ignore("temp")]
+    [Test]
     public async Task RSAExampleSmokeTest()
     {
         var tmpDirPrefix = $"{nameof(AESExampleTests)}.{nameof(RSAExampleSmokeTest)}-{Guid.NewGuid().ToString("D")}";
@@ -18,7 +21,12 @@ public class RSAExampleTests
 
         using (var tmpDir = new TempDirectory())
         {
-            var result = await Cli.Wrap("RSAExample.exe")
+            ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
+            ClassicAssert.IsTrue(File.Exists(RSAExampleExeName));
+
+            ShowAvailableExecutables();
+
+            var result = await Cli.Wrap(RSAExampleExeName)
                 .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
@@ -42,7 +50,7 @@ public class RSAExampleTests
 
 // Copyright CryptoNet contributors.
 //
-// The MIT License is a permissive free software license.The original MIT License text is as follows:
+// The MIT License is a permissive free software license. The original MIT License text is as follows:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
