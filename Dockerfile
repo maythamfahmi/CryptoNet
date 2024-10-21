@@ -4,6 +4,10 @@ COPY . .
 
 RUN apt-get update && apt-get install libxml2
 
+# RUN dotnet build
 RUN dotnet restore
+# Unit ans Integration Tests
+RUN dotnet run --project ./Examples/AESExample/AESExample.csproj
+RUN dotnet run --project ./Examples/RSAExample/RSAExample.csproj
 # Unit ans Integration Tests
 RUN dotnet test --verbosity normal

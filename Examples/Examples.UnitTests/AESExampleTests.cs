@@ -8,14 +8,19 @@ namespace CryptoNet.Examples.UnitTests;
 [TestFixture]
 public class AESExampleTests : ExampleTestBase
 {
-    private const string AESExampleExeName = "AESExample.exe";
-
-    //[Ignore("temp")]
     [Test]
     public async Task AESExampleSmokeTest()
     {
-        // ToDo: Missing executables on Linux and MacOS.
-        if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+        string aesExampleExeName;
+
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+        {
+            aesExampleExeName = "AESExample.exe"; // Windows executable
+        }
+        else
+        {
+            aesExampleExeName = "AESExample"; // Linux or MacOs executable
+        }
 
         // This provides a human readable temporary directory name prefix.
         // If you see a lot of these laying around your temp directory, it's
@@ -28,11 +33,11 @@ public class AESExampleTests : ExampleTestBase
         using (var tmpDir = new TempDirectory(tmpDirPrefix))
         {
             ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
-            ClassicAssert.IsTrue(File.Exists(AESExampleExeName));
+            ClassicAssert.IsTrue(File.Exists(aesExampleExeName));
 
-            ShowAvailableExecutables();
+            ShowAvailableExecutables(aesExampleExeName);
 
-            var result = await Cli.Wrap(AESExampleExeName)
+            var result = await Cli.Wrap(aesExampleExeName)
                 .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
