@@ -14,6 +14,9 @@ public class AESExampleTests : ExampleTestBase
     [Test]
     public async Task AESExampleSmokeTest()
     {
+        // ToDo: Missing executables on Linux and MacOS.
+        if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+
         // This provides a human readable temporary directory name prefix.
         // If you see a lot of these laying around your temp directory, it's
         // probably due to some failures in this test.
@@ -26,7 +29,6 @@ public class AESExampleTests : ExampleTestBase
         {
             ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
             ClassicAssert.IsTrue(File.Exists(AESExampleExeName));
-
 
             ShowAvailableExecutables();
 

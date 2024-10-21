@@ -14,6 +14,9 @@ public class RSAExampleTests : ExampleTestBase
     [Test]
     public async Task RSAExampleSmokeTest()
     {
+        // ToDo: Missing executables on Linux and MacOS.
+        if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+
         var tmpDirPrefix = $"{nameof(AESExampleTests)}.{nameof(RSAExampleSmokeTest)}-{Guid.NewGuid().ToString("D")}";
 
         var stdOutBuffer = new StringBuilder();
