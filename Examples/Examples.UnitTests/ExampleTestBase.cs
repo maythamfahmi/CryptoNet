@@ -1,49 +1,18 @@
 ﻿// Copyright and trademark notices at the end of this file.
 
-// Demonstrates a sender (encryptor) and a receiver (decryptor),
-// using a shared key.
+namespace CryptoNet.Examples.UnitTests;
 
-using CryptoNet;
-
-var confidentialMessage = "Watson, can you hear me?";
-
-Console.WriteLine($"Original: {confidentialMessage}");
-
-var sharedKey = CreateKey();
-
-var cypher = SimulateEncryptor(sharedKey, confidentialMessage);
-
-Console.WriteLine("Encrypted: " + BitConverter.ToString(cypher).Replace("-", ""));
-
-var decryptedMessage = SimulateDecryptor(sharedKey, cypher);
-
-Console.WriteLine($"Decrypted: {decryptedMessage}");
-
-////////////////////////
-//
-
-// Demonstrates key creation.
-string CreateKey()
+public class ExampleTestBase
 {
-    ICryptoNetAes encoder = new CryptoNetAes();
-
-    return encoder.GetKey();
-}
-
-// Demonstrates how to create a cypher with a key.
-byte[] SimulateEncryptor(string key, string message)
-{
-    ICryptoNet encryptClient = new CryptoNetAes(key);
-    
-    return encryptClient.EncryptFromString(message);
-}
-
-// Demonstrates how to decrypt a cypher with a key.
-string SimulateDecryptor(string key, byte[] encrypted)
-{
-    ICryptoNetAes decryptClient = new CryptoNetAes(key);
-    
-    return decryptClient.DecryptToString(encrypted);
+    public void ShowAvailableExecutables()
+    {
+        Console.WriteLine("Available .exe files in CWD:");
+        foreach (var fileName in Directory.GetFiles(".", "*.exe"))
+        {
+            Console.WriteLine(fileName);
+        }
+        Console.WriteLine();
+    }
 }
 
 // Copyright CryptoNet contributors.
