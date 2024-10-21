@@ -8,14 +8,19 @@ namespace CryptoNet.Examples.UnitTests;
 [TestFixture]
 public class RSAExampleTests : ExampleTestBase
 {
-    private const string RSAExampleExeName = "RSAExample.exe";
-
-    //[Ignore("temp")]
     [Test]
     public async Task RSAExampleSmokeTest()
     {
-        // ToDo: Missing executables on Linux and MacOS.
-        if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+        string rsaExampleExeName;
+
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+        {
+             rsaExampleExeName = "RSAExample.exe"; // Windows executable
+        }
+        else
+        {
+            rsaExampleExeName = "RSAExample"; // Linux or MacOs executable
+        }
 
         var tmpDirPrefix = $"{nameof(AESExampleTests)}.{nameof(RSAExampleSmokeTest)}-{Guid.NewGuid().ToString("D")}";
 
@@ -25,11 +30,11 @@ public class RSAExampleTests : ExampleTestBase
         using (var tmpDir = new TempDirectory())
         {
             ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
-            ClassicAssert.IsTrue(File.Exists(RSAExampleExeName));
+            ClassicAssert.IsTrue(File.Exists(rsaExampleExeName));
 
-            ShowAvailableExecutables();
+            ShowAvailableExecutables(rsaExampleExeName);
 
-            var result = await Cli.Wrap(RSAExampleExeName)
+            var result = await Cli.Wrap(rsaExampleExeName)
                 .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))

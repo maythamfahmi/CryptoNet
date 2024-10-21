@@ -4,10 +4,10 @@ namespace CryptoNet.Examples.UnitTests;
 
 public class ExampleTestBase
 {
-    public void ShowAvailableExecutables()
+    public void ShowAvailableExecutables(string filename)
     {
         Console.WriteLine("Available .exe files in CWD:");
-        foreach (var fileName in Directory.GetFiles(".", "*.exe"))
+        foreach (var fileName in Directory.GetFiles(".", filename))
         {
             Console.WriteLine(fileName);
         }
