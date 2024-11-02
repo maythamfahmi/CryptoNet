@@ -20,6 +20,11 @@ namespace CryptoNet;
 public class CryptoNetAes : ICryptoNetAes
 {
     private Aes Aes { get; }
+
+    /// <summary>
+    /// Gets information about the current cryptographic configuration and key details.
+    /// </summary>
+    /// <value>A <see cref="CryptoNetInfo"/> object containing details such as encryption type, key type, and cryptographic parameters.</value>
     public CryptoNetInfo Info { get; }
 
     /// <summary>
