@@ -32,6 +32,7 @@
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
