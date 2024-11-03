@@ -1,4 +1,4 @@
-name: "Code Coverage"
+name: "3. Code Coverage"
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
       - "feature/*"
       - "bugfix/*"
       - "hotfix/*"
+  workflow_dispatch:
 
 jobs:
   build:
