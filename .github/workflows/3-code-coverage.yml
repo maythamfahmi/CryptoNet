@@ -6,8 +6,6 @@ on:
       - "main"
       - "version3.0.1"
       - "feature/*"
-      - "bugfix/*"
-      - "hotfix/*"
     paths-ignore:
       - "**/README.md"
   pull_request:
