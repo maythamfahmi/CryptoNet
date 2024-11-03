@@ -25,11 +25,11 @@ jobs:
       - name: Build DocFX Documentation
         run: |
           docfx metadata
-          docfx build .\docfx.json -o _site
+          docfx build docfx.json -o _site
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
-          publish_branch: version3
+          publish_branch: feature/#104-documentation
