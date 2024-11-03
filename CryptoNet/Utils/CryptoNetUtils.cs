@@ -70,7 +70,7 @@ public static class CryptoNetUtils
     /// <returns>A JSON string representation of the AES key and IV.</returns>
     internal static string ExportAndSaveAesKey(Aes aes)
     {
-        AesKeyValue aesKeyValue = new AesKeyValue { Key = aes.Key, Iv = aes.IV };
+        AesKeyValue aesKeyValue = new AesKeyValue (aes.Key, aes.IV);
         return JsonSerializer.Serialize(aesKeyValue);
     }
 

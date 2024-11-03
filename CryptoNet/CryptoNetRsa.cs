@@ -35,8 +35,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     public CryptoNetRsa(int keySize = 2048)
     {
         Rsa = RSA.Create();
-        Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
         {
@@ -53,8 +52,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     public CryptoNetRsa(string key, int keySize = 2048)
     {
         Rsa = RSA.Create();
-        Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         CreateAsymmetricKey(key);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -72,8 +70,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     public CryptoNetRsa(FileInfo fileInfo, int keySize = 2048)
     {
         Rsa = RSA.Create();
-        Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         CreateAsymmetricKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -83,7 +80,6 @@ public class CryptoNetRsa : ICryptoNetRsa
         }
     }
 
-    // todo: Needs unit test coverage.
     /// <summary>
     /// Initializes a new instance of the <see cref="CryptoNetRsa"/> class using an X509 certificate and key type.
     /// </summary>
@@ -94,7 +90,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     {
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         RSAParameters @params = CryptoNetExtensions.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
@@ -161,14 +157,13 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// Creates and returns a new <see cref="CryptoNetInfo"/> object.
     /// </summary>
     /// <returns>A <see cref="CryptoNetInfo"/> instance with RSA details.</returns>
-    private CryptoNetInfo CreateInfo()
+    private static CryptoNetInfo CreateInfo(RSA Rsa, int keySize)
     {
+        Rsa.KeySize = keySize;
+
         return new CryptoNetInfo()
         {
-            RsaDetail = new RsaDetail()
-            {
-                Rsa = Rsa
-            },
+            RsaDetail = new RsaDetail(Rsa),
             EncryptionType = EncryptionType.Rsa,
             KeyType = KeyType.NotSet
         };
