@@ -8,6 +8,7 @@
 using System;
 using System.ComponentModel;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CryptoNet.Models;
 
@@ -19,16 +20,35 @@ public class CryptoNetInfo
     public AesDetail? AesDetail { get; set; }
 }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 public class RsaDetail
 {
-    public RSA Rsa { get; set; }
-
+    public RSA? Rsa { get; set; }
     public byte[] PublicKey { get; set; }
     public byte[] PrivateKey { get; set; }
-}
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
+    public RsaDetail(RSA rsa)
+    {
+        Rsa = rsa ?? throw new ArgumentNullException(nameof(rsa));
+        PublicKey = Array.Empty<byte>();
+        PrivateKey = Array.Empty<byte>();
+    }
+
+    public RsaDetail(byte[] publicKey, byte[] privateKey)
+    {
+        if (publicKey == null || publicKey.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(publicKey));
+        }
+
+        if (privateKey == null || privateKey.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(privateKey));
+        }
+
+        PublicKey = publicKey;
+        PrivateKey = privateKey;
+    }
+}
 
 public class AesDetail
 {
@@ -44,24 +64,24 @@ public class AesDetail
             throw new ArgumentNullException(nameof(iv));
         }
 
-        AesKeyValue = new AesKeyValue()
-        {
-            Key = key,
-            Iv = iv
-        };
+        AesKeyValue = new AesKeyValue(key, iv);
     }
 
     public Aes? Aes { get; set; }
     public AesKeyValue AesKeyValue { get; set; }
 }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 public class AesKeyValue
 {
-    public byte[] Key { get; set; }
-    public byte[] Iv { get; set; }
+    public byte[] Key { get; }
+    public byte[] Iv { get; }
+
+    public AesKeyValue(byte[] key, byte[] iv)
+    {
+        Key = key ?? throw new ArgumentNullException(nameof(key));
+        Iv = iv ?? throw new ArgumentNullException(nameof(iv));
+    }
 }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 public enum KeyType
 {
