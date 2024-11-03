@@ -52,5 +52,5 @@ jobs:
       - name: Upload NuGet Package as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "cryptonet-${{ env.VERSION }}"
+          name: "CryptoNet.${{ env.VERSION }}"
           path: ./artifacts/*.nupkg
