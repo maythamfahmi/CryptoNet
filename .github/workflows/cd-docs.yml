@@ -1,0 +1,36 @@
+name: Build and Deploy Website and Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - version3 # Adjust if using a different default branch
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Build and Deploy DocFX Documentation
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install DocFX
+        run: dotnet tool install -g docfx
+
+      - name: Build DocFX Documentation
+        run: |
+          docfx metadata
+          docfx build .\docfx.json -o _site
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
