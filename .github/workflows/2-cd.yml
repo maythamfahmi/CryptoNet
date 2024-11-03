@@ -28,7 +28,7 @@ jobs:
         run: echo "VERSION=${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}." >> $GITHUB_ENV
 
       - name: Print Version
-        run: echo "The version is $RUN_VERSION"
+        run: echo "The version is $VERSION"
       # - name: Checkout
       #   uses: actions/checkout@v3
       #   with:
