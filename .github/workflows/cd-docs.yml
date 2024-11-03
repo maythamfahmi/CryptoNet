@@ -3,8 +3,8 @@ name: Build and Deploy Website and Documentation
 on:
   push:
     branches:
-      - main
-      - version3 # Adjust if using a different default branch
+      - version3
+      - feature/#104-documentation
 
 jobs:
   build-deploy:
@@ -14,7 +14,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Build and Deploy DocFX Documentation
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -33,4 +32,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
-          publish_branch: gh-pages
+          publish_branch: version3
