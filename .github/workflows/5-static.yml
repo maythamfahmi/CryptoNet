@@ -4,16 +4,11 @@ on:
   push:
     branches:
       - "main"
-      - "version3"
-      - "feature/*"
-      - "bugfix/*"
-      - "hotfix/*"
-    paths-ignore:
-      - "**/README.md"
+      - "version3.0.1"
   pull_request:
     branches:
       - "main"
-      - "version3"
+      - "version3.0.1"
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages

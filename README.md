@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/maythamfahmi/CryptoNet/blob/main/LICENSE)
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
-[![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/ci.yml)
+[![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/1-ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/1-ci.yml)
 [![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/maythamfahmi/CryptoNet)
 ![Code Coverage](./coverage-badge.svg)
 
