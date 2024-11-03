@@ -1,4 +1,4 @@
-﻿using CryptoNet.ExtPack.Extensions;
+﻿using CryptoNet.ExtPack;
 using System;
 using System.IO;
 using System.Text;
@@ -12,7 +12,7 @@ namespace CryptoNet.Shared
     {
         public const string ConfidentialDummyData = @"Some Secret Data";
 
-        private static readonly DirectoryInfo? WorkingDirectory = DirectoryExension.TryGetSolutionDirectoryInfo();
+        private static readonly DirectoryInfo? WorkingDirectory = ExtensionPack.TryGetSolutionDirectoryInfo();
         public static readonly string ResourcePath = $"{WorkingDirectory}/Resources";
         public static readonly string TestFilesPath = Path.Combine($"{ResourcePath}", "TestFiles");
         public static readonly string RsaKeysPath = Path.Combine($"{ResourcePath}", "RsaKeys");

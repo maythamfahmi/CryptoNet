@@ -5,7 +5,46 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CryptoNet.Share</RootNamespace>
+    <LangVersion>10.0</LangVersion>
+    <PackageId>CryptoNet.ExtPack</PackageId>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/maythamfahmi/CryptoNet</PackageProjectUrl>
+    <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
+    <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
+    <Company>NextBix</Company>
+    <Authors>Maytham Fahmi</Authors>
+    <MinClientVersion>1.0.0</MinClientVersion>
+    <Version>3.0.0</Version>
+    <Title>CryptoNet.ExtPack</Title>
+    <Product>CryptoNet.ExtPack</Product>
+    <RootNamespace>CryptoNet.ExtPack</RootNamespace>
+    <AssemblyName>CryptoNet.ExtPack</AssemblyName>
+    <PackageDescription>Simple and lightweight content encryption and decryption package. ExtensionPack</PackageDescription>
+    <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA; AES</PackageTags>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright © 2024</Copyright>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="CryptoNetLogo-icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="CryptoNetLogo-icon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

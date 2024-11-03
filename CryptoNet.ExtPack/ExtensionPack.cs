@@ -4,63 +4,114 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace CryptoNet.ExtPack;
-
-public static class ExtensionPack
+namespace CryptoNet.ExtPack
 {
-    public static bool CheckContent(string originalContent, string decryptedContent)
+    /// <summary>
+    /// Provides various cryptographic extension methods.
+    /// </summary>
+    public static class ExtensionPack
     {
-        if (originalContent == null || decryptedContent == null)
+        /// <summary>
+        /// Compares two content strings by calculating their MD5 hashes and checking if they match.
+        /// </summary>
+        /// <param name="originalContent">The original content to compare.</param>
+        /// <param name="decryptedContent">The decrypted content to compare with the original.</param>
+        /// <returns>True if the MD5 hashes of both contents match; otherwise, false.</returns>
+        public static bool CheckContent(string originalContent, string decryptedContent)
         {
-            return originalContent == decryptedContent;
+            if (originalContent == null || decryptedContent == null)
+            {
+                return originalContent == decryptedContent;
+            }
+
+            return CalculateMd5(originalContent).Equals(CalculateMd5(decryptedContent));
         }
 
-        return CalculateMd5(originalContent).Equals(CalculateMd5(decryptedContent));
-    }
-
-    public static string CalculateMd5(string content)
-    {
-        var hash = MD5.HashData(Encoding.UTF8.GetBytes(content));
-        return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-    }
-
-    public static string UniqueKeyGenerator(string input)
-    {
-        if (string.IsNullOrEmpty(input))
+        /// <summary>
+        /// Calculates the MD5 hash of the provided content string.
+        /// </summary>
+        /// <param name="content">The content to hash.</param>
+        /// <returns>The MD5 hash of the content as a lowercase hexadecimal string.</returns>
+        public static string CalculateMd5(string content)
         {
-            throw new ArgumentNullException(nameof(input), "Input cannot be null or empty");
+            var hash = MD5.HashData(Encoding.UTF8.GetBytes(content));
+            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
 
-        byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-        byte[] hashBytes = MD5.HashData(inputBytes);
-
-        var stringBuilder = new StringBuilder();
-        foreach (var byteValue in hashBytes)
+        /// <summary>
+        /// Generates a unique key based on the MD5 hash of the provided input string.
+        /// </summary>
+        /// <param name="input">The input string to generate a unique key from.</param>
+        /// <returns>The unique key as an uppercase hexadecimal string.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the input is null or empty.</exception>
+        public static string UniqueKeyGenerator(string input)
         {
-            stringBuilder.Append(byteValue.ToString("X2"));
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentNullException(nameof(input), "Input cannot be null or empty");
+            }
+
+            byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+            byte[] hashBytes = MD5.HashData(inputBytes);
+
+            var stringBuilder = new StringBuilder();
+            foreach (var byteValue in hashBytes)
+            {
+                stringBuilder.Append(byteValue.ToString("X2"));
+            }
+            return stringBuilder.ToString();
         }
-        return stringBuilder.ToString();
-    }
 
-    public static char[] ExportPemKey(X509Certificate2 cert, bool privateKey = true)
-    {
-        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
-
-        if (privateKey)
+        /// <summary>
+        /// Exports the private or public key of an X.509 certificate in PEM format.
+        /// </summary>
+        /// <param name="cert">The certificate containing the key to export.</param>
+        /// <param name="privateKey">If true, exports the private key; otherwise, exports the public key.</param>
+        /// <returns>The PEM-encoded key as a character array.</returns>
+        public static char[] ExportPemKey(X509Certificate2 cert, bool privateKey = true)
         {
-            byte[] priKeyBytes = rsa.ExportPkcs8PrivateKey();
-            return PemEncoding.Write("PRIVATE KEY", priKeyBytes);
+            AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
+
+            if (privateKey)
+            {
+                byte[] priKeyBytes = rsa.ExportPkcs8PrivateKey();
+                return PemEncoding.Write("PRIVATE KEY", priKeyBytes);
+            }
+
+            byte[] pubKeyBytes = rsa.ExportSubjectPublicKeyInfo();
+            return PemEncoding.Write("PUBLIC KEY", pubKeyBytes);
         }
 
-        byte[] pubKeyBytes = rsa.ExportSubjectPublicKeyInfo();
-        return PemEncoding.Write("PUBLIC KEY", pubKeyBytes);
-    }
+        /// <summary>
+        /// Exports the private key of an X.509 certificate in an encrypted PEM format using the specified password.
+        /// </summary>
+        /// <param name="cert">The certificate containing the private key to export.</param>
+        /// <param name="password">The password to encrypt the private key.</param>
+        /// <returns>The encrypted private key as a byte array.</returns>
+        public static byte[] ExportPemKeyWithPassword(X509Certificate2 cert, string password)
+        {
+            AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
+            byte[] pass = Encoding.UTF8.GetBytes(password);
+            return rsa.ExportEncryptedPkcs8PrivateKey(pass,
+                new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
+        }
 
-    public static byte[] ExportPemKeyWithPassword(X509Certificate2 cert, string password)
-    {
-        AsymmetricAlgorithm rsa = cert.GetRSAPrivateKey()!;
-        byte[] pass = Encoding.UTF8.GetBytes(password);
-        return rsa.ExportEncryptedPkcs8PrivateKey(pass,
-            new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
+        /// <summary>
+        /// Attempts to find the solution directory by searching upward from the current directory.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="DirectoryInfo"/> object representing the solution directory if found;
+        /// otherwise, <c>null</c> if no solution directory is found in the current or parent directories.
+        /// </returns>
+        public static DirectoryInfo? TryGetSolutionDirectoryInfo()
+        {
+            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (directory != null && directory.GetFiles("*.sln").Length == 0)
+            {
+                directory = directory.Parent;
+            }
+            return directory;
+        }
+
     }
 }
