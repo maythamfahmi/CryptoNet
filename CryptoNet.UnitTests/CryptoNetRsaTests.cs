@@ -206,7 +206,7 @@ public class CryptoNetRsaTests
     {
         // Arrange
         // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
-        X509Certificate2 ? certificate = CreateSelfSignedCertificate();
+        X509Certificate2 ? certificate = TestConfig.CreateSelfSignedCertificate();
         var rsaPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey);
         var rsaPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey);
 
@@ -224,7 +224,7 @@ public class CryptoNetRsaTests
     {
         // Arrange
         // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
-        X509Certificate2? certificate = CreateSelfSignedCertificate();
+        X509Certificate2? certificate = TestConfig.CreateSelfSignedCertificate();
         var rsa = new CryptoNetRsa(certificate, KeyType.PublicKey);
 
         // Act
@@ -240,7 +240,7 @@ public class CryptoNetRsaTests
     {
         // Arrange
         // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
-        X509Certificate2? certificate = CreateSelfSignedCertificate();
+        X509Certificate2? certificate = TestConfig.CreateSelfSignedCertificate();
 
         var pubKeyPem = ExtensionPack.ExportPemKey(certificate!, false);
         var priKeyPem = ExtensionPack.ExportPemKey(certificate!);
@@ -275,32 +275,5 @@ public class CryptoNetRsaTests
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail?.Rsa?.ImportEncryptedPkcs8PrivateKey(password, encryptedPrivateKey, out _);
         return cryptoNet;
-    }
-
-    public static X509Certificate2 CreateSelfSignedCertificate()
-    {
-        using var rsa = RSA.Create(2048); // Generate a new RSA key pair for the certificate
-        var request = new CertificateRequest(
-            "CN=TestCertificate",
-            rsa,
-            HashAlgorithmName.SHA256,
-            RSASignaturePadding.Pkcs1
-        );
-
-        // Add extensions (e.g., for key usage, if needed)
-        request.CertificateExtensions.Add(
-            new X509KeyUsageExtension(
-                X509KeyUsageFlags.DigitalSignature,
-                critical: true
-            )
-        );
-
-        // Create a self-signed certificate that is valid for one year
-        var certificate = request.CreateSelfSigned(
-            DateTimeOffset.Now.AddDays(-1),
-            DateTimeOffset.Now.AddYears(1)
-        );
-
-        return certificate;
     }
 }

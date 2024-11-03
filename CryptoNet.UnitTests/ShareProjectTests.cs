@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using CryptoNet.ExtPack;
 using CryptoNet.ExtPack.Extensions;
+using CryptoNet.Shared;
 using NUnit.Framework;
 using Shouldly;
 
@@ -15,10 +16,9 @@ namespace CryptoNet.UnitTests
         public void TryGetSolutionDirectoryInfo_ShouldReturnDirectoryWithTestFiles()
         {
             // Arrange
-            string solutionFilePath = Path.Combine(ExtensionPack.TestFilesPath);
+            var result = DirectoryExension.TryGetSolutionDirectoryInfo();
 
             // Act
-            var result = DirectoryExension.TryGetSolutionDirectoryInfo();
             var testFiles = Path.Combine(result!.FullName, "Resources", "TestFiles");
             var di = new DirectoryInfo(testFiles);
             var files = di.GetFiles("test.*").Select(e => e.FullName);
