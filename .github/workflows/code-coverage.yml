@@ -8,62 +8,75 @@ on:
       - "feature/*"
       - "bugfix/*"
       - "hotfix/*"
+      - "!feature/ci*"
+    paths-ignore:
+      - "**/README.md"
+  pull_request:
+    branches:
+      - "main"
+      - "version3"
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      NAME: "Code Coverage"
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: bash-version
+        run: echo "::add-mask::$NAME"
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
 
-      - name: Install ReportGenerator tool
-        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+      # - name: Setup .NET
+      #   uses: actions/setup-dotnet@v4
+      #   with:
+      #     dotnet-version: 8.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
+      # - name: Install ReportGenerator tool
+      #   run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-      - name: Build the solution
-        run: dotnet build --no-restore
+      # - name: Restore dependencies
+      #   run: dotnet restore
 
-      - name: Run tests and collect code coverage
-        run: dotnet test --no-build --collect:"XPlat Code Coverage"
+      # - name: Build the solution
+      #   run: dotnet build --no-restore
 
-      - name: Generate code coverage report
-        run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HtmlInline_AzurePipelines;Badges"
+      # - name: Run tests and collect code coverage
+      #   run: dotnet test --no-build --collect:"XPlat Code Coverage"
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: coverage
+      # - name: Generate code coverage report
+      #   run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HtmlInline_AzurePipelines;Badges"
 
-      - name: Upload coverage badge
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-badge
-          path: coverage/badge_linecoverage.svg
+      # - name: Upload coverage report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: code-coverage-report
+      #     path: coverage
 
-      - name: Create coverage badge
-        run: cp coverage/badge_linecoverage.svg ./coverage-badge.svg
+      # - name: Upload coverage badge
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: code-coverage-badge
+      #     path: coverage/badge_linecoverage.svg
 
-      - name: Print Directory Structure
-        uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
+      # - name: Create coverage badge
+      #   run: cp coverage/badge_linecoverage.svg ./coverage-badge.svg
 
-      - name: Commit coverage badge
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add coverage-badge.svg
-          if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
-              git commit -m 'Update coverage badge'
-              git push
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Print Directory Structure
+      #   uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
+
+      # - name: Commit coverage badge
+      #   run: |
+      #     git config --global user.name 'github-actions[bot]'
+      #     git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      #     git add coverage-badge.svg
+      #     if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
+      #         git commit -m 'Update coverage badge'
+      #         git push
+      #     fi
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
