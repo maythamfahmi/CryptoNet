@@ -201,11 +201,12 @@ public class CryptoNetRsaTests
         Common.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
-    [Ignore("Private: This test works only on local Windows enviroment for debugging and testing. You can also put your own certifciate when debugging and testing")]
+    [Test]
     public void Encrypt_Decrypt_Using_X509_Certificate_Test()
     {
         // Arrange
-        X509Certificate2? certificate = CryptoNetExtensions.GetCertificateFromStore("CN=Maytham");
+        // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
+        X509Certificate2 ? certificate = CreateSelfSignedCertificate();
         var rsaPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey);
         var rsaPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey);
 
@@ -218,11 +219,12 @@ public class CryptoNetRsaTests
 
     }
 
-    [Ignore("Private: This test works only on local Windows enviroment for debugging and testing. You can also put your own certifciate when debugging and testing")]
+    [Test]
     public void Export_Public_Key_For_X509_Certificate_Test()
     {
         // Arrange
-        X509Certificate2? certificate = CryptoNetExtensions.GetCertificateFromStore("CN=Maytham");
+        // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
+        X509Certificate2? certificate = CreateSelfSignedCertificate();
         var rsa = new CryptoNetRsa(certificate, KeyType.PublicKey);
 
         // Act
@@ -233,16 +235,17 @@ public class CryptoNetRsaTests
         publicKey.ShouldNotBeEmpty();
     }
 
-    [Ignore("Private: This test works only on local Windows enviroment for debugging and testing. You can also put your own certifciate when debugging and testing")]
+    [Test]
     public void Customize_PEM_Key_Encryption_Decryption_Test()
     {
         // Arrange
-        X509Certificate2? cert = CryptoNetExtensions.GetCertificateFromStore("CN=Maytham");
+        // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
+        X509Certificate2? certificate = CreateSelfSignedCertificate();
 
-        var pubKeyPem = Common.ExportPemKey(cert!, false);
-        var priKeyPem = Common.ExportPemKey(cert!);
+        var pubKeyPem = Common.ExportPemKey(certificate!, false);
+        var priKeyPem = Common.ExportPemKey(certificate!);
         var password = "password";
-        var encryptedPriKeyBytes = Common.ExportPemKeyWithPassword(cert!, password);
+        var encryptedPriKeyBytes = Common.ExportPemKeyWithPassword(certificate!, password);
 
         // Act
         ICryptoNetRsa cryptoNet1 = ImportPemKeyWithPassword(encryptedPriKeyBytes, password);
@@ -272,5 +275,32 @@ public class CryptoNetRsaTests
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail?.Rsa?.ImportEncryptedPkcs8PrivateKey(password, encryptedPrivateKey, out _);
         return cryptoNet;
+    }
+
+    public static X509Certificate2 CreateSelfSignedCertificate()
+    {
+        using var rsa = RSA.Create(2048); // Generate a new RSA key pair for the certificate
+        var request = new CertificateRequest(
+            "CN=TestCertificate",
+            rsa,
+            HashAlgorithmName.SHA256,
+            RSASignaturePadding.Pkcs1
+        );
+
+        // Add extensions (e.g., for key usage, if needed)
+        request.CertificateExtensions.Add(
+            new X509KeyUsageExtension(
+                X509KeyUsageFlags.DigitalSignature,
+                critical: true
+            )
+        );
+
+        // Create a self-signed certificate that is valid for one year
+        var certificate = request.CreateSelfSigned(
+            DateTimeOffset.Now.AddDays(-1),
+            DateTimeOffset.Now.AddYears(1)
+        );
+
+        return certificate;
     }
 }

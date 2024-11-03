@@ -406,3 +406,6 @@ CoverageReport
 *.vpwhist
 *.vtg
 /Resources/RsaKeys/encrypted.txt
+/api
+/_site
+/archive
