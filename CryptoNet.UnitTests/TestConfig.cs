@@ -1,9 +1,10 @@
 ﻿using CryptoNet.ExtPack.Extensions;
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
-using System.Text;
+
 
 namespace CryptoNet.Shared
 {
