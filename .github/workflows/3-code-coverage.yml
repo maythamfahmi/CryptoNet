@@ -1,4 +1,4 @@
-name: "Code Coverage"
+name: "3. Code Coverage"
 
 on:
   push:
@@ -8,14 +8,24 @@ on:
       - "feature/*"
       - "bugfix/*"
       - "hotfix/*"
+    paths-ignore:
+      - "**/README.md"
+  pull_request:
+    branches:
+      - "main"
+      - "version3"
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4

@@ -1,0 +1,55 @@
+name: "2. Continuous Deployment"
+
+on:
+  push:
+    branches:
+      - "main"
+      - "version3"
+      - "feature/*"
+      - "bugfix/*"
+      - "hotfix/*"
+    paths-ignore:
+      - "**/README.md"
+  pull_request:
+    branches:
+      - "main"
+      - "version3"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Get Run Number
+        id: vars
+        run: echo "VERSION=3.0.0-pre-$(date -u +'%y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
+
+      - name: Print Version
+        run: echo "The version is $VERSION"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build
+        run: dotnet build --configuration Release /p:Version=${VERSION}
+
+      - name: Test
+        run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
+
+      - name: Pack
+        run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output ./artifacts
+
+      - name: Upload NuGet Package as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "CryptoNet.${{ env.VERSION }}"
+          path: ./artifacts/*.nupkg

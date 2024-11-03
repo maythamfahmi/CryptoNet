@@ -1,4 +1,4 @@
-name: "Continuous Integration"
+name: "1. Continuous Integration"
 
 on:
   push:
@@ -8,12 +8,13 @@ on:
       - "feature/*"
       - "bugfix/*"
       - "hotfix/*"
-      - "!feature/ci*"
     paths-ignore:
       - "**/README.md"
   pull_request:
     branches:
       - "main"
+      - "version3"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,17 +23,22 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+
     timeout-minutes: 15
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+
       - name: Build
         run: dotnet build --configuration Release
+
       - name: Test
         run: dotnet test --configuration Release --no-build
