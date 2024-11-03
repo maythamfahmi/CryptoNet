@@ -19,12 +19,16 @@ public class CryptoNetInfo
     public AesDetail? AesDetail { get; set; }
 }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 public class RsaDetail
 {
-    public RSA? Rsa { get; set; }
+    public RSA Rsa { get; set; }
+
     public byte[] PublicKey { get; set; }
     public byte[] PrivateKey { get; set; }
 }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
 
 public class AesDetail
 {
@@ -51,11 +55,13 @@ public class AesDetail
     public AesKeyValue AesKeyValue { get; set; }
 }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 public class AesKeyValue
 {
     public byte[] Key { get; set; }
     public byte[] Iv { get; set; }
 }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 public enum KeyType
 {
