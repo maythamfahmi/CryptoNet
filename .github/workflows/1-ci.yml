@@ -26,25 +26,20 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     timeout-minutes: 15
-    env:
-      NAME: "Continuous Integration"
 
     steps:
-      - name: bash-version
-        run: echo "::add-mask::$NAME"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # - name: Checkout
-      #   uses: actions/checkout@v4
-      #   with:
-      #     fetch-depth: 0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-      # - name: Setup .NET
-      #   uses: actions/setup-dotnet@v4
-      #   with:
-      #     dotnet-version: 8.0.x
+      - name: Build
+        run: dotnet build --configuration Release
 
-      # - name: Build
-      #   run: dotnet build --configuration Release
-
-      # - name: Test
-      #   run: dotnet test --configuration Release --no-build
+      - name: Test
+        run: dotnet test --configuration Release --no-build
