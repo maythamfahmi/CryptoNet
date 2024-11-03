@@ -8,7 +8,6 @@ on:
       - "feature/*"
       - "bugfix/*"
       - "hotfix/*"
-      - "!feature/ci*"
     paths-ignore:
       - "**/README.md"
   pull_request:
