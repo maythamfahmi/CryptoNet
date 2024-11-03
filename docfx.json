@@ -1,0 +1,48 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../CryptoNet",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**",
+          "Examples/**",
+          "web/**",
+          "img/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "img/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "CryptoNet documentation",
+      "_appTitle": "CryptoNet | documentation site",
+      "_enableSearch": true,
+      "pdf": true
+    }
+  }
+}

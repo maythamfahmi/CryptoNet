@@ -9,21 +9,33 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using CryptoNet.Models;
+using CryptoNet.Extensions;
 using CryptoNet.Utils;
+using CryptoNet.Models;
 
 namespace CryptoNet;
 
-public class CryptoNetRsa : ICryptoNet
+/// <summary>
+/// Provides RSA cryptographic functionalities, including key management, encryption, and decryption.
+/// </summary>
+public class CryptoNetRsa : ICryptoNetRsa
 {
     private RSA Rsa { get; }
+
+    /// <summary>
+    /// Gets information about the current cryptographic configuration and key details.
+    /// </summary>
+    /// <value>A <see cref="CryptoNetInfo"/> object containing details such as encryption type, key type, and cryptographic parameters.</value>
     public CryptoNetInfo Info { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CryptoNetRsa"/> class with a specified key size.
+    /// </summary>
+    /// <param name="keySize">The size of the RSA key in bits. Default is 2048.</param>
     public CryptoNetRsa(int keySize = 2048)
     {
         Rsa = RSA.Create();
-        Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
         {
@@ -32,11 +44,15 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CryptoNetRsa"/> class using a specified key in string format.
+    /// </summary>
+    /// <param name="key">The RSA key as a string.</param>
+    /// <param name="keySize">The size of the RSA key in bits. Default is 2048.</param>
     public CryptoNetRsa(string key, int keySize = 2048)
     {
         Rsa = RSA.Create();
-        Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         CreateAsymmetricKey(key);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -46,11 +62,15 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CryptoNetRsa"/> class using a key loaded from a file.
+    /// </summary>
+    /// <param name="fileInfo">FileInfo object representing the file containing the RSA key.</param>
+    /// <param name="keySize">The size of the RSA key in bits. Default is 2048.</param>
     public CryptoNetRsa(FileInfo fileInfo, int keySize = 2048)
     {
         Rsa = RSA.Create();
-        Rsa.KeySize = keySize;
-        Info = CreateInfo();
+        Info = CreateInfo(Rsa, keySize);
         CreateAsymmetricKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -60,12 +80,18 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CryptoNetRsa"/> class using an X509 certificate and key type.
+    /// </summary>
+    /// <param name="certificate">X509Certificate2 object representing the certificate.</param>
+    /// <param name="keyType">The key type (public or private) associated with the certificate.</param>
+    /// <param name="keySize">The size of the RSA key in bits. Default is 2048.</param>
     public CryptoNetRsa(X509Certificate2? certificate, KeyType keyType, int keySize = 2048)
     {
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
-        Info = CreateInfo();
-        RSAParameters @params = CryptoNetUtils.GetParameters(certificate, keyType);
+        Info = CreateInfo(Rsa, keySize);
+        RSAParameters @params = CryptoNetExtensions.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -75,18 +101,18 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    /// <summary>
+    /// Retrieves the RSA key as a byte array.
+    /// </summary>
+    /// <param name="privateKey">True to retrieve the private key; false to retrieve the public key.</param>
+    /// <returns>Byte array representing the RSA key.</returns>
     private byte[] TryGetKey(bool privateKey = true)
     {
         try
         {
-            if (privateKey)
-            {
-                return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PrivateKey));
-            }
-            else
-            {
-                return CryptoNetUtils.StringToBytes(ExportKey(KeyType.PublicKey));
-            }
+            return privateKey
+                ? CryptoNetExtensions.StringToBytes(ExportKey(KeyType.PrivateKey))
+                : CryptoNetExtensions.StringToBytes(ExportKey(KeyType.PublicKey));
         }
         catch (Exception)
         {
@@ -94,6 +120,10 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    /// <summary>
+    /// Checks and returns the key type (public or private).
+    /// </summary>
+    /// <returns>The key type as a <see cref="KeyType"/> enum value.</returns>
     private KeyType CheckKeyType()
     {
         try
@@ -111,6 +141,10 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
+    /// <summary>
+    /// Imports an asymmetric key from a string.
+    /// </summary>
+    /// <param name="key">The key as a string.</param>
     private void CreateAsymmetricKey(string? key = null)
     {
         if (!string.IsNullOrEmpty(key))
@@ -119,67 +153,119 @@ public class CryptoNetRsa : ICryptoNet
         }
     }
 
-    private CryptoNetInfo CreateInfo()
+    /// <summary>
+    /// Creates and returns a new <see cref="CryptoNetInfo"/> object.
+    /// </summary>
+    /// <returns>A <see cref="CryptoNetInfo"/> instance with RSA details.</returns>
+    private static CryptoNetInfo CreateInfo(RSA Rsa, int keySize)
     {
+        Rsa.KeySize = keySize;
+
         return new CryptoNetInfo()
         {
-            RsaDetail = new RsaDetail()
-            {
-                Rsa = Rsa
-            },
+            RsaDetail = new RsaDetail(Rsa),
             EncryptionType = EncryptionType.Rsa,
             KeyType = KeyType.NotSet
         };
     }
 
-    public string ExportKey(bool? privateKey = null)
+    /// <summary>
+    /// Retrieves the RSA key as a string.
+    /// </summary>
+    /// <param name="privateKey">True to retrieve the private key; false to retrieve the public key.</param>
+    /// <returns>The RSA key as a string.</returns>
+    public string GetKey(bool privateKey = false)
     {
-        return privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
+        return privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
     }
 
-    public void ExportKeyAndSave(FileInfo fileInfo, bool? privateKey = false)
+    /// <summary>
+    /// Saves the RSA key to a specified file.
+    /// </summary>
+    /// <param name="fileInfo">FileInfo object representing the destination file.</param>
+    /// <param name="privateKey">True to save the private key; false to save the public key.</param>
+    public void SaveKey(FileInfo fileInfo, bool privateKey = false)
     {
-        string key = privateKey!.Value ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
+        string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
             CryptoNetUtils.SaveKey(fileInfo.FullName, key);
         }
     }
 
+    /// <summary>
+    /// Saves the RSA key to a specified file.
+    /// </summary>
+    /// <param name="filename">The name of the file to save the key to.</param>
+    /// <param name="privateKey">True to save the private key; false to save the public key.</param>
+    public void SaveKey(string filename, bool privateKey = false)
+    {
+        SaveKey(new FileInfo(filename), privateKey);
+    }
+
+    /// <summary>
+    /// Exports the RSA key as a string based on the specified key type.
+    /// </summary>
+    /// <param name="keyType">The type of key to export.</param>
+    /// <returns>The RSA key as a string.</returns>
     private string ExportKey(KeyType keyType)
     {
-        string result = keyType switch
+        return keyType switch
         {
             KeyType.NotSet => string.Empty,
             KeyType.PublicKey => Rsa.ToXmlString(false),
             KeyType.PrivateKey => Rsa.ToXmlString(true),
             _ => throw new ArgumentOutOfRangeException(nameof(keyType), keyType, null)
         };
-
-        return result;
     }
 
     #region encryption logic
+    /// <summary>
+    /// Encrypts content from a string using RSA.
+    /// </summary>
+    /// <param name="content">The content to encrypt.</param>
+    /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetUtils.StringToBytes(content));
+        return EncryptContent(CryptoNetExtensions.StringToBytes(content));
     }
 
+    /// <summary>
+    /// Encrypts content from a byte array using RSA.
+    /// </summary>
+    /// <param name="bytes">The byte array to encrypt.</param>
+    /// <returns>The encrypted byte array.</returns>
     public byte[] EncryptFromBytes(byte[] bytes)
     {
         return EncryptContent(bytes);
     }
 
+    /// <summary>
+    /// Decrypts encrypted content to a string.
+    /// </summary>
+    /// <param name="bytes">The byte array to decrypt.</param>
+    /// <returns>The decrypted content as a string.</returns>
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetUtils.BytesToString(DecryptContent(bytes));
+        return CryptoNetExtensions.BytesToString(DecryptContent(bytes));
     }
 
+    /// <summary>
+    /// Decrypts a byte array to another byte array using AES.
+    /// </summary>
+    /// <param name="bytes">The encrypted byte array to decrypt.</param>
+    /// <returns>The decrypted byte array.</returns>
     public byte[] DecryptToBytes(byte[] bytes)
     {
         return DecryptContent(bytes);
     }
 
+    /// <summary>
+    /// Encrypts a byte array using AES encryption.
+    /// </summary>
+    /// <param name="bytes">The byte array to encrypt.</param>
+    /// <returns>The encrypted byte array.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     private byte[] EncryptContent(byte[] bytes)
     {
         if (bytes == null || bytes.Length <= 0)
@@ -239,6 +325,12 @@ public class CryptoNetRsa : ICryptoNet
         return result;
     }
 
+    /// <summary>
+    /// Decrypts a byte array that was encrypted using AES.
+    /// </summary>
+    /// <param name="bytes">The encrypted byte array to decrypt.</param>
+    /// <returns>The decrypted byte array.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     private byte[] DecryptContent(byte[] bytes)
     {
         if (bytes == null || bytes.Length <= 0)

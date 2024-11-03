@@ -1,0 +1,18 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Maytham Fahmi and Contributors</Authors>
+    <Copyright>All Rights Reserved</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(SolutionDir)={CryptoNet}/</PathMap>
+    <!-- Some of us are already working with the next SDK -->
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+  </PropertyGroup>
+
+</Project>
