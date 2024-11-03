@@ -63,18 +63,18 @@ public class CryptoNetRsaTests
         var publicKey = cryptoNet.GetKey(false);
 
         // Act
-        var encrypt = new CryptoNetRsa(publicKey).EncryptFromString(Common.ConfidentialDummyData);
+        var encrypt = new CryptoNetRsa(publicKey).EncryptFromString(TestConfig.ConfidentialDummyData);
         var decrypt = new CryptoNetRsa(privateKey).DecryptToString(encrypt);
 
         // Assert
-        Common.CheckContent(Common.ConfidentialDummyData, decrypt).ShouldBeTrue();
+        ExtensionPack.CheckContent(TestConfig.ConfidentialDummyData, decrypt).ShouldBeTrue();
     }
 
     [Test]
     public void Encrypt_Decrypt_Content_With_Invalid_AsymmetricKey_Test()
     {
         // Arrange
-        var encrypt = new CryptoNetRsa().EncryptFromString(Common.ConfidentialDummyData);
+        var encrypt = new CryptoNetRsa().EncryptFromString(TestConfig.ConfidentialDummyData);
         const string invalidKey = "invalid-key";
         string decrypt = string.Empty;
 
@@ -85,7 +85,7 @@ public class CryptoNetRsaTests
         }
         catch (Exception e)
         {
-            Common.CheckContent(Common.ConfidentialDummyData, decrypt).ShouldBeFalse();
+            ExtensionPack.CheckContent(TestConfig.ConfidentialDummyData, decrypt).ShouldBeFalse();
             e.Message.ShouldContain("The provided XML could not be read.");
         }
     }
@@ -95,15 +95,15 @@ public class CryptoNetRsaTests
     {
         // Arrange
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
-        var encrypt = cryptoNet.EncryptFromString(Common.ConfidentialDummyData);
-        File.WriteAllBytes(Common.EncryptedContentFile, encrypt);
+        var encrypt = cryptoNet.EncryptFromString(TestConfig.ConfidentialDummyData);
+        File.WriteAllBytes(TestConfig.EncryptedContentFile, encrypt);
 
         // Act
-        var encryptFile = File.ReadAllBytes(Common.EncryptedContentFile);
+        var encryptFile = File.ReadAllBytes(TestConfig.EncryptedContentFile);
         var content = cryptoNet.DecryptToString(encryptFile);
 
         // Assert
-        Common.CheckContent(Common.ConfidentialDummyData, content).ShouldBeTrue();
+        ExtensionPack.CheckContent(TestConfig.ConfidentialDummyData, content).ShouldBeTrue();
     }
 
     [TestCase("test.docx"), Order(5)]
@@ -113,7 +113,7 @@ public class CryptoNetRsaTests
     public void Encrypt_Decrypt_Documents_With_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test(string filename)
     {
         // Arrange
-        var testDocument = File.ReadAllBytes(Path.Combine(Common.TestFilesPath, filename));
+        var testDocument = File.ReadAllBytes(Path.Combine(TestConfig.TestFilesPath, filename));
         var encrypt = new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromBytes(testDocument);
 
         // Act
@@ -127,30 +127,30 @@ public class CryptoNetRsaTests
     public void Encrypt_Decrypt_Content_With_PreStored_SelfGenerated_AsymmetricKey_Test()
     {
         // Arrange
-        ICryptoNetRsa cryptoNet = new CryptoNetRsa(new FileInfo(Common.RsaStoredKeyPair));
+        ICryptoNetRsa cryptoNet = new CryptoNetRsa(new FileInfo(TestConfig.RsaStoredKeyPair));
 
         // Act
-        var encrypt = cryptoNet.EncryptFromString(Common.ConfidentialDummyData);
+        var encrypt = cryptoNet.EncryptFromString(TestConfig.ConfidentialDummyData);
         var content = cryptoNet.DecryptToString(encrypt);
 
         // Assert
-        Common.CheckContent(Common.ConfidentialDummyData, content).ShouldBeTrue();
+        ExtensionPack.CheckContent(TestConfig.ConfidentialDummyData, content).ShouldBeTrue();
     }
 
     [Test]
     public void Encrypt_With_PublicKey_Decrypt_With_PrivateKey_Using_SelfGenerated_AsymmetricKey_That_Is_Stored_And_Loaded_Test()
     {
         // Arrange
-        var certificate = new FileInfo(Common.RsaStoredKeyPair);
+        var certificate = new FileInfo(TestConfig.RsaStoredKeyPair);
         new CryptoNetRsa(certificate).SaveKey(new FileInfo(PublicKeyFile), false);
 
         // Act
         var importPublicKey = new FileInfo(PublicKeyFile);
-        var encryptWithPublicKey = new CryptoNetRsa(importPublicKey).EncryptFromString(Common.ConfidentialDummyData);
+        var encryptWithPublicKey = new CryptoNetRsa(importPublicKey).EncryptFromString(TestConfig.ConfidentialDummyData);
         var decryptWithPrivateKey = new CryptoNetRsa(certificate).DecryptToString(encryptWithPublicKey);
 
         // Assert
-        Common.CheckContent(Common.ConfidentialDummyData, decryptWithPrivateKey).ShouldBeTrue();
+        ExtensionPack.CheckContent(TestConfig.ConfidentialDummyData, decryptWithPrivateKey).ShouldBeTrue();
     }
 
     [TestCase("test.docx")]
@@ -160,9 +160,9 @@ public class CryptoNetRsaTests
     public void Validate_Decrypted_File_Against_The_Original_File_By_Comparing_Bytes_Test(string filename)
     {
         // Arrange
-        var certificate = new FileInfo(Common.RsaStoredKeyPair);
+        var certificate = new FileInfo(TestConfig.RsaStoredKeyPair);
         ICryptoNetRsa cryptoNet = new CryptoNetRsa(certificate);
-        var filePath = Path.Combine(Common.TestFilesPath, filename);
+        var filePath = Path.Combine(TestConfig.TestFilesPath, filename);
         byte[] originalFileBytes = File.ReadAllBytes(filePath);
 
         // Act
@@ -194,11 +194,11 @@ public class CryptoNetRsaTests
         var privateKeyRsa = new CryptoNetRsa(new FileInfo(PrivateKeyFile));
 
         // Act
-        var encryptedData = publicKeyRsa.EncryptFromString(Common.ConfidentialDummyData);
+        var encryptedData = publicKeyRsa.EncryptFromString(TestConfig.ConfidentialDummyData);
         var decryptedData = privateKeyRsa.DecryptToString(encryptedData);
 
         // Assert
-        Common.ConfidentialDummyData.ShouldBe(decryptedData);
+        TestConfig.ConfidentialDummyData.ShouldBe(decryptedData);
     }
 
     [Test]
@@ -211,11 +211,11 @@ public class CryptoNetRsaTests
         var rsaPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey);
 
         // Act
-        var encryptedData = rsaPublicKey.EncryptFromString(Common.ConfidentialDummyData);
+        var encryptedData = rsaPublicKey.EncryptFromString(TestConfig.ConfidentialDummyData);
         var decryptedData = rsaPrivateKey.DecryptToString(encryptedData);
 
         // Assert
-        Common.ConfidentialDummyData.ShouldBe(decryptedData);
+        TestConfig.ConfidentialDummyData.ShouldBe(decryptedData);
 
     }
 
@@ -242,25 +242,25 @@ public class CryptoNetRsaTests
         // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
         X509Certificate2? certificate = CreateSelfSignedCertificate();
 
-        var pubKeyPem = Common.ExportPemKey(certificate!, false);
-        var priKeyPem = Common.ExportPemKey(certificate!);
+        var pubKeyPem = ExtensionPack.ExportPemKey(certificate!, false);
+        var priKeyPem = ExtensionPack.ExportPemKey(certificate!);
         var password = "password";
-        var encryptedPriKeyBytes = Common.ExportPemKeyWithPassword(certificate!, password);
+        var encryptedPriKeyBytes = ExtensionPack.ExportPemKeyWithPassword(certificate!, password);
 
         // Act
         ICryptoNetRsa cryptoNet1 = ImportPemKeyWithPassword(encryptedPriKeyBytes, password);
-        var encryptedData1 = cryptoNet1.EncryptFromString(Common.ConfidentialDummyData);
+        var encryptedData1 = cryptoNet1.EncryptFromString(TestConfig.ConfidentialDummyData);
 
         ICryptoNetRsa cryptoNet2 = ImportPemKey(pubKeyPem);
-        var encryptedData2 = cryptoNet2.EncryptFromString(Common.ConfidentialDummyData);
+        var encryptedData2 = cryptoNet2.EncryptFromString(TestConfig.ConfidentialDummyData);
 
         ICryptoNetRsa cryptoNet3 = ImportPemKey(priKeyPem);
         var decryptedData1 = cryptoNet3.DecryptToString(encryptedData1);
         var decryptedData2 = cryptoNet3.DecryptToString(encryptedData2);
 
         // Assert
-        Common.ConfidentialDummyData.ShouldBe(decryptedData1);
-        Common.ConfidentialDummyData.ShouldBe(decryptedData2);
+        TestConfig.ConfidentialDummyData.ShouldBe(decryptedData1);
+        TestConfig.ConfidentialDummyData.ShouldBe(decryptedData2);
     }
 
     public static ICryptoNetRsa ImportPemKey(char[] key)

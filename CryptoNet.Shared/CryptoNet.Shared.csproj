@@ -4,54 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>10.0</LangVersion>
-    <PackageId>CryptoNet.Shared</PackageId>
-    <RepositoryType>git</RepositoryType>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/maythamfahmi/CryptoNet</PackageProjectUrl>
-    <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
-    <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
-    <Company>NextBix</Company>
-    <Authors>Maytham Fahmi</Authors>
-    <MinClientVersion>1.0.0</MinClientVersion>
-    <Version>3.0.0</Version>
-    <Title>CryptoNet.Extensions</Title>
-    <Product>CryptoNet.Extensions</Product>
-    <PackageDescription>Simple and lightweight content encryption and decryption package. CryptoNet extensions methods.</PackageDescription>
-    <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA; AES</PackageTags>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>Copyright © 2024</Copyright>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <Description>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../RELEASE-NOTES"))</Description>
-    </PropertyGroup>
-  </Target>
-
   <ItemGroup>
-    <Content Include="CryptoNetLogo-icon.ico">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\LICENSE" Pack="true" PackagePath="\" />
-    <None Include="..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\img\CryptoNetLogo-icon.png" Pack="true" PackagePath="\">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
