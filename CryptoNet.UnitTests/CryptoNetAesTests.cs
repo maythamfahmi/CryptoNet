@@ -5,9 +5,9 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using CryptoNet.Extensions;
+using CryptoNet.Shared;
 using CryptoNet.Models;
-using CryptoNet.Share;
+using CryptoNet.ExtPack;
 
 using NUnit.Framework;
 using NUnit.Framework.Legacy;

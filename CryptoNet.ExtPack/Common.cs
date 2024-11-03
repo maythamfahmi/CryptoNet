@@ -3,9 +3,9 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using CryptoNet.Share.Extensions;
+using CryptoNet.ExtPack.Extensions;
 
-namespace CryptoNet.Share;
+namespace CryptoNet.ExtPack;
 
 public static class Common
 {

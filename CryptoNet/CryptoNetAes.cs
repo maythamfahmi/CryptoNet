@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using CryptoNet.Models;
-using CryptoNet.Extensions;
+using CryptoNet.Shared;
 using CryptoNet.Utils;
 
 namespace CryptoNet;

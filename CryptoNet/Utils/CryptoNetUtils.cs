@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Xml.Serialization;
 using CryptoNet.Models;
-using CryptoNet.Extensions;
+using CryptoNet.Shared;
 
 namespace CryptoNet.Utils;
 

@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using CryptoNet.Extensions;
+using CryptoNet.Shared;
 using CryptoNet.Utils;
 using CryptoNet.Models;
 

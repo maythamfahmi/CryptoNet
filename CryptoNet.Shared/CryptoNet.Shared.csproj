@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>10.0</LangVersion>
-    <PackageId>CryptoNet.Extensions</PackageId>
+    <PackageId>CryptoNet.Shared</PackageId>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/maythamfahmi/CryptoNet</RepositoryUrl>
@@ -18,8 +18,6 @@
     <Version>3.0.0</Version>
     <Title>CryptoNet.Extensions</Title>
     <Product>CryptoNet.Extensions</Product>
-    <RootNamespace>CryptoNet.Extensions</RootNamespace>
-    <AssemblyName>CryptoNet.Extensions</AssemblyName>
     <PackageDescription>Simple and lightweight content encryption and decryption package. CryptoNet extensions methods.</PackageDescription>
     <PackageTags>Encryption; Decryption; Security; Cryptography; Asymmetric; X509; RSA; AES</PackageTags>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

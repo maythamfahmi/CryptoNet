@@ -12,7 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CryptoNet.Models;
 
-namespace CryptoNet.Extensions;
+namespace CryptoNet.Shared;
 
 public static class CryptoNetExtensions
 {

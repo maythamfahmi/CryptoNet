@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using CryptoNet.Share;
-using CryptoNet.Share.Extensions;
+using CryptoNet.ExtPack;
+using CryptoNet.ExtPack.Extensions;
 using NUnit.Framework;
 using Shouldly;
 

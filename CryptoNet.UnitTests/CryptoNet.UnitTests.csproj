@@ -25,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CryptoNet.Share\CryptoNet.Share.csproj" />
+    <ProjectReference Include="..\CryptoNet.ExtPack\CryptoNet.ExtPack.csproj" />
+    <ProjectReference Include="..\CryptoNet.Shared\CryptoNet.Shared.csproj" />
     <ProjectReference Include="..\CryptoNet\CryptoNet.csproj" />
   </ItemGroup>
 

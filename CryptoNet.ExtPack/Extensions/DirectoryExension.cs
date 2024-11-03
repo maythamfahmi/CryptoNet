@@ -1,4 +1,4 @@
-﻿namespace CryptoNet.Share.Extensions
+﻿namespace CryptoNet.ExtPack.Extensions
 {
     public static class DirectoryExension
     {
