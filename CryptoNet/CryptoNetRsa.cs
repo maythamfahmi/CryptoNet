@@ -10,7 +10,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using CryptoNet.Shared;
-using CryptoNet.Utils;
 using CryptoNet.Models;
 
 namespace CryptoNet;
@@ -71,7 +70,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     {
         Rsa = RSA.Create();
         Info = CreateInfo(Rsa, keySize);
-        CreateAsymmetricKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
+        CreateAsymmetricKey(ExtShared.LoadFileToString(fileInfo.FullName));
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
         {
@@ -91,7 +90,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
         Info = CreateInfo(Rsa, keySize);
-        RSAParameters @params = Shared.ExtShared.GetParameters(certificate, keyType);
+        RSAParameters @params = ExtShared.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -189,7 +188,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
-            CryptoNetUtils.SaveKey(fileInfo.FullName, key);
+            ExtShared.SaveKey(fileInfo.FullName, key);
         }
     }
 

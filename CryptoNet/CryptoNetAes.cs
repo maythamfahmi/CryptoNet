@@ -10,7 +10,6 @@ using System.IO;
 using System.Security.Cryptography;
 using CryptoNet.Models;
 using CryptoNet.Shared;
-using CryptoNet.Utils;
 
 namespace CryptoNet;
 
@@ -49,7 +48,7 @@ public class CryptoNetAes : ICryptoNetAes
     {
         Aes = Aes.Create();
         Aes.KeySize = 256;
-        var keyInfo = CryptoNetUtils.ImportAesKey(key);
+        var keyInfo = ExtShared.ImportAesKey(key);
         Info = CreateInfo(keyInfo.Key, keyInfo.Iv);
         Aes.Key = Info.AesDetail?.AesKeyValue.Key;
         Aes.IV = Info.AesDetail?.AesKeyValue.Iv;
@@ -63,7 +62,7 @@ public class CryptoNetAes : ICryptoNetAes
     {
         Aes = Aes.Create();
         Aes.KeySize = 256;
-        var keyInfo = CryptoNetUtils.ImportAesKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
+        var keyInfo = ExtShared.ImportAesKey(ExtShared.LoadFileToString(fileInfo.FullName));
         Info = CreateInfo(keyInfo.Key, keyInfo.Iv);
         Aes.Key = Info.AesDetail?.AesKeyValue.Key;
         Aes.IV = Info.AesDetail?.AesKeyValue.Iv;
@@ -108,7 +107,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The AES key as a string.</returns>
     public string GetKey()
     {
-        return CryptoNetUtils.ExportAndSaveAesKey(Aes);
+        return ExtShared.ExportAndSaveAesKey(Aes);
     }
 
     /// <summary>
@@ -117,8 +116,8 @@ public class CryptoNetAes : ICryptoNetAes
     /// <param name="fileInfo">FileInfo object representing the destination file.</param>
     public void SaveKey(FileInfo fileInfo)
     {
-        var key = CryptoNetUtils.ExportAndSaveAesKey(Aes);
-        CryptoNetUtils.SaveKey(fileInfo.FullName, key);
+        var key = ExtShared.ExportAndSaveAesKey(Aes);
+        ExtShared.SaveKey(fileInfo.FullName, key);
     }
 
     /// <summary>
@@ -139,7 +138,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(Shared.ExtShared.StringToBytes(content));
+        return EncryptContent(ExtShared.StringToBytes(content));
     }
 
     /// <summary>

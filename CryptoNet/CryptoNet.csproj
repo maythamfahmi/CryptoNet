@@ -47,7 +47,7 @@
     </Content>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" PrivateAssets="All" />
-        <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,7 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CryptoNet.Shared\CryptoNet.Shared.csproj" />
+    <ProjectReference Include="..\CryptoNet.ExtShared\CryptoNet.ExtShared.csproj" />
     <ProjectReference Include="..\CryptoNet.Models\CryptoNet.Models.csproj" />
   </ItemGroup>
 

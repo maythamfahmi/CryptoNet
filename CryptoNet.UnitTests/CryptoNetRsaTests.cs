@@ -21,6 +21,7 @@ using System.Text;
 using System;
 using System.IO;
 using System.Linq;
+using Moq;
 
 
 // ReSharper disable All
@@ -261,6 +262,22 @@ public class CryptoNetRsaTests
         // Assert
         TestConfig.ConfidentialDummyData.ShouldBe(decryptedData1);
         TestConfig.ConfidentialDummyData.ShouldBe(decryptedData2);
+    }
+
+    [Ignore("")]
+    public void SaveKey_ShouldInvokeSaveKeyWithFileInfo_WhenGivenFilename()
+    {
+        // Arrange
+        var filename = "testfile.txt";
+
+        // Create a mock for the KeySaver class if SaveKey(FileInfo) is not directly testable
+        var keySaverMock = new Mock<CryptoNetRsa>() { CallBase = true }; // Assuming KeySaver is not static
+
+        // Act
+        keySaverMock.Object.SaveKey(filename);
+
+        // Assert
+        keySaverMock.Verify(saver => saver.SaveKey(It.Is<FileInfo>(fi => fi.FullName == filename), false), Times.Once);
     }
 
     public static ICryptoNetRsa ImportPemKey(char[] key)
