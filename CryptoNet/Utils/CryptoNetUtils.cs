@@ -38,7 +38,7 @@ public static class CryptoNetUtils
     /// <returns>A string representing the file's content.</returns>
     internal static string LoadFileToString(string filename)
     {
-        return CryptoNetExtensions.BytesToString(LoadFileToBytes(filename));
+        return Shared.ExtShared.BytesToString(LoadFileToBytes(filename));
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public static class CryptoNetUtils
     /// <param name="content">The string content to convert and save.</param>
     internal static void SaveKey(string filename, string content)
     {
-        var bytes = CryptoNetExtensions.StringToBytes(content);
+        var bytes = Shared.ExtShared.StringToBytes(content);
         SaveKey(filename, bytes);
     }
 

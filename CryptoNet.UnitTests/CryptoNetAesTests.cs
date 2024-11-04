@@ -90,7 +90,7 @@ public class CryptoNetAesTests
         byte[] decryptedBytes = new CryptoNetAes(symmetricKey, iv).DecryptToBytes(encryptedBytes);
 
         // Assert
-        var filesMatch = CryptoNetExtensions.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var filesMatch = Shared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
         filesMatch.ShouldBeTrue();
     }
 
@@ -110,7 +110,7 @@ public class CryptoNetAesTests
         var decryptedBytes = new CryptoNetAes(key).DecryptToBytes(encryptedBytes);
 
         // Assert
-        var filesMatch = CryptoNetExtensions.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var filesMatch = Shared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
         filesMatch.ShouldBeTrue();
     }
 

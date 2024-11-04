@@ -139,7 +139,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetExtensions.StringToBytes(content));
+        return EncryptContent(Shared.ExtShared.StringToBytes(content));
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The decrypted content as a string.</returns>
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetExtensions.BytesToString(DecryptContent(bytes));
+        return Shared.ExtShared.BytesToString(DecryptContent(bytes));
     }
 
     /// <summary>

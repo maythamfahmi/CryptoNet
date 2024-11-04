@@ -170,7 +170,7 @@ public class CryptoNetRsaTests
         byte[] decryptedBytes = cryptoNet.DecryptToBytes(encryptedBytes);
 
         // Assert
-        var isIdenticalFile = CryptoNetExtensions.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var isIdenticalFile = Shared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
         isIdenticalFile.ShouldBeTrue();
     }
 

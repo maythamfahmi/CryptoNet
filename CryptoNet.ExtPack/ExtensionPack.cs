@@ -96,22 +96,10 @@ namespace CryptoNet.ExtPack
                 new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
         }
 
-        /// <summary>
-        /// Attempts to find the solution directory by searching upward from the current directory.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="DirectoryInfo"/> object representing the solution directory if found;
-        /// otherwise, <c>null</c> if no solution directory is found in the current or parent directories.
-        /// </returns>
-        public static DirectoryInfo? TryGetSolutionDirectoryInfo()
-        {
-            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
-            while (directory != null && directory.GetFiles("*.sln").Length == 0)
-            {
-                directory = directory.Parent;
-            }
-            return directory;
-        }
+        //todo: implement DSA helper
 
+        //todo: implement hasing helper
+
+        //todo: pem feature
     }
 }

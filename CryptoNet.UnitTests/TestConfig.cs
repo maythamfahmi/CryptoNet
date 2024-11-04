@@ -1,18 +1,17 @@
-﻿using CryptoNet.ExtPack;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 
 
-namespace CryptoNet.Shared
+namespace CryptoNet.UnitTests
 {
     internal static class TestConfig
     {
         public const string ConfidentialDummyData = @"Some Secret Data";
 
-        private static readonly DirectoryInfo? WorkingDirectory = ExtensionPack.TryGetSolutionDirectoryInfo();
+        private static readonly DirectoryInfo? WorkingDirectory = TryGetSolutionDirectoryInfo();
         public static readonly string ResourcePath = $"{WorkingDirectory}/Resources";
         public static readonly string TestFilesPath = Path.Combine($"{ResourcePath}", "TestFiles");
         public static readonly string RsaKeysPath = Path.Combine($"{ResourcePath}", "RsaKeys");
@@ -49,6 +48,16 @@ namespace CryptoNet.Shared
             );
 
             return certificate;
+        }
+
+        public static DirectoryInfo? TryGetSolutionDirectoryInfo()
+        {
+            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (directory != null && directory.GetFiles("*.sln").Length == 0)
+            {
+                directory = directory.Parent;
+            }
+            return directory;
         }
     }
 }

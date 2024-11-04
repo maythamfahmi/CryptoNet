@@ -91,7 +91,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
         Info = CreateInfo(Rsa, keySize);
-        RSAParameters @params = CryptoNetExtensions.GetParameters(certificate, keyType);
+        RSAParameters @params = Shared.ExtShared.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -111,8 +111,8 @@ public class CryptoNetRsa : ICryptoNetRsa
         try
         {
             return privateKey
-                ? CryptoNetExtensions.StringToBytes(ExportKey(KeyType.PrivateKey))
-                : CryptoNetExtensions.StringToBytes(ExportKey(KeyType.PublicKey));
+                ? Shared.ExtShared.StringToBytes(ExportKey(KeyType.PrivateKey))
+                : Shared.ExtShared.StringToBytes(ExportKey(KeyType.PublicKey));
         }
         catch (Exception)
         {
@@ -227,7 +227,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetExtensions.StringToBytes(content));
+        return EncryptContent(Shared.ExtShared.StringToBytes(content));
     }
 
     /// <summary>
@@ -247,7 +247,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// <returns>The decrypted content as a string.</returns>
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetExtensions.BytesToString(DecryptContent(bytes));
+        return Shared.ExtShared.BytesToString(DecryptContent(bytes));
     }
 
     /// <summary>
