@@ -57,27 +57,8 @@ jobs:
           name: code-coverage-badge
           path: coverage/badge_linecoverage.svg
 
-      # - name: Create coverage badge
-      #   run: |
-      #     find . -name badge_linecoverage.svg || echo "Badge not found"
-      #     cp coverage/badge_linecoverage.svg ./coverage-badge.svg
-
-      # - name: Print Directory Structure
-      #   uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
-
       - name: Commit coverage badge
         run: |
-          # git config --global user.name 'github-actions[bot]'
-          # git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          # git add coverage-badge.svg
-          # git commit -m 'Update coverage badge' || echo "No changes to commit"
-          # # git push --force
-          # if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
-          #     git commit -m 'Update coverage badge'
-          #     git push
-          # fi
-          # Set up Git user
-          # Set up Git user
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
@@ -95,3 +76,6 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print Directory Structure
+        uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
