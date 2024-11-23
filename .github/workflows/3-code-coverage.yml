@@ -57,13 +57,13 @@ jobs:
           name: code-coverage-badge
           path: coverage/badge_linecoverage.svg
 
-      - name: Create coverage badge
-        run: |
-          find . -name badge_linecoverage.svg || echo "Badge not found"
-          cp coverage/badge_linecoverage.svg ./coverage-badge.svg
+      # - name: Create coverage badge
+      #   run: |
+      #     find . -name badge_linecoverage.svg || echo "Badge not found"
+      #     cp coverage/badge_linecoverage.svg ./coverage-badge.svg
 
-      - name: Print Directory Structure
-        uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
+      # - name: Print Directory Structure
+      #   uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
 
       - name: Commit coverage badge
         run: |
@@ -82,6 +82,7 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
           # Copy badge to root directory
+          find . -name badge_linecoverage.svg || echo "Badge not found"
           cp coverage/badge_linecoverage.svg ./coverage-badge.svg
 
           # Force add badge and commit
