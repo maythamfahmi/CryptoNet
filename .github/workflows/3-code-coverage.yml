@@ -74,16 +74,25 @@ jobs:
           #     git commit -m 'Update coverage badge'
           #     git push
           # fi
+          # Set up Git user
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-          # Add and check changes
-          git add coverage-badge.svg
+          # Regenerate badge (replace with actual command)
+          rm -f coverage-badge.svg
+          generate-coverage-badge  # Replace with your actual command
+
+          # Verify badge content
+          echo "Coverage badge content:"
+          cat coverage-badge.svg
+
+          # Force add badge and commit
+          git add -f coverage-badge.svg
           if git diff-index --cached --quiet HEAD; then
               echo "No changes to commit"
           else
               git commit -m 'Update coverage badge'
-              git push
+              git push --force
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
