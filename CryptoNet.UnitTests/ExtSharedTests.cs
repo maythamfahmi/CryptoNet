@@ -245,19 +245,16 @@ public class ExtSharedTests
         keyType.ShouldBe(KeyType.PrivateKey);
     }
 
-    //[Ignore("temp")]
-    //public void GetKeyType_ShouldReturnPrivateKeyIfNotPublicOnly()
-    //{
-    //    using var rsa = new RSACryptoServiceProvider();
-    //    rsa.ImportParameters(new RSAParameters
-    //    {
-    //        Modulus = new byte[1],
-    //        Exponent = new byte[1],
-    //        D = new byte[1]
-    //    });
-    //    rsa.PublicOnly.ShouldBeFalse();
+    [Test]
+    public void GetKeyType_ShouldReturnPrivateKeyIfNotPublicOnly()
+    {
+        using var rsa = new RSACryptoServiceProvider(2048);
+        var parameters = rsa.ExportParameters(includePrivateParameters: true);
+        rsa.ImportParameters(parameters);
 
-    //    var keyType = ExtShared.ExtShared.GetKeyType(rsa);
-    //    keyType.ShouldBe(KeyType.PrivateKey);
-    //}
+        rsa.PublicOnly.ShouldBeFalse();
+
+        var keyType = ExtShared.ExtShared.GetKeyType(rsa);
+        keyType.ShouldBe(KeyType.PrivateKey);
+    }
 }
