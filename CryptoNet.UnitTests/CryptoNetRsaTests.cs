@@ -22,6 +22,9 @@ using System;
 using System.IO;
 using System.Linq;
 using Moq;
+using System.Reflection;
+using Moq.Protected;
+using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 
 
 // ReSharper disable All
@@ -125,6 +128,34 @@ public class CryptoNetRsaTests
     }
 
     [Test]
+    public void Encrypt_Documents_With_SelfGenerated_AsymmetricKey_That_Is_Null()
+    {
+        // Arrange
+        try
+        {
+            new CryptoNetRsa(new FileInfo(PublicKeyFile)).EncryptFromBytes(new byte[0]);
+        }
+        catch (Exception e)
+        {
+            e.Message.ShouldStartWith("Value cannot be null.");
+        }
+    }
+
+    [Test]
+    public void Decrypt_Documents_With_SelfGenerated_AsymmetricKey_That_Is_Null()
+    {
+        // Arrange
+        try
+        {
+            new CryptoNetRsa(new FileInfo(PublicKeyFile)).DecryptToBytes(new byte[0]);
+        }
+        catch (Exception e)
+        {
+            e.Message.ShouldStartWith("Value cannot be null.");
+        }
+    }
+
+    [Test]
     public void Encrypt_Decrypt_Content_With_PreStored_SelfGenerated_AsymmetricKey_Test()
     {
         // Arrange
@@ -207,7 +238,7 @@ public class CryptoNetRsaTests
     {
         // Arrange
         // You can change to test real system certificate by using CryptoNetExtensions.GetCertificateFromStore("CN=MaythamCertificateName")
-        X509Certificate2 ? certificate = TestConfig.CreateSelfSignedCertificate();
+        X509Certificate2? certificate = TestConfig.CreateSelfSignedCertificate();
         var rsaPublicKey = new CryptoNetRsa(certificate, KeyType.PublicKey);
         var rsaPrivateKey = new CryptoNetRsa(certificate, KeyType.PrivateKey);
 
@@ -264,20 +295,40 @@ public class CryptoNetRsaTests
         TestConfig.ConfidentialDummyData.ShouldBe(decryptedData2);
     }
 
-    [Ignore("")]
-    public void SaveKey_ShouldInvokeSaveKeyWithFileInfo_WhenGivenFilename()
+    [Test]
+    public void CheckKeyType_ShouldReturnNotSet_WhenExceptionOccurs()
     {
-        // Arrange
-        var filename = "testfile.txt";
+        Mock<RSA> _rsaMock = new Mock<RSA>();
 
-        // Create a mock for the KeySaver class if SaveKey(FileInfo) is not directly testable
-        var keySaverMock = new Mock<CryptoNetRsa>() { CallBase = true }; // Assuming KeySaver is not static
+        CryptoNetRsa _cryptoNetRsa = new CryptoNetRsa(2048);
 
-        // Act
-        keySaverMock.Object.SaveKey(filename);
+        // Access the private field 'Rsa' using reflection and set it to the mocked RSA
+        var rsaField = typeof(CryptoNetRsa).GetField("<Rsa>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (rsaField != null)
+        {
+            rsaField.SetValue(_cryptoNetRsa, _rsaMock.Object);
+        }
 
-        // Assert
-        keySaverMock.Verify(saver => saver.SaveKey(It.Is<FileInfo>(fi => fi.FullName == filename), false), Times.Once);
+        _rsaMock.Setup(r => r.ExportParameters(true)).Throws(new Exception());
+
+        MethodInfo? methodInfo = typeof(CryptoNetRsa).GetMethod("CheckKeyType", BindingFlags.NonPublic | BindingFlags.Instance);
+        methodInfo.ShouldNotBeNull();
+
+        var result = methodInfo.Invoke(_cryptoNetRsa, null);
+
+        result.ShouldBe(KeyType.NotSet);
+    }
+
+    [Test]
+    public void SaveKey_ShouldCallSaveKeyWithFileInfo_WhenGivenFilename()
+    {
+        string TestFilePath = "testfilex.txt";
+        string TestContent = "<RSAKeyValue><Modulus>";
+
+        var rsa = new CryptoNetRsa(2048);
+        rsa.SaveKey(TestFilePath, false);
+        var savedContent = File.ReadAllText(TestFilePath);
+        savedContent.ShouldStartWith(TestContent);
     }
 
     public static ICryptoNetRsa ImportPemKey(char[] key)
@@ -285,6 +336,59 @@ public class CryptoNetRsaTests
         ICryptoNetRsa cryptoNet = new CryptoNetRsa();
         cryptoNet.Info.RsaDetail!.Rsa?.ImportFromPem(key);
         return cryptoNet;
+    }
+
+    [Test]
+    public void ExportKey_ShouldReturnEmptyString_WhenKeyTypeIsNotSet()
+    {
+        Mock<RSA> _rsaMock = new Mock<RSA>();
+        Mock<CryptoNetRsa> _cryptoNetRsaMock = new Mock<CryptoNetRsa>(MockBehavior.Default, 2048);
+        _cryptoNetRsaMock.CallBase = true; // Call the base methods as well
+
+        // Inject the mocked RSA instance
+        FieldInfo? rsaField = typeof(CryptoNetRsa).GetField("<Rsa>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (rsaField != null)
+        {
+            rsaField.SetValue(_cryptoNetRsaMock.Object, _rsaMock.Object);
+        }
+
+        // Arrange
+        var keyType = KeyType.NotSet;
+
+        // Use reflection to invoke the private ExportKey method
+        MethodInfo? methodInfo = typeof(CryptoNetRsa).GetMethod("ExportKey", BindingFlags.NonPublic | BindingFlags.Instance);
+        methodInfo.ShouldNotBeNull();
+
+        // Act: Invoke the private method via reflection
+        var result = methodInfo.Invoke(_cryptoNetRsaMock.Object, new object[] { keyType });
+
+        // Assert
+        result.ShouldBe(string.Empty);
+    }
+
+    [Test]
+    public void ExportKey_ShouldThrowException_WhenKeyTypeIsNotSet()
+    {
+        Mock<RSA> _rsaMock = new Mock<RSA>();
+        Mock<CryptoNetRsa> _cryptoNetRsaMock = new Mock<CryptoNetRsa>(MockBehavior.Default, 2048);
+        _cryptoNetRsaMock.CallBase = true; // Call the base methods as well
+
+        // Inject the mocked RSA instance
+        FieldInfo? rsaField = typeof(CryptoNetRsa).GetField("<Rsa>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (rsaField != null)
+        {
+            rsaField.SetValue(_cryptoNetRsaMock.Object, _rsaMock.Object);
+        }
+
+        // Arrange
+        var keyType = (KeyType)999;  // Invalid KeyType
+
+        // Use reflection to invoke the private method
+        MethodInfo? methodInfo = typeof(CryptoNetRsa).GetMethod("ExportKey", BindingFlags.NonPublic | BindingFlags.Instance);
+        methodInfo.ShouldNotBeNull();
+
+        // Act & Assert
+        Should.Throw<Exception>(() => methodInfo.Invoke(_cryptoNetRsaMock.Object, new object[] { keyType }));
     }
 
     public static ICryptoNetRsa ImportPemKeyWithPassword(byte[] encryptedPrivateKey, string password)

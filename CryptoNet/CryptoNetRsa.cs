@@ -234,8 +234,14 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The byte array to encrypt.</param>
     /// <returns>The encrypted byte array.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     public byte[] EncryptFromBytes(byte[] bytes)
     {
+        if (bytes == null || bytes.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(bytes));
+        }
+
         return EncryptContent(bytes);
     }
 
@@ -254,8 +260,14 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The encrypted byte array to decrypt.</param>
     /// <returns>The decrypted byte array.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     public byte[] DecryptToBytes(byte[] bytes)
     {
+        if (bytes == null || bytes.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(bytes));
+        }
+
         return DecryptContent(bytes);
     }
 
@@ -264,14 +276,8 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The byte array to encrypt.</param>
     /// <returns>The encrypted byte array.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     private byte[] EncryptContent(byte[] bytes)
     {
-        if (bytes == null || bytes.Length <= 0)
-        {
-            throw new ArgumentNullException(nameof(bytes));
-        }
-
         byte[] result;
 
         var aes = Aes.Create();
@@ -329,14 +335,8 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The encrypted byte array to decrypt.</param>
     /// <returns>The decrypted byte array.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     private byte[] DecryptContent(byte[] bytes)
     {
-        if (bytes == null || bytes.Length <= 0)
-        {
-            throw new ArgumentNullException(nameof(bytes));
-        }
-
         byte[] result;
 
         var aes = Aes.Create();
