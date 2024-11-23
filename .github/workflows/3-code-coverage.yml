@@ -58,7 +58,9 @@ jobs:
           path: coverage/badge_linecoverage.svg
 
       - name: Create coverage badge
-        run: cp coverage/badge_linecoverage.svg ./coverage-badge.svg
+        run: |
+          find . -name badge_linecoverage.svg || echo "Badge not found"
+          cp coverage/badge_linecoverage.svg ./coverage-badge.svg
 
       - name: Print Directory Structure
         uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
