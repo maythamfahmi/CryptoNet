@@ -9,8 +9,6 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using CryptoNet.Extensions;
-using CryptoNet.Utils;
 using CryptoNet.Models;
 
 namespace CryptoNet;
@@ -71,7 +69,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     {
         Rsa = RSA.Create();
         Info = CreateInfo(Rsa, keySize);
-        CreateAsymmetricKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
+        CreateAsymmetricKey(ExtShared.ExtShared.LoadFileToString(fileInfo.FullName));
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
         {
@@ -91,7 +89,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
         Info = CreateInfo(Rsa, keySize);
-        RSAParameters @params = CryptoNetExtensions.GetParameters(certificate, keyType);
+        RSAParameters @params = ExtShared.ExtShared.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -111,8 +109,8 @@ public class CryptoNetRsa : ICryptoNetRsa
         try
         {
             return privateKey
-                ? CryptoNetExtensions.StringToBytes(ExportKey(KeyType.PrivateKey))
-                : CryptoNetExtensions.StringToBytes(ExportKey(KeyType.PublicKey));
+                ? ExtShared.ExtShared.StringToBytes(ExportKey(KeyType.PrivateKey))
+                : ExtShared.ExtShared.StringToBytes(ExportKey(KeyType.PublicKey));
         }
         catch (Exception)
         {
@@ -189,7 +187,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
-            CryptoNetUtils.SaveKey(fileInfo.FullName, key);
+            ExtShared.ExtShared.SaveKey(fileInfo.FullName, key);
         }
     }
 
@@ -227,7 +225,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetExtensions.StringToBytes(content));
+        return EncryptContent(ExtShared.ExtShared.StringToBytes(content));
     }
 
     /// <summary>
@@ -235,8 +233,14 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The byte array to encrypt.</param>
     /// <returns>The encrypted byte array.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     public byte[] EncryptFromBytes(byte[] bytes)
     {
+        if (bytes == null || bytes.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(bytes));
+        }
+
         return EncryptContent(bytes);
     }
 
@@ -247,7 +251,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// <returns>The decrypted content as a string.</returns>
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetExtensions.BytesToString(DecryptContent(bytes));
+        return ExtShared.ExtShared.BytesToString(DecryptContent(bytes));
     }
 
     /// <summary>
@@ -255,8 +259,14 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The encrypted byte array to decrypt.</param>
     /// <returns>The decrypted byte array.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     public byte[] DecryptToBytes(byte[] bytes)
     {
+        if (bytes == null || bytes.Length <= 0)
+        {
+            throw new ArgumentNullException(nameof(bytes));
+        }
+
         return DecryptContent(bytes);
     }
 
@@ -265,14 +275,8 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The byte array to encrypt.</param>
     /// <returns>The encrypted byte array.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     private byte[] EncryptContent(byte[] bytes)
     {
-        if (bytes == null || bytes.Length <= 0)
-        {
-            throw new ArgumentNullException(nameof(bytes));
-        }
-
         byte[] result;
 
         var aes = Aes.Create();
@@ -330,14 +334,8 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// </summary>
     /// <param name="bytes">The encrypted byte array to decrypt.</param>
     /// <returns>The decrypted byte array.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the input byte array is null or empty.</exception>
     private byte[] DecryptContent(byte[] bytes)
     {
-        if (bytes == null || bytes.Length <= 0)
-        {
-            throw new ArgumentNullException(nameof(bytes));
-        }
-
         byte[] result;
 
         var aes = Aes.Create();
