@@ -45,13 +45,13 @@ jobs:
       - name: Generate code coverage report
         run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:"HtmlInline_AzurePipelines;Badges"
 
-      - name: Upload coverage report
+      - name: Upload coverage report zip
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
           path: coverage
 
-      - name: Upload coverage badge
+      - name: Upload coverage badge file
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage-badge
@@ -75,16 +75,12 @@ jobs:
           #     git push
           # fi
           # Set up Git user
+          # Set up Git user
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-          # Regenerate badge (replace with actual command)
-          rm -f coverage-badge.svg
-          generate-coverage-badge  # Replace with your actual command
-
-          # Verify badge content
-          echo "Coverage badge content:"
-          cat coverage-badge.svg
+          # Copy badge to root directory
+          cp coverage/badge_linecoverage.svg ./coverage-badge.svg
 
           # Force add badge and commit
           git add -f coverage-badge.svg
