@@ -6,8 +6,6 @@ on:
       - "main"
       - "version3.0.1"
       - "feature/*"
-      - "bugfix/*"
-      - "hotfix/*"
     paths-ignore:
       - "**/README.md"
   pull_request:
@@ -70,9 +68,11 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add coverage-badge.svg
-          if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
-              git commit -m 'Update coverage badge'
-              git push
-          fi
+          git commit -m 'Update coverage badge' || echo "No changes to commit"
+          git push --force
+          # if git diff-index --cached --name-only HEAD | grep -vsxF coverage-badge.svg; then
+          #     git commit -m 'Update coverage badge'
+          #     git push
+          # fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

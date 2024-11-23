@@ -9,8 +9,6 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using CryptoNet.Models;
-using CryptoNet.Extensions;
-using CryptoNet.Utils;
 
 namespace CryptoNet;
 
@@ -49,7 +47,7 @@ public class CryptoNetAes : ICryptoNetAes
     {
         Aes = Aes.Create();
         Aes.KeySize = 256;
-        var keyInfo = CryptoNetUtils.ImportAesKey(key);
+        var keyInfo = ExtShared.ExtShared.ImportAesKey(key);
         Info = CreateInfo(keyInfo.Key, keyInfo.Iv);
         Aes.Key = Info.AesDetail?.AesKeyValue.Key;
         Aes.IV = Info.AesDetail?.AesKeyValue.Iv;
@@ -63,7 +61,7 @@ public class CryptoNetAes : ICryptoNetAes
     {
         Aes = Aes.Create();
         Aes.KeySize = 256;
-        var keyInfo = CryptoNetUtils.ImportAesKey(CryptoNetUtils.LoadFileToString(fileInfo.FullName));
+        var keyInfo = ExtShared.ExtShared.ImportAesKey(ExtShared.ExtShared.LoadFileToString(fileInfo.FullName));
         Info = CreateInfo(keyInfo.Key, keyInfo.Iv);
         Aes.Key = Info.AesDetail?.AesKeyValue.Key;
         Aes.IV = Info.AesDetail?.AesKeyValue.Iv;
@@ -108,7 +106,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The AES key as a string.</returns>
     public string GetKey()
     {
-        return CryptoNetUtils.ExportAndSaveAesKey(Aes);
+        return ExtShared.ExtShared.ExportAndSaveAesKey(Aes);
     }
 
     /// <summary>
@@ -117,8 +115,8 @@ public class CryptoNetAes : ICryptoNetAes
     /// <param name="fileInfo">FileInfo object representing the destination file.</param>
     public void SaveKey(FileInfo fileInfo)
     {
-        var key = CryptoNetUtils.ExportAndSaveAesKey(Aes);
-        CryptoNetUtils.SaveKey(fileInfo.FullName, key);
+        var key = ExtShared.ExtShared.ExportAndSaveAesKey(Aes);
+        ExtShared.ExtShared.SaveKey(fileInfo.FullName, key);
     }
 
     /// <summary>
@@ -139,7 +137,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(CryptoNetExtensions.StringToBytes(content));
+        return EncryptContent(ExtShared.ExtShared.StringToBytes(content));
     }
 
     /// <summary>
@@ -159,7 +157,7 @@ public class CryptoNetAes : ICryptoNetAes
     /// <returns>The decrypted content as a string.</returns>
     public string DecryptToString(byte[] bytes)
     {
-        return CryptoNetExtensions.BytesToString(DecryptContent(bytes));
+        return ExtShared.ExtShared.BytesToString(DecryptContent(bytes));
     }
 
     /// <summary>
