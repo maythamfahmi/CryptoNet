@@ -4,14 +4,12 @@ on:
   push:
     branches:
       - "main"
-      - "version3.0.1"
       - "feature/*"
     paths-ignore:
       - "**/README.md"
   pull_request:
     branches:
       - "main"
-      - "version3.0.1"
   workflow_dispatch:
 
 jobs:
