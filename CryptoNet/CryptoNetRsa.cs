@@ -9,7 +9,6 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using CryptoNet.Shared;
 using CryptoNet.Models;
 
 namespace CryptoNet;
@@ -70,7 +69,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     {
         Rsa = RSA.Create();
         Info = CreateInfo(Rsa, keySize);
-        CreateAsymmetricKey(ExtShared.LoadFileToString(fileInfo.FullName));
+        CreateAsymmetricKey(ExtShared.ExtShared.LoadFileToString(fileInfo.FullName));
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
         {
@@ -90,7 +89,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         Rsa = RSA.Create();
         Rsa.KeySize = keySize;
         Info = CreateInfo(Rsa, keySize);
-        RSAParameters @params = ExtShared.GetParameters(certificate, keyType);
+        RSAParameters @params = ExtShared.ExtShared.GetParameters(certificate, keyType);
         Rsa.ImportParameters(@params);
         Info.KeyType = CheckKeyType();
         if (Info.RsaDetail != null)
@@ -110,8 +109,8 @@ public class CryptoNetRsa : ICryptoNetRsa
         try
         {
             return privateKey
-                ? Shared.ExtShared.StringToBytes(ExportKey(KeyType.PrivateKey))
-                : Shared.ExtShared.StringToBytes(ExportKey(KeyType.PublicKey));
+                ? ExtShared.ExtShared.StringToBytes(ExportKey(KeyType.PrivateKey))
+                : ExtShared.ExtShared.StringToBytes(ExportKey(KeyType.PublicKey));
         }
         catch (Exception)
         {
@@ -188,7 +187,7 @@ public class CryptoNetRsa : ICryptoNetRsa
         string key = privateKey ? ExportKey(KeyType.PrivateKey) : ExportKey(KeyType.PublicKey);
         if (!string.IsNullOrEmpty(key))
         {
-            ExtShared.SaveKey(fileInfo.FullName, key);
+            ExtShared.ExtShared.SaveKey(fileInfo.FullName, key);
         }
     }
 
@@ -226,7 +225,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// <returns>The encrypted content as a byte array.</returns>
     public byte[] EncryptFromString(string content)
     {
-        return EncryptContent(Shared.ExtShared.StringToBytes(content));
+        return EncryptContent(ExtShared.ExtShared.StringToBytes(content));
     }
 
     /// <summary>
@@ -252,7 +251,7 @@ public class CryptoNetRsa : ICryptoNetRsa
     /// <returns>The decrypted content as a string.</returns>
     public string DecryptToString(byte[] bytes)
     {
-        return Shared.ExtShared.BytesToString(DecryptContent(bytes));
+        return ExtShared.ExtShared.BytesToString(DecryptContent(bytes));
     }
 
     /// <summary>

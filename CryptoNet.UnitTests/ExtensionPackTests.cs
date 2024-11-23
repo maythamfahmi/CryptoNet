@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Shouldly;
 using CryptoNet.ExtPack;
-using CryptoNet.Shared;
 using System;
 
 namespace CryptoNet.UnitTests

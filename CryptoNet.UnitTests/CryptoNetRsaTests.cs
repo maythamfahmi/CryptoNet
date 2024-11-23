@@ -7,7 +7,6 @@
 
 using CryptoNet.ExtPack;
 using CryptoNet.Models;
-using CryptoNet.Shared;
 
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
@@ -202,7 +201,7 @@ public class CryptoNetRsaTests
         byte[] decryptedBytes = cryptoNet.DecryptToBytes(encryptedBytes);
 
         // Assert
-        var isIdenticalFile = Shared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var isIdenticalFile = ExtShared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
         isIdenticalFile.ShouldBeTrue();
     }
 

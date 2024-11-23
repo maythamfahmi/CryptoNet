@@ -15,7 +15,7 @@ using System.Text;
 using CryptoNet.Models;
 using System.Text.Json;
 
-namespace CryptoNet.Shared;
+namespace CryptoNet.ExtShared;
 
 /// <summary>
 /// Provides utility methods for cryptographic operations, certificate retrieval, 
@@ -158,7 +158,7 @@ public static class ExtShared
             return false;
         }
 
-        return (b1.Length - b2.Length) == 0 && b1.SequenceEqual(b2);
+        return b1.Length - b2.Length == 0 && b1.SequenceEqual(b2);
     }
 
     /// <summary>

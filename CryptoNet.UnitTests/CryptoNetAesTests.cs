@@ -5,7 +5,6 @@
 // <date>17-12-2021 12:18:44</date>
 // <summary>part of CryptoNet project</summary>
 
-using CryptoNet.Shared;
 using CryptoNet.Models;
 using CryptoNet.ExtPack;
 
@@ -93,7 +92,7 @@ public class CryptoNetAesTests
         byte[] decryptedBytes = new CryptoNetAes(symmetricKey, Iv).DecryptToBytes(encryptedBytes);
 
         // Assert
-        var filesMatch = ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var filesMatch = ExtShared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
         filesMatch.ShouldBeTrue();
     }
 
@@ -113,7 +112,7 @@ public class CryptoNetAesTests
         var decryptedBytes = new CryptoNetAes(key).DecryptToBytes(encryptedBytes);
 
         // Assert
-        var filesMatch = Shared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
+        var filesMatch = ExtShared.ExtShared.ByteArrayCompare(originalFileBytes, decryptedBytes);
         filesMatch.ShouldBeTrue();
     }
 
@@ -254,7 +253,7 @@ public class CryptoNetAesTests
     {
         // Arrange
         string keyString = "YourBase64EncodedKeyStringHere";
-        var expectedKey = ExtShared.ImportAesKey(keyString).Key;
+        var expectedKey = ExtShared.ExtShared.ImportAesKey(keyString).Key;
 
         // Act
         var crypto = new CryptoNetAes(keyString);
@@ -277,7 +276,7 @@ public class CryptoNetAesTests
         var mockFileSystem = new Mock<IFileSystem>();
         mockFileSystem.Setup(fs => fs.ReadAllText(It.IsAny<string>())).Returns(keyString);
 
-        var expectedKey = ExtShared.ImportAesKey(keyString).Key;
+        var expectedKey = ExtShared.ExtShared.ImportAesKey(keyString).Key;
 
         // Act
         var crypto = new CryptoNetAes(mockFileInfo.Object);

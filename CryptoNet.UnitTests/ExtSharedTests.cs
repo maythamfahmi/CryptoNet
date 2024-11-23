@@ -1,13 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CryptoNet.Models;
-using CryptoNet.Shared;
 using NUnit.Framework;
 using Shouldly;
 
-namespace ExtSharedTests;
+namespace CryptoNet.UnitTests;
 
 [TestFixture]
 public class ExtSharedTests
@@ -21,7 +21,7 @@ public class ExtSharedTests
         var certificate = certificateRequest.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(1));
 
         // Act
-        RSAParameters parameters = ExtShared.GetParameters(certificate, KeyType.PrivateKey);
+        RSAParameters parameters = ExtShared.ExtShared.GetParameters(certificate, KeyType.PrivateKey);
 
         // Assert
         parameters.D.ShouldNotBeNull();
@@ -31,7 +31,7 @@ public class ExtSharedTests
     public void GetCertificateFromStore_WithNonexistentCertName_ShouldReturnNull()
     {
         // Act
-        var result = ExtShared.GetCertificateFromStore(StoreName.My, StoreLocation.CurrentUser, "NonexistentCertificate");
+        var result = ExtShared.ExtShared.GetCertificateFromStore(StoreName.My, StoreLocation.CurrentUser, "NonexistentCertificate");
 
         // Assert
         result.ShouldBeNull();
@@ -41,9 +41,9 @@ public class ExtSharedTests
     public void GetCertificateFromStore_WithDifferentStoreOverloads_ShouldReturnNullForNonexistentCert()
     {
         // Act
-        var result1 = ExtShared.GetCertificateFromStore(StoreName.My, "NonexistentCertificate");
-        var result2 = ExtShared.GetCertificateFromStore(StoreLocation.CurrentUser, "NonexistentCertificate");
-        var result3 = ExtShared.GetCertificateFromStore("NonexistentCertificate");
+        var result1 = ExtShared.ExtShared.GetCertificateFromStore(StoreName.My, "NonexistentCertificate");
+        var result2 = ExtShared.ExtShared.GetCertificateFromStore(StoreLocation.CurrentUser, "NonexistentCertificate");
+        var result3 = ExtShared.ExtShared.GetCertificateFromStore("NonexistentCertificate");
 
         // Assert
         result1.ShouldBeNull();
@@ -58,7 +58,7 @@ public class ExtSharedTests
         var bytes = Encoding.ASCII.GetBytes("Hello");
 
         // Act
-        var result = ExtShared.BytesToString(bytes);
+        var result = ExtShared.ExtShared.BytesToString(bytes);
 
         // Assert
         result.ShouldBe("Hello");
@@ -71,7 +71,7 @@ public class ExtSharedTests
         var content = "Hello";
 
         // Act
-        var result = ExtShared.StringToBytes(content);
+        var result = ExtShared.ExtShared.StringToBytes(content);
 
         // Assert
         result.ShouldBeEquivalentTo(Encoding.ASCII.GetBytes("Hello"));
@@ -84,7 +84,7 @@ public class ExtSharedTests
         var bytes = Encoding.ASCII.GetBytes("Hello");
 
         // Act
-        var result = ExtShared.Base64BytesToString(bytes);
+        var result = ExtShared.ExtShared.Base64BytesToString(bytes);
 
         // Assert
         result.ShouldBe("SGVsbG8=");
@@ -97,7 +97,7 @@ public class ExtSharedTests
         var content = "SGVsbG8=";
 
         // Act
-        var result = ExtShared.Base64StringToBytes(content);
+        var result = ExtShared.ExtShared.Base64StringToBytes(content);
 
         // Assert
         result.ShouldBeEquivalentTo(Encoding.ASCII.GetBytes("Hello"));
@@ -111,7 +111,7 @@ public class ExtSharedTests
         var array2 = new byte[] { 1, 2, 3 };
 
         // Act
-        var result = ExtShared.ByteArrayCompare(array1, array2);
+        var result = ExtShared.ExtShared.ByteArrayCompare(array1, array2);
 
         // Assert
         result.ShouldBeTrue();
@@ -125,7 +125,7 @@ public class ExtSharedTests
         var array2 = new byte[] { 1, 2 };
 
         // Act
-        var result = ExtShared.ByteArrayCompare(array1, array2);
+        var result = ExtShared.ExtShared.ByteArrayCompare(array1, array2);
 
         // Assert
         result.ShouldBeFalse();
@@ -139,34 +139,20 @@ public class ExtSharedTests
         var array2 = new byte[] { 1, 2, 4 };
 
         // Act
-        var result = ExtShared.ByteArrayCompare(array1, array2);
+        var result = ExtShared.ExtShared.ByteArrayCompare(array1, array2);
 
         // Assert
         result.ShouldBeFalse();
     }
 
-    private const string TestFilePath = "testfile.txt";
+    private const string TestFilePath = "testfile";
     private const string TestContent = "This is a test string.";
-
-    [SetUp]
-    public void SetUp()
-    {
-        if (File.Exists(TestFilePath))
-            File.Delete(TestFilePath);
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        if (File.Exists(TestFilePath))
-            File.Delete(TestFilePath);
-    }
 
     [Test]
     public void LoadFileToBytes_ShouldLoadFileContentAsByteArray()
     {
         File.WriteAllText(TestFilePath, TestContent);
-        var bytes = ExtShared.LoadFileToBytes(TestFilePath);
+        var bytes = ExtShared.ExtShared.LoadFileToBytes(TestFilePath);
 
         bytes.ShouldNotBeNull();
         bytes.Length.ShouldBeGreaterThan(0);
@@ -176,7 +162,7 @@ public class ExtSharedTests
     public void LoadFileToString_ShouldLoadFileContentAsString()
     {
         File.WriteAllText(TestFilePath, TestContent);
-        var content = ExtShared.LoadFileToString(TestFilePath);
+        var content = ExtShared.ExtShared.LoadFileToString(TestFilePath);
 
         content.ShouldBe(TestContent);
     }
@@ -185,7 +171,7 @@ public class ExtSharedTests
     public void SaveKey_ShouldSaveBytesToFile()
     {
         var bytes = new byte[] { 1, 2, 3, 4, 5 };
-        ExtShared.SaveKey(TestFilePath, bytes);
+        ExtShared.ExtShared.SaveKey(TestFilePath, bytes);
 
         File.Exists(TestFilePath).ShouldBeTrue();
         var savedBytes = File.ReadAllBytes(TestFilePath);
@@ -195,7 +181,7 @@ public class ExtSharedTests
     [Test]
     public void SaveKey_ShouldSaveStringToFile()
     {
-        ExtShared.SaveKey(TestFilePath, TestContent);
+        ExtShared.ExtShared.SaveKey(TestFilePath, TestContent);
 
         File.Exists(TestFilePath).ShouldBeTrue();
         var savedContent = File.ReadAllText(TestFilePath);
@@ -209,7 +195,7 @@ public class ExtSharedTests
         aes.Key = new byte[16];
         aes.IV = new byte[16];
 
-        var json = ExtShared.ExportAndSaveAesKey(aes);
+        var json = ExtShared.ExtShared.ExportAndSaveAesKey(aes);
 
         json.ShouldNotBeNullOrEmpty();
         json.ShouldContain("\"Key\"");
@@ -223,8 +209,8 @@ public class ExtSharedTests
         aes.Key = new byte[16];
         aes.IV = new byte[16];
 
-        var json = ExtShared.ExportAndSaveAesKey(aes);
-        var importedAesKeyValue = ExtShared.ImportAesKey(json);
+        var json = ExtShared.ExtShared.ExportAndSaveAesKey(aes);
+        var importedAesKeyValue = ExtShared.ExtShared.ImportAesKey(json);
 
         importedAesKeyValue.ShouldNotBeNull();
         importedAesKeyValue.Key.ShouldBe(aes.Key);
@@ -235,7 +221,7 @@ public class ExtSharedTests
     public void GetDescription_ShouldReturnDescriptionAttribute()
     {
         var value = KeyType.PublicKey;
-        var description = ExtShared.GetDescription(value);
+        var description = ExtShared.ExtShared.GetDescription(value);
 
         description.ShouldBe("Public key is set."); // assuming "Public Key" is the description for PublicKey
     }
@@ -244,7 +230,7 @@ public class ExtSharedTests
     public void GetDescription_ShouldReturnEnumNameIfNoDescriptionAttribute()
     {
         var value = KeyType.NotSet; // assuming OtherKeyType has no description attribute
-        var description = ExtShared.GetDescription(value);
+        var description = ExtShared.ExtShared.GetDescription(value);
 
         description.ShouldBe("Key does not exist.");
     }
@@ -255,23 +241,23 @@ public class ExtSharedTests
         using var rsa = new RSACryptoServiceProvider();
         rsa.PublicOnly.ShouldBeFalse();
 
-        var keyType = ExtShared.GetKeyType(rsa);
+        var keyType = ExtShared.ExtShared.GetKeyType(rsa);
         keyType.ShouldBe(KeyType.PrivateKey);
     }
 
-    [Ignore("d")]
-    public void GetKeyType_ShouldReturnPrivateKeyIfNotPublicOnly()
-    {
-        using var rsa = new RSACryptoServiceProvider();
-        rsa.ImportParameters(new RSAParameters
-        {
-            Modulus = new byte[1],
-            Exponent = new byte[1],
-            D = new byte[1]
-        });
-        rsa.PublicOnly.ShouldBeFalse();
+    //[Ignore("temp")]
+    //public void GetKeyType_ShouldReturnPrivateKeyIfNotPublicOnly()
+    //{
+    //    using var rsa = new RSACryptoServiceProvider();
+    //    rsa.ImportParameters(new RSAParameters
+    //    {
+    //        Modulus = new byte[1],
+    //        Exponent = new byte[1],
+    //        D = new byte[1]
+    //    });
+    //    rsa.PublicOnly.ShouldBeFalse();
 
-        var keyType = ExtShared.GetKeyType(rsa);
-        keyType.ShouldBe(KeyType.PrivateKey);
-    }
+    //    var keyType = ExtShared.ExtShared.GetKeyType(rsa);
+    //    keyType.ShouldBe(KeyType.PrivateKey);
+    //}
 }
