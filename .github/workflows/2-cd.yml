@@ -3,17 +3,12 @@ name: "2. Continuous Deployment"
 on:
   push:
     branches:
-      - "main"
-      - "version3.0.1"
-      - "feature/*"
-      - "bugfix/*"
-      - "hotfix/*"
+      - "none"
     paths-ignore:
       - "**/README.md"
   pull_request:
     branches:
-      - "main"
-      - "version3.0.1"
+      - "none"
   workflow_dispatch:
 
 jobs:
