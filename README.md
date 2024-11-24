@@ -51,6 +51,25 @@ You have different options to build and run the unit tests from:
 docker build . --file .\Dockerfile --tag cryptonet-service:latest
 ```
 
+## How to release a new version?
+
+Preview
+```
+git tag -a "v3.0.0-preview002" -m "Release version 3.0.0-preview002"
+```
+
+Beta
+```
+git tag -a "v3.0.0-beta" -m "Release version 3.0.0-beta"
+```
+
+Release
+```
+git tag -a "v3.0.0" -m "Release version 3.0.0"
+```
+
+git push origin --tags 
+
 ## Contributing
 
 You are more than welcome to contribute in one of the following ways:

@@ -2,13 +2,9 @@ name: "2. Continuous Deployment"
 
 on:
   push:
-    branches:
-      - "none"
-    paths-ignore:
-      - "**/README.md"
-  pull_request:
-    branches:
-      - "none"
+    tags:
+      - "v*"
+
   workflow_dispatch:
 
 jobs:
