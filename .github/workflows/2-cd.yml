@@ -3,7 +3,7 @@ name: "2. Continuous Deployment"
 on:
   push:
     tags:
-      - "v*"
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
   workflow_dispatch:
 
@@ -11,36 +11,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
-      - name: Get Run Number
-        id: vars
-        run: echo "VERSION=3.0.0-pre-$(date -u +'%y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
-
-      - name: Print Version
-        run: echo "The version is $VERSION"
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      - name: Verify commit exists in origin/main
+        run: git branch --remote --contains | grep origin/main
+      - name: Extract release notes
+        run: |
+          git log --pretty=format:'%d %s' ${GITHUB_REF} | perl -pe 's| \(.*tag: v(\d+.\d+.\d+(-preview\d{3})?)(, .*?)*\)|\n## \1\n|g' > RELEASE-NOTES
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-
+      - name: Set VERSION variable from tag
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Build
         run: dotnet build --configuration Release /p:Version=${VERSION}
-
       - name: Test
         run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
-
       - name: Pack
-        run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output ./artifacts
-
-      - name: Upload NuGet Package as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: "CryptoNet.${{ env.VERSION }}"
-          path: ./artifacts/*.nupkg
+        run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output .
+      - name: Push
+        run: dotnet nuget push CryptoNet.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${NUGET_TOKEN}
+        env:
+          NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
