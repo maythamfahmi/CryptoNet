@@ -56,19 +56,14 @@ docker build . --file .\Dockerfile --tag cryptonet-service:latest
 Preview
 ```
 git tag -a "v3.0.0-preview002" -m "Release version 3.0.0-preview002"
-```
-
-Beta
-```
-git tag -a "v3.0.0-beta" -m "Release version 3.0.0-beta"
+git push origin "v3.0.0-preview002"
 ```
 
 Release
 ```
 git tag -a "v3.0.0" -m "Release version 3.0.0"
+git push origin "v3.0.0"
 ```
-
-git push origin --tags 
 
 ## Contributing
 
