@@ -1,3 +1,5 @@
+name: "2. Continuous Deployment (Release Preview)"
+
 on:
   push:
     tags:
