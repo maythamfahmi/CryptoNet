@@ -43,4 +43,12 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\img\CryptoNetLogo-icon.png" Link="CryptoNetLogo-icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
 </Project>
