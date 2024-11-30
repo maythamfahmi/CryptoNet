@@ -22,7 +22,6 @@ using System.Reflection;
 
 namespace CryptoNet.UnitTests
 {
-#if !OS_MACOS
     [TestFixture]
     public class CryptoNetDsaTests
     {
@@ -37,6 +36,7 @@ namespace CryptoNet.UnitTests
             cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
         }
 
+#if !OS_MACOS
         [Test]
         public void SelfGenerated_AsymmetricKey_And_TypeValidation_Test()
         {
@@ -153,6 +153,7 @@ namespace CryptoNet.UnitTests
             // Assert
             isVerified.ShouldBeTrue();
         }
-    }
 #endif
+
+    }
 }
