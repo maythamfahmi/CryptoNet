@@ -22,6 +22,7 @@ using System.Reflection;
 
 namespace CryptoNet.UnitTests
 {
+#if !OS_MACOS
     [TestFixture]
     public class CryptoNetDsaTests
     {
@@ -153,4 +154,5 @@ namespace CryptoNet.UnitTests
             isVerified.ShouldBeTrue();
         }
     }
+#endif
 }

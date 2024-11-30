@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using CryptoNet.Models;
 
@@ -25,8 +26,12 @@ namespace CryptoNet
         /// Initializes a new instance of the <see cref="CryptoNetDsa"/> class with a specified key size.
         /// </summary>
         /// <param name="keySize">The size of the DSA key in bits. Default is 2048.</param>
-        public CryptoNetDsa(int keySize = 1024)
+        public CryptoNetDsa(int keySize = 2048)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                throw new PlatformNotSupportedException("DSA key generation is not supported on macOS.");
+            }
             Dsa = DSA.Create();
             Info = CreateInfo(Dsa, keySize);
             Info.KeyType = CheckKeyType();
@@ -42,8 +47,12 @@ namespace CryptoNet
         /// </summary>
         /// <param name="key">The DSA key as a string.</param>
         /// <param name="keySize">The size of the DSA key in bits. Default is 2048.</param>
-        public CryptoNetDsa(string key, int keySize = 1024)
+        public CryptoNetDsa(string key, int keySize = 2048)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                throw new PlatformNotSupportedException("DSA key generation is not supported on macOS.");
+            }
             Dsa = DSA.Create();
             Info = CreateInfo(Dsa, keySize);
             CreateAsymmetricKey(key);
@@ -60,8 +69,12 @@ namespace CryptoNet
         /// </summary>
         /// <param name="fileInfo">A <see cref="FileInfo"/> object representing the file containing the DSA key.</param>
         /// <param name="keySize">The size of the DSA key in bits. Default is 2048.</param>
-        public CryptoNetDsa(FileInfo fileInfo, int keySize = 1024)
+        public CryptoNetDsa(FileInfo fileInfo, int keySize = 2048)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                throw new PlatformNotSupportedException("DSA key generation is not supported on macOS.");
+            }
             Dsa = DSA.Create();
             Info = CreateInfo(Dsa, keySize);
             CreateAsymmetricKey(ExtShared.ExtShared.LoadFileToString(fileInfo.FullName));
