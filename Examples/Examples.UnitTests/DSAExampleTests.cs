@@ -9,7 +9,7 @@ namespace CryptoNet.Examples.UnitTests;
 public class DSAExampleTests : ExampleTestBase
 {
     [Test]
-    public async Task AESExampleSmokeTest()
+    public async Task DSAExampleSmokeTest()
     {
         string dsaExampleExeName;
 
@@ -25,7 +25,7 @@ public class DSAExampleTests : ExampleTestBase
         // This provides a human readable temporary directory name prefix.
         // If you see a lot of these laying around your temp directory, it's
         // probably due to some failures in this test.
-        var tmpDirPrefix = $"{nameof(DSAExampleTests)}.{nameof(AESExampleSmokeTest)}-";
+        var tmpDirPrefix = $"{nameof(DSAExampleTests)}.{nameof(DSAExampleSmokeTest)}-";
 
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
@@ -55,7 +55,7 @@ public class DSAExampleTests : ExampleTestBase
 
         ClassicAssert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
         ClassicAssert.IsTrue(stdOut.Contains("Encrypted:"));
-        ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: Watson, can you hear me?"));
+        ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: True"));
     }
 }
 

@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AESExample\AESExample.csproj" />
+    <ProjectReference Include="..\DSAExample\DSAExample.csproj" />
     <ProjectReference Include="..\RSAExample\RSAExample.csproj" />
   </ItemGroup>
 
