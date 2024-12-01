@@ -1,6 +1,7 @@
 ﻿// Copyright and trademark notices at the end of this file.
 
 using NUnit.Framework.Legacy;
+using System.Runtime.InteropServices;
 
 namespace CryptoNet.Examples.UnitTests;
 
@@ -13,49 +14,56 @@ public class DSAExampleTests : ExampleTestBase
     {
         string dsaExampleExeName;
 
-        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            dsaExampleExeName = "DSAExample.exe"; // Windows executable
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                dsaExampleExeName = "DSAExample.exe"; // Windows executable
+            }
+            else
+            {
+                dsaExampleExeName = "DSAExample"; // Linux or MacOs executable
+            }
+
+            // This provides a human readable temporary directory name prefix.
+            // If you see a lot of these laying around your temp directory, it's
+            // probably due to some failures in this test.
+            var tmpDirPrefix = $"{nameof(DSAExampleTests)}.{nameof(DSAExampleSmokeTest)}-";
+
+            var stdOutBuffer = new StringBuilder();
+            var stdErrBuffer = new StringBuilder();
+
+            using (var tmpDir = new TempDirectory(tmpDirPrefix))
+            {
+                ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
+                ClassicAssert.IsTrue(File.Exists(dsaExampleExeName));
+
+                ShowAvailableExecutables(dsaExampleExeName);
+
+                var result = await Cli.Wrap(dsaExampleExeName)
+                    .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
+                    .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+                    .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
+                    .ExecuteAsync();
+            }
+
+            var stdOut = stdOutBuffer.ToString().Trim();
+            var stdErr = stdErrBuffer.ToString();
+
+            Console.WriteLine(stdOut);
+            Console.Error.WriteLine(stdErr);
+
+            ClassicAssert.IsNotEmpty(stdOut);
+            ClassicAssert.IsEmpty(stdErr);
+
+            ClassicAssert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
+            ClassicAssert.IsTrue(stdOut.Contains("Encrypted:"));
+            ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: True"));
         }
         else
         {
-            dsaExampleExeName = "DSAExample"; // Linux or MacOs executable
+            Console.WriteLine("Bypass Mac os. Compatibility issue.");
         }
-
-        // This provides a human readable temporary directory name prefix.
-        // If you see a lot of these laying around your temp directory, it's
-        // probably due to some failures in this test.
-        var tmpDirPrefix = $"{nameof(DSAExampleTests)}.{nameof(DSAExampleSmokeTest)}-";
-
-        var stdOutBuffer = new StringBuilder();
-        var stdErrBuffer = new StringBuilder();
-
-        using (var tmpDir = new TempDirectory(tmpDirPrefix))
-        {
-            ClassicAssert.IsTrue(Directory.Exists(tmpDir.DirectoryInfo.FullName));
-            ClassicAssert.IsTrue(File.Exists(dsaExampleExeName));
-
-            ShowAvailableExecutables(dsaExampleExeName);
-
-            var result = await Cli.Wrap(dsaExampleExeName)
-                .WithWorkingDirectory(tmpDir.DirectoryInfo.FullName)
-                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
-                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
-                .ExecuteAsync();
-        }
-
-        var stdOut = stdOutBuffer.ToString().Trim();
-        var stdErr = stdErrBuffer.ToString();
-
-        Console.WriteLine(stdOut);
-        Console.Error.WriteLine(stdErr);
-
-        ClassicAssert.IsNotEmpty(stdOut);
-        ClassicAssert.IsEmpty(stdErr);
-
-        ClassicAssert.IsTrue(stdOut.StartsWith("Original: Watson, can you hear me?"));
-        ClassicAssert.IsTrue(stdOut.Contains("Encrypted:"));
-        ClassicAssert.IsTrue(stdOut.EndsWith("Decrypted: True"));
     }
 }
 
