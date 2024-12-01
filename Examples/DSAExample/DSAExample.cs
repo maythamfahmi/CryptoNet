@@ -7,10 +7,10 @@ using CryptoNet;
 using CryptoNet.ExtShared;
 using System.Runtime.InteropServices;
 
+var confidentialMessage = "Watson, can you hear me?";
+
 if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 {
-    var confidentialMessage = "Watson, can you hear me?";
-
     Console.WriteLine($"Original: {confidentialMessage}");
 
     var sharedKey = CreateKey();
@@ -22,10 +22,12 @@ if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     var decryptedMessage = SimulateVerify(sharedKey, signature);
 
     Console.WriteLine($"Decrypted: {decryptedMessage}");
-} else
+}
+else
 {
     Console.WriteLine("Bypass Mac os. Compatibility issue.");
 }
+
 ////////////////////////
 //
 
