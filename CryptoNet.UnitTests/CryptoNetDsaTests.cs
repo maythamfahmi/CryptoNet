@@ -42,7 +42,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             } 
 
             // Arrange & Act
@@ -59,7 +59,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
@@ -80,7 +80,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
@@ -101,7 +101,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
@@ -126,7 +126,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
@@ -141,7 +141,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
@@ -156,7 +156,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
@@ -174,7 +174,7 @@ namespace CryptoNet.UnitTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return;
+                Assert.Inconclusive("Test not applicable on macOS.");
             }
 
             // Arrange
