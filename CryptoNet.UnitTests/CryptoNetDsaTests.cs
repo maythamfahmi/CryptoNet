@@ -29,6 +29,7 @@ namespace CryptoNet.UnitTests
         private static readonly string BaseFolder = AppContext.BaseDirectory;
         private static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
         private static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
+        private static readonly bool ByPassMac = true;
 
         public CryptoNetDsaTests()
         {
@@ -55,113 +56,162 @@ namespace CryptoNet.UnitTests
             }
             else
             {
-                true.ShouldBeTrue();
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
             }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void Create_And_Verify_Signature_Test()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
-            string testMessage = "Test message for signature";
-            var privateKey = cryptoNet.GetKey(true);
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+                string testMessage = "Test message for signature";
+                var privateKey = cryptoNet.GetKey(true);
 
-            // Act
-            var signature = cryptoNet.CreateSignature(testMessage);
-            var isVerified = new CryptoNetDsa(privateKey).IsContentVerified(testMessage, signature);
+                // Act
+                var signature = cryptoNet.CreateSignature(testMessage);
+                var isVerified = new CryptoNetDsa(privateKey).IsContentVerified(testMessage, signature);
 
-            // Assert
-            isVerified.ShouldBeTrue();
+                // Assert
+                isVerified.ShouldBeTrue();
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void Verify_Invalid_Signature_Test()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
-            string testMessage = "Test message for signature";
-            string invalidMessage = "Different message";
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+                string testMessage = "Test message for signature";
+                string invalidMessage = "Different message";
 
-            // Act
-            var signature = cryptoNet.CreateSignature(testMessage);
-            var isVerified = cryptoNet.IsContentVerified(invalidMessage, signature);
+                // Act
+                var signature = cryptoNet.CreateSignature(testMessage);
+                var isVerified = cryptoNet.IsContentVerified(invalidMessage, signature);
 
-            // Assert
-            isVerified.ShouldBeFalse();
+                // Assert
+                isVerified.ShouldBeFalse();
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void Save_And_Load_Keys_Test()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
-            string privateKeyPath = Path.Combine(BaseFolder, "savedPrivateKey");
-            string publicKeyPath = Path.Combine(BaseFolder, "savedPublicKey");
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+                string privateKeyPath = Path.Combine(BaseFolder, "savedPrivateKey");
+                string publicKeyPath = Path.Combine(BaseFolder, "savedPublicKey");
 
-            // Act
-            cryptoNet.SaveKey(privateKeyPath, true);
-            cryptoNet.SaveKey(publicKeyPath, false);
+                // Act
+                cryptoNet.SaveKey(privateKeyPath, true);
+                cryptoNet.SaveKey(publicKeyPath, false);
 
-            var loadedPrivateKeyCrypto = new CryptoNetDsa(new FileInfo(privateKeyPath));
-            var loadedPublicKeyCrypto = new CryptoNetDsa(new FileInfo(publicKeyPath));
+                var loadedPrivateKeyCrypto = new CryptoNetDsa(new FileInfo(privateKeyPath));
+                var loadedPublicKeyCrypto = new CryptoNetDsa(new FileInfo(publicKeyPath));
 
-            // Assert
-            loadedPrivateKeyCrypto.Info.KeyType.ShouldBe(KeyType.PrivateKey);
-            loadedPublicKeyCrypto.Info.KeyType.ShouldBe(KeyType.PublicKey);
+                // Assert
+                loadedPrivateKeyCrypto.Info.KeyType.ShouldBe(KeyType.PrivateKey);
+                loadedPublicKeyCrypto.Info.KeyType.ShouldBe(KeyType.PublicKey);
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void CreateSignature_With_Empty_Content_Should_Throw_Exception()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
 
-            // Act & Assert
-            Should.Throw<ArgumentNullException>(() => cryptoNet.CreateSignature(string.Empty));
+                // Act & Assert
+                Should.Throw<ArgumentNullException>(() => cryptoNet.CreateSignature(string.Empty));
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void VerifySignature_With_Null_Bytes_Should_Throw_Exception()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
 
-            // Act & Assert
-            Should.Throw<ArgumentNullException>(() => cryptoNet.IsContentVerified((byte[])null!, new byte[0]));
+                // Act & Assert
+                Should.Throw<ArgumentNullException>(() => cryptoNet.IsContentVerified((byte[])null!, new byte[0]));
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void Key_Type_Check_ShouldReturnCorrectType()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
 
-            // Act
-            var keyType = cryptoNet.Info.KeyType;
+                // Act
+                var keyType = cryptoNet.Info.KeyType;
 
-            // Assert
-            keyType.ShouldBe(KeyType.PrivateKey);
+                // Assert
+                keyType.ShouldBe(KeyType.PrivateKey);
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
-        [Ignore("Tmp")]
+        [Test]
         public void SelfGenerated_Signature_And_Verification_With_Stored_Keys_Test()
         {
-            // Arrange
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
-            string testMessage = "Message for signing";
-            cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
-            cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // Arrange
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+                string testMessage = "Message for signing";
+                cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
+                cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
 
-            var loadedPrivateKeyCrypto = new CryptoNetDsa(new FileInfo(PrivateKeyFile));
-            var loadedPublicKeyCrypto = new CryptoNetDsa(new FileInfo(PublicKeyFile));
+                var loadedPrivateKeyCrypto = new CryptoNetDsa(new FileInfo(PrivateKeyFile));
+                var loadedPublicKeyCrypto = new CryptoNetDsa(new FileInfo(PublicKeyFile));
 
-            // Act
-            var signature = loadedPrivateKeyCrypto.CreateSignature(testMessage);
-            var isVerified = loadedPublicKeyCrypto.IsContentVerified(testMessage, signature);
+                // Act
+                var signature = loadedPrivateKeyCrypto.CreateSignature(testMessage);
+                var isVerified = loadedPublicKeyCrypto.IsContentVerified(testMessage, signature);
 
-            // Assert
-            isVerified.ShouldBeTrue();
+                // Assert
+                isVerified.ShouldBeTrue();
+            }
+            else
+            {
+                ByPassMac.ShouldBeTrue("By Pass Mac OS");
+            }
         }
 
     }
