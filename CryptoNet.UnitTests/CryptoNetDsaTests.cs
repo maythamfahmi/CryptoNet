@@ -28,7 +28,8 @@ namespace CryptoNet.UnitTests
         private static readonly string BaseFolder = AppContext.BaseDirectory;
         private static readonly string PrivateKeyFile = Path.Combine(BaseFolder, "privateKey");
         private static readonly string PublicKeyFile = Path.Combine(BaseFolder, "publicKey.pub");
-
+#if OS_MACOS
+#else
         public CryptoNetDsaTests()
         {
             ICryptoNetDsa cryptoNet = new CryptoNetDsa();
@@ -36,7 +37,6 @@ namespace CryptoNet.UnitTests
             cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
         }
 
-#if !OS_MACOS
         [Test]
         public void SelfGenerated_AsymmetricKey_And_TypeValidation_Test()
         {
