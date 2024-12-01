@@ -55,14 +55,12 @@ docker build . --file .\Dockerfile --tag cryptonet-service:latest
 
 Preview
 ```
-git tag -a "v3.0.0-preview002" -m "Release version 3.0.0-preview002"
-git push origin "v3.0.0-preview002"
+.\Release.ps1 -VersionNumber 3.0.0 -IsPreview $true
 ```
 
 Release
 ```
-git tag -a "v3.0.0" -m "Release version 3.0.0"
-git push origin "v3.0.0"
+.\Release.ps1 -VersionNumber 3.0.0 -IsPreview $false
 ```
 
 ## Contributing
