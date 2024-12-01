@@ -32,15 +32,18 @@ namespace CryptoNet.UnitTests
 
         public CryptoNetDsaTests()
         {
-            ICryptoNetDsa cryptoNet = new CryptoNetDsa();
-            cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
-            cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ICryptoNetDsa cryptoNet = new CryptoNetDsa();
+                cryptoNet.SaveKey(new FileInfo(PrivateKeyFile), true);
+                cryptoNet.SaveKey(new FileInfo(PublicKeyFile), false);
+            }
         }
 
         [Test]
         public void SelfGenerated_AsymmetricKey_And_TypeValidation_Test()
         {
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Unix)
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 // Arrange & Act
                 var privateKeyCrypto = new CryptoNetDsa(new FileInfo(PrivateKeyFile));
@@ -49,7 +52,8 @@ namespace CryptoNet.UnitTests
                 // Assert
                 privateKeyCrypto.Info.KeyType.ShouldBe(KeyType.PrivateKey);
                 publicKeyCrypto.Info.KeyType.ShouldBe(KeyType.PublicKey);
-            } else
+            }
+            else
             {
                 true.ShouldBeTrue();
             }
