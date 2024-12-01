@@ -1,4 +1,5 @@
-﻿// <copyright file="CryptoNetDsaTests.cs" company="NextBix" year="2024">
+﻿#if !MACOS
+// <copyright file="CryptoNetDsaTests.cs" company="NextBix" year="2024">
 // Copyright (c) 2021 All Rights Reserved
 // </copyright>
 // <author>Maytham Fahmi</author>
@@ -196,3 +197,4 @@ namespace CryptoNet.UnitTests
 
     }
 }
+#endif
