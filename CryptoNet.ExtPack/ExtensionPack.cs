@@ -96,6 +96,5 @@ namespace CryptoNet.ExtPack
                 new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, iterationCount: 100_000));
         }
 
-        //todo: implement hashing helper
     }
 }
