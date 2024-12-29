@@ -12,7 +12,7 @@
     <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
     <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
-    <Company>NextBix</Company>
+    <Company>itbackyard</Company>
     <Authors>Maytham Fahmi</Authors>
     <MinClientVersion>1.0.0</MinClientVersion>
     <Version>3.0.0</Version>
@@ -46,7 +46,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" PrivateAssets="All" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 

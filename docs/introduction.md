@@ -1,29 +1,34 @@
 # Introduction
 
-### Short intro
+### Short Intro
 
-The library can be used in 2 ways:
+The library can be used in two ways:
 
-* Symmetrically encryption
-* Asymmetrically encryption (public key encryption)
+- **Symmetric encryption**
+- **Asymmetric encryption** (public key encryption)
 
-#### Symmetric encryption
-You use the same key (any secret key) for encryption and decryption.
+#### Symmetric Encryption
 
-#### Asymmetric encryption
-Asymmetrically, the library can use its own self-generated RSA key pairs (Private/Public key) to encrypt and decrypt content.
+You use the same key (any secret key) for both encryption and decryption.
 
-You can store the private key on one or more machines. The public key can easily be distributed to all clients.
+#### Asymmetric Encryption
 
-> I'd like to point out that you don't distribute private keys publicly and keep them in a safe place. You need to reissue new keys if a private key mistakenly gets exposed. The content already encrypted with the private key, can not be decrypted back with the newly generated private key. So before updating the private key or deleting the old key ensure all your content is decrypted, otherwise, you lose the content.
+With asymmetric encryption, the library can use its own self-generated RSA key pairs (Private/Public keys) to encrypt and decrypt content.
 
-It is also possible to use asymmetric keys of the X509 Certificate instead of generating your keys.
+You can store the private key on one or more machines, while the public key can be easily distributed to all clients.
 
-The main concept with asymmetric encryption is that you have a Private and Public key. You use the Public key to encrypt the content and use the Private key to decrypt the content back again.
+> **Important:** Do not distribute private keys publicly; keep them in a safe place. If a private key is mistakenly exposed, you need to reissue new keys. Content already encrypted with the compromised private key cannot be decrypted with a newly generated private key. Before updating or deleting the old private key, ensure all encrypted content is decrypted, or you risk losing access to that content.
 
-Read more about asymmetric or public key encryption [here](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/)
+Additionally, it is possible to use asymmetric keys from an X.509 certificate instead of generating your own keys.
 
-You find the complete and all examples for:
+The main concept of asymmetric encryption is the use of a Private key and a Public key:
+- Use the **Public key** to encrypt content.
+- Use the **Private key** to decrypt the content.
 
-- RSA encryption [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNet.Cli/ExampleRsa.cs)
-- AES encryption [here](https://github.com/maythamfahmi/CryptoNet/blob/main/CryptoNet.Cli/ExampleAes.cs) 
+Read more about asymmetric (public key) encryption [here](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/).
+
+You can find complete examples for:
+
+- [RSA asymmetric cryptographic algorithm](https://github.com/maythamfahmi/CryptoNet/blob/main/Examples/RSAExample/RSAExample.cs)
+- [AES symmetric cryptographic algorithm](https://github.com/maythamfahmi/CryptoNet/blob/main/Examples/AESExample/AESExample.cs)
+- [DSA asymmetric cryptographic algorithm](https://github.com/maythamfahmi/CryptoNet/blob/main/Examples/DSAExample/DSAExample.cs)

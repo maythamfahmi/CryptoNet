@@ -1,4 +1,4 @@
-﻿// <copyright file="CryptoNetRsa.cs" company="NextBix" year="2021">
+﻿// <copyright file="CryptoNetRsa.cs" company="itbackyard" year="2021">
 // Copyright (c) 2021 All Rights Reserved
 // </copyright>
 // <author>Maytham Fahmi</author>

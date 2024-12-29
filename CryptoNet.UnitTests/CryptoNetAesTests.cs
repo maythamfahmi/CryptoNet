@@ -1,4 +1,4 @@
-﻿// <copyright file="CryptoNetTests.cs" company="NextBix" year="2021">
+﻿// <copyright file="CryptoNetTests.cs" company="itbackyard" year="2021">
 // Copyright (c) 2021 All Rights Reserved
 // </copyright>
 // <author>Maytham Fahmi</author>
