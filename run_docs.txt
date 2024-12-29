@@ -1,5 +1,0 @@
-## Run following to
-- install docfx tool once.
-dotnet tool install -g docfx
-- this is already done in this repo, but in case to start over run following and configured once.
-docfx init -y

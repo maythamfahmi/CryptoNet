@@ -1,7 +1,0 @@
-Run following in your test csproj once
-cd .\CryptoNet.UnitTests\
-dotnet add package coverlet.collector
-dotnet add package coverlet.msbuild
-
-Run this once to install report generator
-dotnet tool install --global dotnet-reportgenerator-globaltool

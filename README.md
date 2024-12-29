@@ -56,6 +56,12 @@ You have different options to build and run the unit tests from:
 docker build . --file .\Dockerfile --tag cryptonet-service:latest
 ```
 
+or run preserved PowerShell:
+
+```powershell
+./DockerBuild.ps1
+```
+
 ## How to release a new version?
 
 Preview
@@ -67,6 +73,74 @@ Release
 ```
 .\Release.ps1 -VersionNumber 3.0.0 -IsPreview $false
 ```
+
+## Documentation Creation
+
+There are static and dynamically generated documentation. Both are published automatically in the pipeline called `5-static.yml`.
+
+To work with the documentation locally, the following might be relevant:
+
+- **Static base documentation** is located in the `docs` folder.
+- **Dynamically generated documentation** is created from code using a tool called **DocFX**.
+
+### Running Documentation Creation Locally
+
+To generate the documentation locally on your computer, run:
+
+```powershell
+.\run_docs.ps1
+```
+
+### Setup
+
+1. Install the DocFX tool (only needs to be done once):
+
+```
+dotnet tool install -g docfx
+```
+
+2. The following step is already configured in this repository. However, if you need to start over, run the following to initialize and configure DocFX:
+
+```
+docfx init -y
+```
+
+## Code Coverage
+
+Code coverage ensures that your tests adequately cover your codebase, improving overall quality, reliability, and maintainability. Follow these steps to set up and generate code coverage reports.
+
+### Running Code Coverage Locally
+
+To generate code coverage reports locally on your computer, run the following command in Windows:
+
+```powershell
+.\run_codecoverage.ps1
+```
+
+### Setup
+
+If the required tools and packages are not set up locally, follow the steps below to configure them:
+
+1. Navigate to your test project directory (e.g., `CryptoNet.UnitTests`):
+
+```bash
+cd .\CryptoNet.UnitTests\
+```
+
+2. Add the necessary coverage packages to your test project:
+
+```bash
+dotnet add package coverlet.collector
+dotnet add package coverlet.msbuild
+```
+
+3. Install the report generator tool (only needs to be done once):
+
+```bash
+dotnet tool install --global dotnet-reportgenerator-globaltool
+```
+
+Once set up, you can use these tools to analyze and generate detailed code coverage reports to ensure thorough testing of your application.
 
 ## Contributing
 
