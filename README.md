@@ -1,9 +1,9 @@
 ![Cryptonet](https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg)
 
-[![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/maythamfahmi/CryptoNet/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/itbackyard/CryptoNet/blob/main/LICENSE)
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
-[![Passing build workflow](https://github.com/maythamfahmi/CryptoNet/actions/workflows/1-ci.yml/badge.svg)](https://github.com/maythamfahmi/CryptoNet/actions/workflows/1-ci.yml)
-[![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/maythamfahmi/CryptoNet)
+[![Passing build workflow](https://github.com/itbackyard/CryptoNet/actions/workflows/1-ci.yml/badge.svg)](https://github.com/itbackyard/CryptoNet/actions/workflows/1-ci.yml)
+[![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/itbackyard/CryptoNet)
 ![Code Coverage](./coverage-badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/2bnos98bkfn18pko/branch/main?svg=true)](https://ci.appveyor.com/project/maythamfahmi/cryptonet/branch/main)
 
@@ -39,7 +39,7 @@ CryptoNet Extensions v3:
 
 ## Issues
 
-Please report issues [here](https://github.com/maythamfahmi/CryptoNet/issues).
+Please report issues [here](https://github.com/itbackyard/CryptoNet/issues).
 
 ## How to use
 Ref to docs.
@@ -167,7 +167,7 @@ Once set up, you can use these tools to analyze and generate detailed code cover
 
 You are more than welcome to contribute in one of the following ways:
 
-1. Basic: Give input, and suggestions for improvement by creating an issue and labeling it https://github.com/maythamfahmi/CryptoNet/issues
+1. Basic: Give input, and suggestions for improvement by creating an issue and labeling it https://github.com/itbackyard/CryptoNet/issues
 2. Advance: if you have good knowledge of C# and Cryptography just grab one of the issues, or features, or create a new one and refactor and add a pull request.
 3. Documentation: Add, update, or improve documentation, by making a pull request.
 
