@@ -24,13 +24,18 @@ https://maythamfahmi.github.io/CryptoNet
 
 [![Nuget](https://img.shields.io/nuget/v/cryptonet?style=social)](https://www.nuget.org/packages/CryptoNet/) is latest version and are maintained. 
 
-List of features:
-- RSA asymmetric encryption.
-- AES symmetric encryption.
+CryptoNet v3:
+
+- RSA: Asymmetric cryptographic algorithm used for secure data transmission and digital signatures.
+- AES: Symmetric cryptographic algorithm used for fast and secure data encryption.
+- DSA: Asymmetric cryptographic algorithm used for digital signatures
+
+CryptoNet Extensions v3:
+
 - RSA PEM exporting and importing.
 - Support for X509Certificate2.
-- Ability to encrypt and decrypt text, and files like images, word, excel, etc.
-- Cross-platform compatible with Windows, Linux, and iOS.
+- Ability to encrypt and decrypt text, and files like images, word, excel, and any byte content.
+- **Cross-platform compatible** with Windows, Linux, and iOS.
 
 ## Issues
 
