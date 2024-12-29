@@ -59,7 +59,7 @@ docker build . --file .\Dockerfile --tag cryptonet-service:latest
 or run preserved PowerShell:
 
 ```powershell
-./DockerBuild.ps1
+./run_docker_build.ps1
 ```
 
 ## How to release a new version?
