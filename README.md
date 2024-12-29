@@ -66,12 +66,12 @@ or run preserved PowerShell:
 
 Preview
 ```
-.\Release.ps1 -VersionNumber 3.0.0 -IsPreview $true
+.\run_release.ps1 -VersionNumber 3.0.0 -IsPreview $true
 ```
 
 Release
 ```
-.\Release.ps1 -VersionNumber 3.0.0 -IsPreview $false
+.\run_release.ps1 -VersionNumber 3.0.0 -IsPreview $false
 ```
 
 ## Documentation Creation
