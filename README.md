@@ -105,6 +105,27 @@ dotnet tool install -g docfx
 docfx init -y
 ```
 
+## Update `index.md` with `README.md`
+
+To update `index.md` with the latest content from `README.md`, run the following command:
+
+```powershell
+./run_update_index.ps1
+```
+This script will:
+
+1. Add the following header to the top of `index.md`:
+
+```yaml
+---
+_layout: landing
+---
+```
+
+2. Append the content of `README.md` to `index.md`.
+
+This ensures that index.md is always up to date with the latest changes in `README.md`.
+
 ## Code Coverage
 
 Code coverage ensures that your tests adequately cover your codebase, improving overall quality, reliability, and maintainability. Follow these steps to set up and generate code coverage reports.
