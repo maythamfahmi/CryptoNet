@@ -1,6 +1,6 @@
-![Cryptonet](https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo.svg)
+![Cryptonet](https://raw.githubusercontent.com/itbackyard/CryptoNet/main/img/CryptoNetLogo.svg)
 
-[![GitHub](https://img.shields.io/github/license/maythamfahmi/cryptonet)](https://github.com/itbackyard/CryptoNet/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/github/license/itbackyard/cryptonet)](https://github.com/itbackyard/CryptoNet/blob/main/LICENSE)
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
 [![Passing build workflow](https://github.com/itbackyard/CryptoNet/actions/workflows/1-ci.yml/badge.svg)](https://github.com/itbackyard/CryptoNet/actions/workflows/1-ci.yml)
 [![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/itbackyard/CryptoNet)
@@ -18,7 +18,7 @@ You can install the CryptoNet NuGet package via [NuGet](https://www.nuget.org/pa
 
 ## Website
 
-https://maythamfahmi.github.io/CryptoNet
+https://itbackyard.github.io/CryptoNet
 
 ## Versions
 
