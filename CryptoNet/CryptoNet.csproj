@@ -12,7 +12,7 @@
     <ApplicationIcon>CryptoNetLogo-icon.ico</ApplicationIcon>
     <PackageIcon>CryptoNetLogo-icon.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/maythamfahmi/CryptoNet/main/img/CryptoNetLogo-icon.png</PackageIconUrl>
-    <Company>NextBix</Company>
+    <Company>itbackyard</Company>
     <Authors>Maytham Fahmi</Authors>
     <MinClientVersion>1.0.0</MinClientVersion>
     <Version>3.0.0</Version>

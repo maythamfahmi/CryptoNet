@@ -1,4 +1,4 @@
-﻿// <copyright file="ICryptoNetDsa.cs" company="NextBix" year="2024">
+﻿// <copyright file="ICryptoNetDsa.cs" company="itbackyard" year="2024">
 // Copyright (c) 2021 All Rights Reserved
 // </copyright>
 // <author>Maytham Fahmi</author>
