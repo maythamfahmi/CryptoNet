@@ -4,8 +4,8 @@
 [![CryptoNet NuGet version](https://img.shields.io/nuget/v/CryptoNet?color=blue)](https://www.nuget.org/packages/CryptoNet/)
 [![Passing build workflow](https://github.com/itbackyard/CryptoNet/actions/workflows/1-ci.yml/badge.svg)](https://github.com/itbackyard/CryptoNet/actions/workflows/1-ci.yml)
 [![Generic badge](https://img.shields.io/badge/support-.NET%20Standard%202.0-blue.svg)](https://github.com/itbackyard/CryptoNet)
-![Code Coverage](./coverage-badge.svg)
-[![Build status](https://ci.appveyor.com/api/projects/status/2bnos98bkfn18pko/branch/main?svg=true)](https://ci.appveyor.com/project/maythamfahmi/cryptonet/branch/main)
+![Code Coverage](https://raw.githubusercontent.com/itbackyard/CryptoNet/refs/heads/main/coverage-badge.svg)
+[![Build status](https://ci.appveyor.com/api/projects/status/31lrxbhyua22dhq3/branch/main?svg=true)](https://ci.appveyor.com/project/maythamfahmi/cryptonet/branch/main)
 
 # Introduction
 :rocket: CryptoNet is simple, fast, and a lightweight asymmetric and symmetric encryption NuGet library supporting .NET Standard 2.0 and C# 8.0 for cross platforms Windows, Linux, and iOS.
